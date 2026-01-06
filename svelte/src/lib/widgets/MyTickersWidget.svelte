@@ -1,35 +1,18 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import {
-    tickers,
     tickerCount,
     watchlistLoading,
     watchlistError,
-    exchangeMap,
+    uniqueExchangeCount,
   } from "../stores";
   import * as Card from "@ui/card";
 
   // Reactive statements using Svelte's $ syntax
-  $: tickerList = $tickers;
   $: count = $tickerCount;
   $: loading = $watchlistLoading;
   $: error = $watchlistError;
-  $: exchanges = $exchangeMap;
-
-  // Calculate unique exchanges from real exchange data
-  $: uniqueExchangeCount = new Set(
-    tickerList
-      .map((t) => {
-        // Try to find exchange by symbol prefix or other logic
-        // This is a simplified approach - in production you'd have
-        // a proper symbol-to-exchange mapping
-        const symbolPrefix = t.symbol.substring(0, 2);
-        return Array.from(exchanges.values()).find(
-          (ex) => ex.acronym === symbolPrefix || ex.operating_mic.includes(symbolPrefix)
-        )?.operating_mic;
-      })
-      .filter(Boolean)
-  ).size;
+  $: uniqueMarkets = $uniqueExchangeCount;
 
   function handleClick() {
     goto("/watchlist");
@@ -77,7 +60,7 @@
         <div class="flex items-center space-x-2">
           <span class="text-sm text-muted-foreground">In</span>
           <span class="font-semibold text-sm">
-            {uniqueExchangeCount || 0}
+            {uniqueMarkets || 0}
           </span>
           <span class="text-sm text-muted-foreground">Markets</span>
         </div>

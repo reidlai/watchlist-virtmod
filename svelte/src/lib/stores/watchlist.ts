@@ -1,5 +1,5 @@
 import { readable, derived } from "svelte/store";
-import { watchlistService } from "@modules/watchlist-ts";
+import { watchlistService, type TickerItem } from "@modules/watchlist-ts";
 
 /**
  * Svelte store wrappers for WatchlistService
@@ -18,7 +18,7 @@ import { watchlistService } from "@modules/watchlist-ts";
  *   <div>{ticker.symbol}</div>
  * {/each}
  */
-export const tickers = readable([], (set) => {
+export const tickers = readable<TickerItem[]>([], (set) => {
     const subscription = watchlistService.tickers$.subscribe(set);
 
     // Fetch tickers on first subscription
@@ -48,13 +48,8 @@ export const error = readable<string | null>(null, (set) => {
  */
 export const tickerCount = derived(tickers, ($tickers) => $tickers.length);
 
-/**
- * Derived store: Count of tickers on hand
- */
-export const tickersOnHand = derived(
-    tickers,
-    ($tickers) => $tickers.filter((t) => t.on_hand).length
-);
+
+import { exchangeMap } from "./exchange";
 
 /**
  * Derived store: Unique exchanges (requires exchange data)
@@ -64,6 +59,29 @@ export const uniqueExchanges = derived(tickers, ($tickers) => {
     const exchanges = new Set($tickers.map((t) => t.symbol.substring(0, 2)));
     return Array.from(exchanges);
 });
+
+/**
+ * Derived store: Count of unique exchanges
+ * 
+ * Maps tickers to exchanges using the exchangeMap and counts unique operating MICs.
+ */
+export const uniqueExchangeCount = derived(
+    [tickers, exchangeMap],
+    ([$tickers, $exchangeMap]) => {
+        const uniqueMics = new Set(
+            $tickers
+                .map((t) => {
+                    // Try to find exchange by symbol prefix
+                    const symbolPrefix = t.symbol.substring(0, 2);
+                    return Array.from($exchangeMap.values()).find(
+                        (ex) => ex.acronym === symbolPrefix || ex.operating_mic.includes(symbolPrefix)
+                    )?.operating_mic;
+                })
+                .filter(Boolean)
+        );
+        return uniqueMics.size;
+    }
+);
 
 /**
  * Actions for watchlist management
@@ -102,5 +120,18 @@ export const watchlistActions = {
      */
     setUserId: (userId: string) => {
         watchlistService.setUserId(userId);
+    },
+    /**
+     * Search market tickers
+     */
+    searchMarketTickers: (exchangeMic: string, query: string) => {
+        return watchlistService.searchMarketTickers(exchangeMic, query);
+    },
+
+    /**
+     * Get ticker details
+     */
+    getTickerDetails: (symbol: string) => {
+        return watchlistService.getTickerDetails(symbol);
     },
 };

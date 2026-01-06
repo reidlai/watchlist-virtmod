@@ -1,7 +1,6 @@
 <script lang="ts">
   import {
     exchanges,
-    exchangesByCountry,
     exchangeLoading,
     exchangeError,
     exchangeActions,
@@ -17,7 +16,6 @@
   $: exchangeList = $exchanges;
   $: loading = $exchangeLoading;
   $: error = $exchangeError;
-  $: groupedExchanges = $exchangesByCountry;
 
   // Filtered exchanges based on search
   $: filteredExchanges = searchQuery

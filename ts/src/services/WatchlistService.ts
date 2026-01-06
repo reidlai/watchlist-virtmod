@@ -7,6 +7,28 @@ export interface TickerItem {
   created_at?: string;
 }
 
+export interface MarketTicker {
+  symbol: string;
+  name: string;
+  exchange_mic: string;
+}
+
+export interface OHLCV {
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  timestamp: string;
+}
+
+export interface TickerDetails {
+  symbol: string;
+  name: string;
+  exchange_mic: string;
+  latest_ohlcv?: OHLCV;
+}
+
 interface WatchlistState {
   tickers: TickerItem[];
   loading: boolean;
@@ -105,6 +127,43 @@ export class WatchlistService {
           loading: false,
           error: error.message || "Failed to fetch tickers",
         });
+        return throwError(() => error);
+      })
+    );
+  }
+
+  /**
+   * Search available market tickers
+   */
+  public searchMarketTickers(exchangeMic: string, query: string): Observable<MarketTicker[]> {
+    // Note: Does not update main loading state to avoid flickering the main list
+    return from(
+      fetch(`/market/tickers?exchange=${encodeURIComponent(exchangeMic)}&query=${encodeURIComponent(query)}`)
+        .then((res) => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+          return res.json();
+        })
+    ).pipe(
+      catchError((error) => {
+        console.error("Search failed:", error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  /**
+   * Get details for a specific ticker including OHLCV
+   */
+  public getTickerDetails(symbol: string): Observable<TickerDetails> {
+    return from(
+      fetch(`/market/quotes/${encodeURIComponent(symbol)}`)
+        .then((res) => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+          return res.json();
+        })
+    ).pipe(
+      catchError((error) => {
+        console.error("Get details failed:", error);
         return throwError(() => error);
       })
     );

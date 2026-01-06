@@ -2,6 +2,9 @@ export {
   WatchlistService,
   watchlistService,
   type TickerItem,
+  type MarketTicker,
+  type TickerDetails,
+  type OHLCV,
 } from "./services/WatchlistService";
 
 export {

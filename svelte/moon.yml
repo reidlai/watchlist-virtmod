@@ -1,19 +1,15 @@
 $schema: 'https://moonrepo.dev/schemas/project.json'
-id: 'watchlist-svelte'
+id: 'portfolio-svelte'
 
 tasks:
   build:
-    command: 'echo "No build script available"'
-    outputs: []
-    options:
-      mergeOutputs: 'replace'
-      mergeArgs: 'replace'
-
+    command: 'svelte-package'
+    outputs:
+      - 'dist/**'
   lint:
     command: 'echo "No lint script available"'
     options:
       mergeArgs: 'replace'
-
   test:
     command: 'echo "No test script available"'
     options:
