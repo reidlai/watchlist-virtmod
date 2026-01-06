@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { WatchlistService, type TickerItem } from "./WatchlistService";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, filter, skip, take, toArray } from "rxjs";
 
 // Mock fetch globally
 global.fetch = vi.fn();
@@ -70,7 +70,7 @@ describe("WatchlistService", () => {
             }
         });
 
-        it("should set loading state during fetch", (done) => {
+        it("should set loading state during fetch", async () => {
             (global.fetch as any).mockImplementationOnce(
                 () =>
                     new Promise((resolve) =>
@@ -90,10 +90,9 @@ describe("WatchlistService", () => {
             // Check loading state immediately after calling fetch
             service.fetchTickers().subscribe();
 
-            setTimeout(() => {
-                expect(service.currentState.loading).toBe(true);
-                done();
-            }, 10);
+            // Wait for loading to match true
+            await firstValueFrom(service.loading$.pipe(filter(l => l === true)));
+            expect(service.currentState.loading).toBe(true);
         });
     });
 
@@ -203,7 +202,7 @@ describe("WatchlistService", () => {
             expect(typeof service.subscribe).toBe("function");
         });
 
-        it("should notify subscribers on state changes", (done) => {
+        it("should notify subscribers on state changes", async () => {
             const mockTickers: TickerItem[] = [
                 { symbol: "AAPL", on_hand: true },
             ];
@@ -215,18 +214,14 @@ describe("WatchlistService", () => {
 
             service = WatchlistService.getInstance();
 
-            let callCount = 0;
-            const unsubscribe = service.subscribe((tickers) => {
-                callCount++;
-                if (callCount === 2) {
-                    // First call is initial empty state, second is after fetch
-                    expect(tickers).toEqual(mockTickers);
-                    unsubscribe();
-                    done();
-                }
-            });
+            const promise = firstValueFrom(service.tickers$.pipe(
+                filter(tickers => tickers.length > 0)
+            ));
 
             service.fetchTickers().subscribe();
+
+            const tickers = await promise;
+            expect(tickers).toEqual(mockTickers);
         });
     });
 
@@ -262,7 +257,7 @@ describe("WatchlistService", () => {
     });
 
     describe("Observable streams", () => {
-        it("should expose tickers$ observable", (done) => {
+        it("should expose tickers$ observable", async () => {
             const mockTickers: TickerItem[] = [{ symbol: "AAPL", on_hand: true }];
 
             (global.fetch as any).mockResolvedValueOnce({
@@ -272,17 +267,17 @@ describe("WatchlistService", () => {
 
             service = WatchlistService.getInstance();
 
-            service.tickers$.subscribe((tickers) => {
-                if (tickers.length > 0) {
-                    expect(tickers).toEqual(mockTickers);
-                    done();
-                }
-            });
+            const promise = firstValueFrom(service.tickers$.pipe(
+                filter(tickers => tickers.length > 0)
+            ));
 
             service.fetchTickers().subscribe();
+
+            const tickers = await promise;
+            expect(tickers).toEqual(mockTickers);
         });
 
-        it("should expose loading$ observable", (done) => {
+        it("should expose loading$ observable", async () => {
             (global.fetch as any).mockImplementationOnce(
                 () =>
                     new Promise((resolve) =>
@@ -299,20 +294,19 @@ describe("WatchlistService", () => {
 
             service = WatchlistService.getInstance();
 
-            let loadingStates: boolean[] = [];
-            service.loading$.subscribe((loading) => {
-                loadingStates.push(loading);
-                if (loadingStates.length === 3) {
-                    // [false, true, false]
-                    expect(loadingStates).toEqual([false, true, false]);
-                    done();
-                }
-            });
+            const loadingPromise = firstValueFrom(service.loading$.pipe(
+                skip(1), // Skip initial false
+                take(2), // Take true, then false
+                toArray()
+            ));
 
             service.fetchTickers().subscribe();
+
+            const loadingStates = await loadingPromise;
+            expect(loadingStates).toEqual([true, false]);
         });
 
-        it("should expose error$ observable", (done) => {
+        it("should expose error$ observable", async () => {
             (global.fetch as any).mockResolvedValueOnce({
                 ok: false,
                 status: 500,
@@ -321,16 +315,16 @@ describe("WatchlistService", () => {
 
             service = WatchlistService.getInstance();
 
-            service.error$.subscribe((error) => {
-                if (error !== null) {
-                    expect(error).toContain("HTTP 500");
-                    done();
-                }
-            });
+            const errorPromise = firstValueFrom(service.error$.pipe(
+                filter(e => e !== null)
+            ));
 
             service.fetchTickers().subscribe({
                 error: () => { }, // Ignore error for this test
             });
+
+            const error = await errorPromise;
+            expect(error).toContain("HTTP 500");
         });
     });
 });
