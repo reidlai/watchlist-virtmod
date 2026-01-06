@@ -1,5 +1,5 @@
 import { readable, derived } from "svelte/store";
-import { exchangeService } from "@modules/watchlist-ts";
+import { exchangeService, type Exchange } from "@modules/watchlist-ts";
 
 /**
  * Svelte store wrappers for ExchangeService
@@ -17,7 +17,7 @@ import { exchangeService } from "@modules/watchlist-ts";
  *   <div>{exchange.display_name}</div>
  * {/each}
  */
-export const exchanges = readable([], (set) => {
+export const exchanges = readable<Exchange[]>([], (set) => {
     const subscription = exchangeService.exchanges$.subscribe(set);
 
     // Fetch exchanges on first subscription

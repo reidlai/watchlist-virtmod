@@ -14,8 +14,9 @@ export {
     loading as watchlistLoading,
     error as watchlistError,
     tickerCount,
-    tickersOnHand,
+
     uniqueExchanges,
+    uniqueExchangeCount,
     watchlistActions,
 } from "./watchlist";
 

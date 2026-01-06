@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { ExchangeService, type Exchange } from "./ExchangeService";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, filter, skip, take, toArray } from "rxjs";
 
 // Mock fetch globally
 global.fetch = vi.fn();
@@ -202,7 +202,7 @@ describe("ExchangeService", () => {
             expect(typeof service.subscribe).toBe("function");
         });
 
-        it("should notify subscribers on state changes", (done) => {
+        it("should notify subscribers on state changes", async () => {
             const mockExchanges: Exchange[] = [
                 {
                     operating_mic: "XNYS",
@@ -220,18 +220,14 @@ describe("ExchangeService", () => {
 
             service = ExchangeService.getInstance();
 
-            let callCount = 0;
-            const unsubscribe = service.subscribe((exchanges) => {
-                callCount++;
-                if (callCount === 2) {
-                    // First call is initial empty state, second is after fetch
-                    expect(exchanges).toEqual(mockExchanges);
-                    unsubscribe();
-                    done();
-                }
-            });
+            const promise = firstValueFrom(service.exchanges$.pipe(
+                filter(exchanges => exchanges.length > 0)
+            ));
 
             service.fetchExchanges().subscribe();
+
+            const exchanges = await promise;
+            expect(exchanges).toEqual(mockExchanges);
         });
     });
 
@@ -248,7 +244,7 @@ describe("ExchangeService", () => {
     });
 
     describe("Observable streams", () => {
-        it("should expose exchanges$ observable", (done) => {
+        it("should expose exchanges$ observable", async () => {
             const mockExchanges: Exchange[] = [
                 {
                     operating_mic: "XNYS",
@@ -266,17 +262,17 @@ describe("ExchangeService", () => {
 
             service = ExchangeService.getInstance();
 
-            service.exchanges$.subscribe((exchanges) => {
-                if (exchanges.length > 0) {
-                    expect(exchanges).toEqual(mockExchanges);
-                    done();
-                }
-            });
+            const promise = firstValueFrom(service.exchanges$.pipe(
+                filter(exchanges => exchanges.length > 0)
+            ));
 
             service.fetchExchanges().subscribe();
+
+            const exchanges = await promise;
+            expect(exchanges).toEqual(mockExchanges);
         });
 
-        it("should expose loading$ observable", (done) => {
+        it("should expose loading$ observable", async () => {
             (global.fetch as any).mockImplementationOnce(
                 () =>
                     new Promise((resolve) =>
@@ -293,20 +289,19 @@ describe("ExchangeService", () => {
 
             service = ExchangeService.getInstance();
 
-            let loadingStates: boolean[] = [];
-            service.loading$.subscribe((loading) => {
-                loadingStates.push(loading);
-                if (loadingStates.length === 3) {
-                    // [false, true, false]
-                    expect(loadingStates).toEqual([false, true, false]);
-                    done();
-                }
-            });
+            const loadingPromise = firstValueFrom(service.loading$.pipe(
+                skip(1), // Skip initial false
+                take(2), // Take true, then false
+                toArray()
+            ));
 
             service.fetchExchanges().subscribe();
+
+            const loadingStates = await loadingPromise;
+            expect(loadingStates).toEqual([true, false]);
         });
 
-        it("should expose error$ observable", (done) => {
+        it("should expose error$ observable", async () => {
             (global.fetch as any).mockResolvedValueOnce({
                 ok: false,
                 status: 500,
@@ -315,16 +310,16 @@ describe("ExchangeService", () => {
 
             service = ExchangeService.getInstance();
 
-            service.error$.subscribe((error) => {
-                if (error !== null) {
-                    expect(error).toContain("HTTP 500");
-                    done();
-                }
-            });
+            const errorPromise = firstValueFrom(service.error$.pipe(
+                filter(e => e !== null)
+            ));
 
             service.fetchExchanges().subscribe({
                 error: () => { }, // Ignore error for this test
             });
+
+            const error = await errorPromise;
+            expect(error).toContain("HTTP 500");
         });
     });
 });
