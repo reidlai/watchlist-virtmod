@@ -1,0 +1,23 @@
+# Node
+node_modules/
+.svelte-kit/
+
+dist/
+coverage/
+.npmrc
+.pnpm-debug.log*
+
+# Go
+bin/
+vendor/
+*.exe
+*.test
+*.out
+
+# Moonrepo
+.moon/cache/
+.moon/docker/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,94 @@
+# https://moonrepo.dev/docs/config/project
+language: "unknown" # Mixed/Polyglot
+
+fileGroups:
+  go: ["go/**/*"]
+  svelte: ["svelte/**/*"]
+  ts: ["ts/**/*"]
+
+tasks:
+  # Go Backend
+  go-build:
+    command: "go build -v ./go/..."
+    inputs: ["go/**/*"]
+    platform: "system"
+
+  go-test:
+    command: "go test -v ./go/..."
+    inputs: ["go/**/*"]
+    platform: "system"
+
+  # Svelte Frontend
+  svelte-dev:
+    command: "pnpm --dir svelte dev"
+    local: true
+    platform: "node"
+
+  svelte-build:
+    command: "pnpm --dir svelte build"
+    inputs: ["svelte/**/*", "ts/**/*"]
+    deps: ["ts-build"] # Depends on shared lib
+    platform: "node"
+
+  svelte-sync:
+    command: "pnpm --dir svelte run sync"
+
+    inputs: ["svelte/**/*.svelte", "svelte/**/*.ts", "svelte/**/*.js"]
+    platform: "node"
+    local: true
+    options:
+      runInCI: true # Required because 'local: true' defaults this to false
+      persistent: false # It's a one-off command, not a server
+
+
+
+  svelte-check:
+    command: "pnpm --dir svelte check"
+    inputs: ["svelte/**/*", "ts/**/*"]
+    deps: ["svelte-sync"]
+    platform: "node"
+
+
+  svelte-test:
+    command: "pnpm --dir svelte run test"
+    env:
+      CI: "true"
+    inputs: ["svelte/**/*", "ts/**/*"]
+    deps: ["ts-build"]
+    platform: "node"
+
+  # TypeScript Shared Lib
+  ts-build:
+    command: "pnpm --dir ts build"
+    inputs: ["ts/**/*"]
+    platform: "node"
+
+  ts-lint:
+    command: "pnpm --dir ts lint"
+    inputs: ["ts/**/*"]
+    platform: "node"
+
+  ts-test:
+    command: "pnpm --dir ts run test"
+    env:
+      CI: "true"
+    inputs: ["ts/**/*"]
+    platform: "node"
+
+  # Composite Tasks
+  build:
+    command: 'echo "Building all components"'
+    deps: ["go-build", "svelte-build", "ts-build"]
+    platform: "system"
+
+  test:
+    command: 'echo "Testing all components"'
+    deps: ["go-test", "svelte-test", "ts-test", "svelte-check"] # Runs both backend and frontend tests + type check
+
+    platform: "system"
+
+  lint:
+    command: 'echo "Linting all components"'
+    deps: ["ts-lint", "svelte-check"]
+
+    platform: "system"
