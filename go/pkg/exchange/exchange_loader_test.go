@@ -1,4 +1,4 @@
-package watchlist
+package exchange
 
 import (
 	"testing"

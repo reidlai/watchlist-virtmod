@@ -1,25 +1,25 @@
-package watchlist
+package exchange
 
 import (
 	"context"
 	"fmt"
 	"strings"
 
-	"github.com/reidlai/ta-workspace/apps/ta-server/gen/exchange"
+	genex "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/exchange"
 )
 
 // exchange service implementation.
 type exchangesrvc struct{}
 
 // NewExchange returns the exchange service implementation.
-func NewExchange() exchange.Service {
+func NewExchange() genex.Service {
 	return &exchangesrvc{}
 }
 
 // List all active operating exchanges
-func (s *exchangesrvc) List(ctx context.Context, p *exchange.ListPayload) (res []*exchange.Exchange, err error) {
+func (s *exchangesrvc) List(ctx context.Context, p *genex.ListPayload) (res []*genex.Exchange, err error) {
 	// Initialize result slice
-	res = make([]*exchange.Exchange, 0)
+	res = make([]*genex.Exchange, 0)
 
 	query := ""
 	if p.Query != nil {
@@ -36,7 +36,7 @@ func (s *exchangesrvc) List(ctx context.Context, p *exchange.ListPayload) (res [
 			}
 		}
 
-		res = append(res, &exchange.Exchange{
+		res = append(res, &genex.Exchange{
 			OperatingMic: e.OperatingMIC,
 			ExchangeName: e.ExchangeName,
 			DisplayName:  e.DisplayName,
@@ -49,11 +49,11 @@ func (s *exchangesrvc) List(ctx context.Context, p *exchange.ListPayload) (res [
 }
 
 // Get exchange by Operating MIC
-func (s *exchangesrvc) Get(ctx context.Context, p *exchange.GetPayload) (res *exchange.Exchange, err error) {
+func (s *exchangesrvc) Get(ctx context.Context, p *genex.GetPayload) (res *genex.Exchange, err error) {
 	mic := strings.ToUpper(p.OperatingMic)
 	for _, e := range Exchanges {
 		if e.OperatingMIC == mic {
-			return &exchange.Exchange{
+			return &genex.Exchange{
 				OperatingMic: e.OperatingMIC,
 				ExchangeName: e.ExchangeName,
 				DisplayName:  e.DisplayName,

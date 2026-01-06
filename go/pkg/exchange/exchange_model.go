@@ -1,4 +1,4 @@
-package watchlist
+package exchange
 
 // Exchange represents a financial market or institution filtered from ISO 10383.
 type Exchange struct {

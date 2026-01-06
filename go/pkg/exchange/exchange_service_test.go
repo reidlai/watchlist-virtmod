@@ -1,10 +1,10 @@
-package watchlist
+package exchange
 
 import (
 	"context"
 	"testing"
 
-	"github.com/reidlai/ta-workspace/apps/ta-server/gen/exchange"
+	genex "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/exchange"
 )
 
 func TestListExchanges(t *testing.T) {
@@ -19,7 +19,7 @@ func TestListExchanges(t *testing.T) {
 	ctx := context.Background()
 
 	// Case 1: List All
-	res, err := svc.List(ctx, &exchange.ListPayload{})
+	res, err := svc.List(ctx, &genex.ListPayload{})
 	if err != nil {
 		t.Fatalf("List failed: %v", err)
 	}
@@ -29,7 +29,7 @@ func TestListExchanges(t *testing.T) {
 
 	// Case 2: Filter by Name (insensitive)
 	q := "york"
-	res, err = svc.List(ctx, &exchange.ListPayload{Query: &q})
+	res, err = svc.List(ctx, &genex.ListPayload{Query: &q})
 	if err != nil {
 		t.Fatalf("List with query failed: %v", err)
 	}
@@ -42,7 +42,7 @@ func TestListExchanges(t *testing.T) {
 
 	// Case 3: Filter by Country
 	q2 := "gb"
-	res, err = svc.List(ctx, &exchange.ListPayload{Query: &q2})
+	res, err = svc.List(ctx, &genex.ListPayload{Query: &q2})
 	if err != nil {
 		t.Fatalf("List with query failed: %v", err)
 	}
@@ -55,7 +55,7 @@ func TestListExchanges(t *testing.T) {
 
 	// Case 4: No match
 	q3 := "Mars"
-	res, err = svc.List(ctx, &exchange.ListPayload{Query: &q3})
+	res, err = svc.List(ctx, &genex.ListPayload{Query: &q3})
 	if err != nil {
 		t.Fatalf("List with query failed: %v", err)
 	}

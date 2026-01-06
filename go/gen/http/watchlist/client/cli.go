@@ -35,7 +35,7 @@ func BuildAddPayload(watchlistAddBody string, watchlistAddUserID string) (*watch
 	{
 		err = json.Unmarshal([]byte(watchlistAddBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"on_hand\": false,\n      \"symbol\": \"Vel ea fugit et ab nobis.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"on_hand\": true,\n      \"symbol\": \"Et quod sit.\"\n   }'")
 		}
 	}
 	var userID string

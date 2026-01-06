@@ -3,7 +3,7 @@ module github.com/reidlai/ta-workspace/modules/watchlist/go
 go 1.24.11
 
 require (
-	github.com/reidlai/ta-workspace/apps/ta-server v0.0.0-00010101000000-000000000000
+	github.com/stretchr/testify v1.11.1
 	goa.design/goa/v3 v3.23.4
 	golang.org/x/text v0.32.0
 )
@@ -19,12 +19,9 @@ require (
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/manveru/faker v0.0.0-20171103152722-9fbc68a78c4d // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
-	github.com/stretchr/testify v1.11.1 // indirect
 	golang.org/x/mod v0.31.0 // indirect
 	golang.org/x/sync v0.19.0 // indirect
 	golang.org/x/tools v0.40.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/reidlai/ta-workspace/apps/ta-server => ../../../apps/ta-server
