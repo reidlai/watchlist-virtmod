@@ -8,6 +8,9 @@ tasks:
       - 'dist/**'
   lint:
     command: 'pnpm run lint'
+    inputs:
+      - 'package.json'
+      - '**/*'
     options:
       mergeArgs: 'replace'
   test:
