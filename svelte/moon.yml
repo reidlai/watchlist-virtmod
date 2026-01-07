@@ -7,7 +7,7 @@ tasks:
     outputs:
       - 'dist/**'
   lint:
-    command: 'echo "No lint script available"'
+    command: 'pnpm run lint'
     options:
       mergeArgs: 'replace'
   test:
