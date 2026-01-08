@@ -1,21 +1,21 @@
 $schema: 'https://moonrepo.dev/schemas/project.json'
 id: 'watchlist-ts'
+type: 'library'
+stack: 'frontend'
 
 tasks:
   build:
-    command: 'echo "No build script available"'
-    outputs: []
+    outputs:
+      - 'dist'
     options:
       mergeOutputs: 'replace'
-      mergeArgs: 'replace'
   
   lint:
-    command: 'echo "No lint script available"'
-    options:
-      mergeArgs: 'replace'
-
-  test:
-    command: 'echo "No test script available"'
+    command: 'pnpm run lint'
+    inputs:
+      - '**/*.ts'
+      - 'eslint.config.mjs'
+      - 'package.json'
     options:
       mergeArgs: 'replace'
 

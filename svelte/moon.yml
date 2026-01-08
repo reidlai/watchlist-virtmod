@@ -1,19 +1,21 @@
 $schema: 'https://moonrepo.dev/schemas/project.json'
 id: 'watchlist-svelte'
+type: 'library'
+stack: 'frontend'
 
 tasks:
   build:
     command: 'svelte-package'
     outputs:
       - 'dist/**'
+  
+  dev:
+    command: 'vite dev'
+    local: true
   lint:
     command: 'pnpm run lint'
     inputs:
       - 'package.json'
       - '**/*'
-    options:
-      mergeArgs: 'replace'
-  test:
-    command: 'echo "No test script available"'
     options:
       mergeArgs: 'replace'
