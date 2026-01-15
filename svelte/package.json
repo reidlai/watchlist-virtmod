@@ -31,7 +31,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "jsdom": "^25.0.0",
-    "svelte": "^5.0.0",
+    "svelte": "^5.46.4",
     "svelte-check": "^4.0.0",
     "tailwind-merge": "^3.4.0",
     "typescript": "^5.0.0",

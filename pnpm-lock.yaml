@@ -26,23 +26,23 @@ importers:
         version: link:../ts
       virtual-module-core:
         specifier: github:reidlai/virtual-module-core
-        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/e60cb8876c09e39dc8363125327645e5853ccb3d
+        version: git+https://git@github.com:reidlai/virtual-module-core.git#23c2fd87ffc6bdb5ff333d7ed432f54707e008da
     devDependencies:
       '@sveltejs/adapter-auto':
         specifier: ^7.0.0
-        version: 7.0.0(@sveltejs/kit@2.49.3(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.1)(typescript@5.9.3)(vite@7.3.0(@types/node@20.19.27)))
+        version: 7.0.0(@sveltejs/kit@2.49.3(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.4)(typescript@5.9.3)(vite@7.3.0(@types/node@20.19.27)))
       '@sveltejs/kit':
         specifier: ^2.49.2
-        version: 2.49.3(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.1)(typescript@5.9.3)(vite@7.3.0(@types/node@20.19.27))
+        version: 2.49.3(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.4)(typescript@5.9.3)(vite@7.3.0(@types/node@20.19.27))
       '@sveltejs/package':
         specifier: ^2.5.7
-        version: 2.5.7(svelte@5.46.1)(typescript@5.9.3)
+        version: 2.5.7(svelte@5.46.4)(typescript@5.9.3)
       '@sveltejs/vite-plugin-svelte':
         specifier: ^6.0.0
-        version: 6.2.2(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27))
+        version: 6.2.2(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27))
       '@testing-library/svelte':
         specifier: ^5.3.1
-        version: 5.3.1(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27))(vitest@4.0.16(@types/node@20.19.27)(jsdom@25.0.1))
+        version: 5.3.1(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27))(vitest@4.0.16(@types/node@20.19.27)(jsdom@25.0.1))
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -53,11 +53,11 @@ importers:
         specifier: ^25.0.0
         version: 25.0.1
       svelte:
-        specifier: ^5.0.0
-        version: 5.46.1
+        specifier: ^5.46.4
+        version: 5.46.4
       svelte-check:
         specifier: ^4.0.0
-        version: 4.3.5(picomatch@4.0.3)(svelte@5.46.1)(typescript@5.9.3)
+        version: 4.3.5(picomatch@4.0.3)(svelte@5.46.4)(typescript@5.9.3)
       tailwind-merge:
         specifier: ^3.4.0
         version: 3.4.0
@@ -1056,6 +1056,9 @@ packages:
   devalue@5.6.1:
     resolution: {integrity: sha512-jDwizj+IlEZBunHcOuuFVBnIMPAEHvTsJj0BcIp94xYguLRVBcXO853px/MyIJvbVzWdsGvrRweIUWJw8hBP7A==}
 
+  devalue@5.6.2:
+    resolution: {integrity: sha512-nPRkjWzzDQlsejL1WVifk5rvcFi/y1onBRxjaFMjZeR9mFpqu2gmAZ9xUB9/IEanEP/vBtGeGganC/GO1fmufg==}
+
   diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -1627,8 +1630,8 @@ packages:
       svelte: '>=4.2.19'
       typescript: ^4.9.4 || ^5.0.0
 
-  svelte@5.46.1:
-    resolution: {integrity: sha512-ynjfCHD3nP2el70kN5Pmg37sSi0EjOm9FgHYQdC4giWG/hzO3AatzXXJJgP305uIhGQxSufJLuYWtkY8uK/8RA==}
+  svelte@5.46.4:
+    resolution: {integrity: sha512-VJwdXrmv9L8L7ZasJeWcCjoIuMRVbhuxbss0fpVnR8yorMmjNDwcjIH08vS6wmSzzzgAG5CADQ1JuXPS2nwt9w==}
     engines: {node: '>=18'}
 
   symbol-tree@3.2.4:
@@ -1717,8 +1720,8 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
-  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/e60cb8876c09e39dc8363125327645e5853ccb3d:
-    resolution: {tarball: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/e60cb8876c09e39dc8363125327645e5853ccb3d}
+  virtual-module-core@git+https://git@github.com:reidlai/virtual-module-core.git#23c2fd87ffc6bdb5ff333d7ed432f54707e008da:
+    resolution: {commit: 23c2fd87ffc6bdb5ff333d7ed432f54707e008da, repo: git@github.com:reidlai/virtual-module-core.git, type: git}
     version: 0.1.0
 
   vite-node@1.6.1:
@@ -2314,15 +2317,15 @@ snapshots:
     dependencies:
       acorn: 8.15.0
 
-  '@sveltejs/adapter-auto@7.0.0(@sveltejs/kit@2.49.3(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.1)(typescript@5.9.3)(vite@7.3.0(@types/node@20.19.27)))':
+  '@sveltejs/adapter-auto@7.0.0(@sveltejs/kit@2.49.3(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.4)(typescript@5.9.3)(vite@7.3.0(@types/node@20.19.27)))':
     dependencies:
-      '@sveltejs/kit': 2.49.3(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.1)(typescript@5.9.3)(vite@7.3.0(@types/node@20.19.27))
+      '@sveltejs/kit': 2.49.3(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.4)(typescript@5.9.3)(vite@7.3.0(@types/node@20.19.27))
 
-  '@sveltejs/kit@2.49.3(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.1)(typescript@5.9.3)(vite@7.3.0(@types/node@20.19.27))':
+  '@sveltejs/kit@2.49.3(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.4)(typescript@5.9.3)(vite@7.3.0(@types/node@20.19.27))':
     dependencies:
       '@standard-schema/spec': 1.1.0
       '@sveltejs/acorn-typescript': 1.0.8(acorn@8.15.0)
-      '@sveltejs/vite-plugin-svelte': 6.2.2(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27))
+      '@sveltejs/vite-plugin-svelte': 6.2.2(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27))
       '@types/cookie': 0.6.0
       acorn: 8.15.0
       cookie: 0.6.0
@@ -2334,36 +2337,36 @@ snapshots:
       sade: 1.8.1
       set-cookie-parser: 2.7.2
       sirv: 3.0.2
-      svelte: 5.46.1
+      svelte: 5.46.4
       vite: 7.3.0(@types/node@20.19.27)
     optionalDependencies:
       typescript: 5.9.3
 
-  '@sveltejs/package@2.5.7(svelte@5.46.1)(typescript@5.9.3)':
+  '@sveltejs/package@2.5.7(svelte@5.46.4)(typescript@5.9.3)':
     dependencies:
       chokidar: 5.0.0
       kleur: 4.1.5
       sade: 1.8.1
       semver: 7.7.3
-      svelte: 5.46.1
-      svelte2tsx: 0.7.46(svelte@5.46.1)(typescript@5.9.3)
+      svelte: 5.46.4
+      svelte2tsx: 0.7.46(svelte@5.46.4)(typescript@5.9.3)
     transitivePeerDependencies:
       - typescript
 
-  '@sveltejs/vite-plugin-svelte-inspector@5.0.2(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27))':
+  '@sveltejs/vite-plugin-svelte-inspector@5.0.2(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27))':
     dependencies:
-      '@sveltejs/vite-plugin-svelte': 6.2.2(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27))
+      '@sveltejs/vite-plugin-svelte': 6.2.2(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27))
       obug: 2.1.1
-      svelte: 5.46.1
+      svelte: 5.46.4
       vite: 7.3.0(@types/node@20.19.27)
 
-  '@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27))':
+  '@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27))':
     dependencies:
-      '@sveltejs/vite-plugin-svelte-inspector': 5.0.2(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27))
+      '@sveltejs/vite-plugin-svelte-inspector': 5.0.2(@sveltejs/vite-plugin-svelte@6.2.2(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27)))(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27))
       deepmerge: 4.3.1
       magic-string: 0.30.21
       obug: 2.1.1
-      svelte: 5.46.1
+      svelte: 5.46.4
       vite: 7.3.0(@types/node@20.19.27)
       vitefu: 1.1.1(vite@7.3.0(@types/node@20.19.27))
 
@@ -2378,15 +2381,15 @@ snapshots:
       picocolors: 1.1.1
       pretty-format: 27.5.1
 
-  '@testing-library/svelte-core@1.0.0(svelte@5.46.1)':
+  '@testing-library/svelte-core@1.0.0(svelte@5.46.4)':
     dependencies:
-      svelte: 5.46.1
+      svelte: 5.46.4
 
-  '@testing-library/svelte@5.3.1(svelte@5.46.1)(vite@7.3.0(@types/node@20.19.27))(vitest@4.0.16(@types/node@20.19.27)(jsdom@25.0.1))':
+  '@testing-library/svelte@5.3.1(svelte@5.46.4)(vite@7.3.0(@types/node@20.19.27))(vitest@4.0.16(@types/node@20.19.27)(jsdom@25.0.1))':
     dependencies:
       '@testing-library/dom': 10.4.1
-      '@testing-library/svelte-core': 1.0.0(svelte@5.46.1)
-      svelte: 5.46.1
+      '@testing-library/svelte-core': 1.0.0(svelte@5.46.4)
+      svelte: 5.46.4
     optionalDependencies:
       vite: 7.3.0(@types/node@20.19.27)
       vitest: 4.0.16(@types/node@20.19.27)(jsdom@25.0.1)
@@ -2722,6 +2725,8 @@ snapshots:
   detect-libc@2.1.2: {}
 
   devalue@5.6.1: {}
+
+  devalue@5.6.2: {}
 
   diff-sequences@29.6.3: {}
 
@@ -3332,26 +3337,26 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
-  svelte-check@4.3.5(picomatch@4.0.3)(svelte@5.46.1)(typescript@5.9.3):
+  svelte-check@4.3.5(picomatch@4.0.3)(svelte@5.46.4)(typescript@5.9.3):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       chokidar: 4.0.3
       fdir: 6.5.0(picomatch@4.0.3)
       picocolors: 1.1.1
       sade: 1.8.1
-      svelte: 5.46.1
+      svelte: 5.46.4
       typescript: 5.9.3
     transitivePeerDependencies:
       - picomatch
 
-  svelte2tsx@0.7.46(svelte@5.46.1)(typescript@5.9.3):
+  svelte2tsx@0.7.46(svelte@5.46.4)(typescript@5.9.3):
     dependencies:
       dedent-js: 1.0.1
       scule: 1.3.0
-      svelte: 5.46.1
+      svelte: 5.46.4
       typescript: 5.9.3
 
-  svelte@5.46.1:
+  svelte@5.46.4:
     dependencies:
       '@jridgewell/remapping': 2.3.5
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -3361,7 +3366,7 @@ snapshots:
       aria-query: 5.3.2
       axobject-query: 4.1.0
       clsx: 2.1.1
-      devalue: 5.6.1
+      devalue: 5.6.2
       esm-env: 1.2.2
       esrap: 2.2.1
       is-reference: 3.0.3
@@ -3437,7 +3442,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/e60cb8876c09e39dc8363125327645e5853ccb3d: {}
+  virtual-module-core@git+https://git@github.com:reidlai/virtual-module-core.git#23c2fd87ffc6bdb5ff333d7ed432f54707e008da: {}
 
   vite-node@1.6.1(@types/node@20.19.27):
     dependencies:
