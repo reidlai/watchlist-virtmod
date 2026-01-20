@@ -3,78 +3,64 @@ package watchlist
 import (
 	"context"
 	"log/slog"
-	"sync"
 	"time"
 
-	"github.com/reidlai/ta-workspace/modules/watchlist/go/pkg/exchange"
 	genwatchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/watchlist"
 )
 
 // watchlist service implementation.
 type watchlistsrvc struct {
 	logger *slog.Logger
-	mu     sync.Mutex
-	// Map UserID -> Symbol -> Item
-	store map[string]map[string]*genwatchlist.TickerItem
 }
+
+// Verify that watchlistsrvc implements watchlist.Service.
+var _ genwatchlist.Service = (*watchlistsrvc)(nil)
 
 // NewWatchlist returns the watchlist service implementation.
 func NewWatchlist(logger *slog.Logger) genwatchlist.Service {
-	// Initialize exchange data (Fail Fast)
-	exchange.LoadExchanges()
-
 	return &watchlistsrvc{
 		logger: logger,
-		store:  make(map[string]map[string]*genwatchlist.TickerItem),
 	}
 }
 
-// List all tickers for user
-func (s *watchlistsrvc) List(ctx context.Context, p *genwatchlist.ListPayload) (res []*genwatchlist.TickerItem, err error) {
-	s.logger.InfoContext(ctx, "genwatchlist.list", "user", p.UserID)
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	userStore, ok := s.store[p.UserID]
-	if !ok {
-		return []*genwatchlist.TickerItem{}, nil
-	}
-
-	res = make([]*genwatchlist.TickerItem, 0, len(userStore))
-	for _, item := range userStore {
-		res = append(res, item)
-	}
-	return
+// GetWatchlist returns mock watchlist data.
+// TODO: Implement real persistence layer (database/repository)
+func (s *watchlistsrvc) GetWatchlist(ctx context.Context) (res *genwatchlist.Watchlist, err error) {
+	s.logger.InfoContext(ctx, "watchlist.getWatchlist")
+	
+	// Return mock data for now
+	return &genwatchlist.Watchlist{
+		Tickers: []*genwatchlist.TickerItem{},
+	}, nil
 }
 
-// Add ticker
-func (s *watchlistsrvc) Add(ctx context.Context, p *genwatchlist.AddPayload) (res *genwatchlist.TickerItem, err error) {
-	s.logger.InfoContext(ctx, "genwatchlist.add", "user", p.UserID, "symbol", p.Symbol)
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	if s.store[p.UserID] == nil {
-		s.store[p.UserID] = make(map[string]*genwatchlist.TickerItem)
-	}
-
-	now := time.Now().Format(time.RFC3339)
-	item := &genwatchlist.TickerItem{
-		Symbol:    p.Symbol,
-		OnHand:    p.OnHand,
-		CreatedAt: &now,
-	}
-	s.store[p.UserID][p.Symbol] = item
-	return item, nil
+// AddWatchlistTicker returns the added ticker with mock OHLCV data.
+// TODO: Implement real persistence layer (database/repository)
+func (s *watchlistsrvc) AddWatchlistTicker(ctx context.Context, p *genwatchlist.AddWatchlistTickerPayload) (res *genwatchlist.TickerItem, err error) {
+	s.logger.InfoContext(ctx, "watchlist.addWatchlistTicker", "symbol", p.Ticker.Symbol)
+	
+	// Return mock response
+	now := time.Now().UnixMilli()
+	return &genwatchlist.TickerItem{
+		Ticker: p.Ticker,
+		Ohlcv: &genwatchlist.OHLCV{
+			Open:          150.0,
+			High:          155.0,
+			Low:           149.0,
+			Close:         152.0,
+			Volume:        1000000,
+			Change:        2.0,
+			ChangePercent: 1.3,
+			LastUpdatedAt: now,
+		},
+	}, nil
 }
 
-// Remove ticker
-func (s *watchlistsrvc) Remove(ctx context.Context, p *genwatchlist.RemovePayload) (err error) {
-	s.logger.InfoContext(ctx, "genwatchlist.remove", "user", p.UserID, "symbol", p.Symbol)
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	if s.store[p.UserID] != nil {
-		delete(s.store[p.UserID], p.Symbol)
-	}
+// RemoveWatchlistTicker acknowledges removal.
+// TODO: Implement real persistence layer (database/repository)
+func (s *watchlistsrvc) RemoveWatchlistTicker(ctx context.Context, p *genwatchlist.RemoveWatchlistTickerPayload) (err error) {
+	s.logger.InfoContext(ctx, "watchlist.removeWatchlistTicker", "symbol", p.Symbol)
+	
+	// Return success for now
 	return nil
 }

@@ -1,0 +1,76 @@
+[12:15:42.436] [INFO] storybook v10.2.0-alpha.18
+[12:15:43.615] [DEBUG] Getting package.json info for /home/reidlai/GitLocal/ta-workspace/modules/watchlist/sveltekit/package.json...
+[12:15:43.616] [WARN] You are currently using Storybook [1m10.2.0-alpha.18[22m but you have packages which are incompatible with it:
+
+- @storybook/addon-essentials@9.0.0-alpha.12 which depends on ^9.0.0-alpha.12
+ Repo: https://github.com/storybookjs/storybook/tree/next/code/addons/essentials
+- @storybook/blocks@9.0.0-alpha.17 which depends on ^9.0.0-alpha.17
+ Repo: https://github.com/storybookjs/storybook/tree/next/code/lib/blocks
+
+Please consider updating your packages or contacting the maintainers for compatibility details.
+
+For more details on compatibility guidance, see:
+https://github.com/storybookjs/storybook/issues/32836
+[12:15:44.119] [ERROR] [38;2;241;97;97mSB_CORE-SERVER_0002 (CriticalPresetLoadError): Storybook failed to load the following preset: ./.storybook/main.ts.
+
+Please check whether your setup is correct, the Storybook dependencies (and their peer dependencies) are installed correctly and there are no package version clashes.
+
+If you believe this is a bug, please open an issue on Github.
+
+SB_CORE-SERVER_0002 (CriticalPresetLoadError): Storybook failed to load the following preset: /home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/@storybook+addon-docs@10.2.0-alpha.18_@types+react@19.2.8_esbuild@0.21.5_rollup@4.55.1_storyb_5ncykjell5cd4u2o2hrzxlitmi/node_modules/@storybook/addon-docs/dist/blocks.js.
+
+Please check whether your setup is correct, the Storybook dependencies (and their peer dependencies) are installed correctly and there are no package version clashes.
+
+If you believe this is a bug, please open an issue on Github.
+
+ReferenceError: document is not defined
+    at file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/components/index.js:10226:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async importModule (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-DIZCVGPK.js:732:11)
+    at async loadPreset (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10046:72)
+    at async Promise.all (index 0)
+    at async loadPresets (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10090:73)
+    at async loadPreset (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10064:12)
+    at async Promise.all (index 1)
+    at async loadPresets (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10090:73)
+
+More info: 
+
+    at loadPreset (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10081:13)
+    at async Promise.all (index 0)
+    at async loadPresets (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10090:73)
+    at async loadPreset (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10064:12)
+    at async Promise.all (index 1)
+    at async loadPresets (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10090:73)
+    at async getPresets (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10121:23)
+    at async buildDevStandalone (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/core-server/index.js:7532:17)
+    at async withTelemetry (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-ZUTW3EKD.js:218:12)
+    at async dev (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/bin/core.js:2734:3)
+
+More info: 
+[39m
+    at loadPreset (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10081:13)
+    at async Promise.all (index 1)
+    at async loadPresets (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10090:73)
+    at async getPresets (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10121:23)
+    at async buildDevStandalone (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/core-server/index.js:7532:17)
+    at async withTelemetry (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-ZUTW3EKD.js:218:12)
+    at async dev (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/bin/core.js:2734:3)
+    at async _Command.<anonymous> (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/bin/core.js:2801:92)
+[12:15:44.139] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.
+[12:15:44.257] [WARN]   Failed to load preset: {"type":"presets","name":"/home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/@storybook+addon-docs@10.2.0-alpha.18_@types+react@19.2.8_esbuild@0.21.5_rollup@4.55.1_storyb_5ncykjell5cd4u2o2hrzxlitmi/node_modules/@storybook/addon-docs/dist/blocks.js"} on level 1
+[12:15:44.258] [ERROR] [38;2;241;97;97mReferenceError: document is not defined[39m
+    at file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/components/index.js:10226:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async importModule (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-DIZCVGPK.js:732:11)
+    at async loadPreset (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10046:72)
+    at async Promise.all (index 0)
+    at async loadPresets (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10090:73)
+    at async loadPreset (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10064:12)
+    at async Promise.all (index 1)
+    at async loadPresets (file:///home/reidlai/GitLocal/ta-workspace/modules/watchlist/node_modules/.pnpm/storybook@10.2.0-alpha.18_@testing-library+dom@10.4.1_prettier@3.7.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/storybook/dist/_node-chunks/chunk-USLMTVEL.js:10090:73)
+[12:16:17.790] [PROMPT] Would you like to send anonymous crash reports to improve Storybook and fix bugs faster? {"choice":true}
+[12:16:17.794] [INFO] Storybook collects completely anonymous usage telemetry. We use it to shape Storybook's roadmap and prioritize features. You can learn more, including how to opt out, at https://storybook.js.org/telemetry

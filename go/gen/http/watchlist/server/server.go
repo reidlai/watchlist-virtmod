@@ -18,10 +18,10 @@ import (
 
 // Server lists the watchlist service endpoint HTTP handlers.
 type Server struct {
-	Mounts []*MountPoint
-	List   http.Handler
-	Add    http.Handler
-	Remove http.Handler
+	Mounts                []*MountPoint
+	GetWatchlist          http.Handler
+	AddWatchlistTicker    http.Handler
+	RemoveWatchlistTicker http.Handler
 }
 
 // MountPoint holds information about the mounted endpoints.
@@ -51,13 +51,13 @@ func New(
 ) *Server {
 	return &Server{
 		Mounts: []*MountPoint{
-			{"List", "GET", "/watchlist"},
-			{"Add", "POST", "/watchlist"},
-			{"Remove", "DELETE", "/watchlist/{symbol}"},
+			{"GetWatchlist", "GET", "/watchlist"},
+			{"AddWatchlistTicker", "POST", "/watchlist/ticker"},
+			{"RemoveWatchlistTicker", "DELETE", "/watchlist/{symbol}"},
 		},
-		List:   NewListHandler(e.List, mux, decoder, encoder, errhandler, formatter),
-		Add:    NewAddHandler(e.Add, mux, decoder, encoder, errhandler, formatter),
-		Remove: NewRemoveHandler(e.Remove, mux, decoder, encoder, errhandler, formatter),
+		GetWatchlist:          NewGetWatchlistHandler(e.GetWatchlist, mux, decoder, encoder, errhandler, formatter),
+		AddWatchlistTicker:    NewAddWatchlistTickerHandler(e.AddWatchlistTicker, mux, decoder, encoder, errhandler, formatter),
+		RemoveWatchlistTicker: NewRemoveWatchlistTickerHandler(e.RemoveWatchlistTicker, mux, decoder, encoder, errhandler, formatter),
 	}
 }
 
@@ -66,9 +66,9 @@ func (s *Server) Service() string { return "watchlist" }
 
 // Use wraps the server handlers with the given middleware.
 func (s *Server) Use(m func(http.Handler) http.Handler) {
-	s.List = m(s.List)
-	s.Add = m(s.Add)
-	s.Remove = m(s.Remove)
+	s.GetWatchlist = m(s.GetWatchlist)
+	s.AddWatchlistTicker = m(s.AddWatchlistTicker)
+	s.RemoveWatchlistTicker = m(s.RemoveWatchlistTicker)
 }
 
 // MethodNames returns the methods served.
@@ -76,9 +76,9 @@ func (s *Server) MethodNames() []string { return watchlist.MethodNames[:] }
 
 // Mount configures the mux to serve the watchlist endpoints.
 func Mount(mux goahttp.Muxer, h *Server) {
-	MountListHandler(mux, h.List)
-	MountAddHandler(mux, h.Add)
-	MountRemoveHandler(mux, h.Remove)
+	MountGetWatchlistHandler(mux, h.GetWatchlist)
+	MountAddWatchlistTickerHandler(mux, h.AddWatchlistTicker)
+	MountRemoveWatchlistTickerHandler(mux, h.RemoveWatchlistTicker)
 }
 
 // Mount configures the mux to serve the watchlist endpoints.
@@ -86,9 +86,9 @@ func (s *Server) Mount(mux goahttp.Muxer) {
 	Mount(mux, s)
 }
 
-// MountListHandler configures the mux to serve the "watchlist" service "list"
-// endpoint.
-func MountListHandler(mux goahttp.Muxer, h http.Handler) {
+// MountGetWatchlistHandler configures the mux to serve the "watchlist" service
+// "getWatchlist" endpoint.
+func MountGetWatchlistHandler(mux goahttp.Muxer, h http.Handler) {
 	f, ok := h.(http.HandlerFunc)
 	if !ok {
 		f = func(w http.ResponseWriter, r *http.Request) {
@@ -98,9 +98,9 @@ func MountListHandler(mux goahttp.Muxer, h http.Handler) {
 	mux.Handle("GET", "/watchlist", f)
 }
 
-// NewListHandler creates a HTTP handler which loads the HTTP request and calls
-// the "watchlist" service "list" endpoint.
-func NewListHandler(
+// NewGetWatchlistHandler creates a HTTP handler which loads the HTTP request
+// and calls the "watchlist" service "getWatchlist" endpoint.
+func NewGetWatchlistHandler(
 	endpoint goa.Endpoint,
 	mux goahttp.Muxer,
 	decoder func(*http.Request) goahttp.Decoder,
@@ -109,22 +109,15 @@ func NewListHandler(
 	formatter func(ctx context.Context, err error) goahttp.Statuser,
 ) http.Handler {
 	var (
-		decodeRequest  = DecodeListRequest(mux, decoder)
-		encodeResponse = EncodeListResponse(encoder)
-		encodeError    = goahttp.ErrorEncoder(encoder, formatter)
+		encodeResponse = EncodeGetWatchlistResponse(encoder)
+		encodeError    = EncodeGetWatchlistError(encoder, formatter)
 	)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.WithValue(r.Context(), goahttp.AcceptTypeKey, r.Header.Get("Accept"))
-		ctx = context.WithValue(ctx, goa.MethodKey, "list")
+		ctx = context.WithValue(ctx, goa.MethodKey, "getWatchlist")
 		ctx = context.WithValue(ctx, goa.ServiceKey, "watchlist")
-		payload, err := decodeRequest(r)
-		if err != nil {
-			if err := encodeError(ctx, w, err); err != nil && errhandler != nil {
-				errhandler(ctx, w, err)
-			}
-			return
-		}
-		res, err := endpoint(ctx, payload)
+		var err error
+		res, err := endpoint(ctx, nil)
 		if err != nil {
 			if err := encodeError(ctx, w, err); err != nil && errhandler != nil {
 				errhandler(ctx, w, err)
@@ -139,21 +132,21 @@ func NewListHandler(
 	})
 }
 
-// MountAddHandler configures the mux to serve the "watchlist" service "add"
-// endpoint.
-func MountAddHandler(mux goahttp.Muxer, h http.Handler) {
+// MountAddWatchlistTickerHandler configures the mux to serve the "watchlist"
+// service "addWatchlistTicker" endpoint.
+func MountAddWatchlistTickerHandler(mux goahttp.Muxer, h http.Handler) {
 	f, ok := h.(http.HandlerFunc)
 	if !ok {
 		f = func(w http.ResponseWriter, r *http.Request) {
 			h.ServeHTTP(w, r)
 		}
 	}
-	mux.Handle("POST", "/watchlist", f)
+	mux.Handle("POST", "/watchlist/ticker", f)
 }
 
-// NewAddHandler creates a HTTP handler which loads the HTTP request and calls
-// the "watchlist" service "add" endpoint.
-func NewAddHandler(
+// NewAddWatchlistTickerHandler creates a HTTP handler which loads the HTTP
+// request and calls the "watchlist" service "addWatchlistTicker" endpoint.
+func NewAddWatchlistTickerHandler(
 	endpoint goa.Endpoint,
 	mux goahttp.Muxer,
 	decoder func(*http.Request) goahttp.Decoder,
@@ -162,13 +155,13 @@ func NewAddHandler(
 	formatter func(ctx context.Context, err error) goahttp.Statuser,
 ) http.Handler {
 	var (
-		decodeRequest  = DecodeAddRequest(mux, decoder)
-		encodeResponse = EncodeAddResponse(encoder)
-		encodeError    = goahttp.ErrorEncoder(encoder, formatter)
+		decodeRequest  = DecodeAddWatchlistTickerRequest(mux, decoder)
+		encodeResponse = EncodeAddWatchlistTickerResponse(encoder)
+		encodeError    = EncodeAddWatchlistTickerError(encoder, formatter)
 	)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.WithValue(r.Context(), goahttp.AcceptTypeKey, r.Header.Get("Accept"))
-		ctx = context.WithValue(ctx, goa.MethodKey, "add")
+		ctx = context.WithValue(ctx, goa.MethodKey, "addWatchlistTicker")
 		ctx = context.WithValue(ctx, goa.ServiceKey, "watchlist")
 		payload, err := decodeRequest(r)
 		if err != nil {
@@ -192,9 +185,9 @@ func NewAddHandler(
 	})
 }
 
-// MountRemoveHandler configures the mux to serve the "watchlist" service
-// "remove" endpoint.
-func MountRemoveHandler(mux goahttp.Muxer, h http.Handler) {
+// MountRemoveWatchlistTickerHandler configures the mux to serve the
+// "watchlist" service "removeWatchlistTicker" endpoint.
+func MountRemoveWatchlistTickerHandler(mux goahttp.Muxer, h http.Handler) {
 	f, ok := h.(http.HandlerFunc)
 	if !ok {
 		f = func(w http.ResponseWriter, r *http.Request) {
@@ -204,9 +197,9 @@ func MountRemoveHandler(mux goahttp.Muxer, h http.Handler) {
 	mux.Handle("DELETE", "/watchlist/{symbol}", f)
 }
 
-// NewRemoveHandler creates a HTTP handler which loads the HTTP request and
-// calls the "watchlist" service "remove" endpoint.
-func NewRemoveHandler(
+// NewRemoveWatchlistTickerHandler creates a HTTP handler which loads the HTTP
+// request and calls the "watchlist" service "removeWatchlistTicker" endpoint.
+func NewRemoveWatchlistTickerHandler(
 	endpoint goa.Endpoint,
 	mux goahttp.Muxer,
 	decoder func(*http.Request) goahttp.Decoder,
@@ -215,13 +208,13 @@ func NewRemoveHandler(
 	formatter func(ctx context.Context, err error) goahttp.Statuser,
 ) http.Handler {
 	var (
-		decodeRequest  = DecodeRemoveRequest(mux, decoder)
-		encodeResponse = EncodeRemoveResponse(encoder)
-		encodeError    = goahttp.ErrorEncoder(encoder, formatter)
+		decodeRequest  = DecodeRemoveWatchlistTickerRequest(mux, decoder)
+		encodeResponse = EncodeRemoveWatchlistTickerResponse(encoder)
+		encodeError    = EncodeRemoveWatchlistTickerError(encoder, formatter)
 	)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.WithValue(r.Context(), goahttp.AcceptTypeKey, r.Header.Get("Accept"))
-		ctx = context.WithValue(ctx, goa.MethodKey, "remove")
+		ctx = context.WithValue(ctx, goa.MethodKey, "removeWatchlistTicker")
 		ctx = context.WithValue(ctx, goa.ServiceKey, "watchlist")
 		payload, err := decodeRequest(r)
 		if err != nil {

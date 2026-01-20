@@ -11,17 +11,17 @@ import (
 	"fmt"
 )
 
-// ListWatchlistPath returns the URL path to the watchlist service list HTTP endpoint.
-func ListWatchlistPath() string {
+// GetWatchlistWatchlistPath returns the URL path to the watchlist service getWatchlist HTTP endpoint.
+func GetWatchlistWatchlistPath() string {
 	return "/watchlist"
 }
 
-// AddWatchlistPath returns the URL path to the watchlist service add HTTP endpoint.
-func AddWatchlistPath() string {
-	return "/watchlist"
+// AddWatchlistTickerWatchlistPath returns the URL path to the watchlist service addWatchlistTicker HTTP endpoint.
+func AddWatchlistTickerWatchlistPath() string {
+	return "/watchlist/ticker"
 }
 
-// RemoveWatchlistPath returns the URL path to the watchlist service remove HTTP endpoint.
-func RemoveWatchlistPath(symbol string) string {
+// RemoveWatchlistTickerWatchlistPath returns the URL path to the watchlist service removeWatchlistTicker HTTP endpoint.
+func RemoveWatchlistTickerWatchlistPath(symbol string) string {
 	return fmt.Sprintf("/watchlist/%v", symbol)
 }

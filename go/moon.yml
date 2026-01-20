@@ -53,10 +53,25 @@ tasks:
       runInCI: true
       mergeArgs: "replace"
 
-  gen:
+  goa-gen:
     command: "goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design"
     inputs:
       - "design/**/*.go"
       - "go.mod"
     options:
       mergeArgs: "replace"
+
+  build-server:
+    command: "go build -o bin/watchlist-server ."
+    inputs:
+      - "**/*.go"
+      - "go.mod"
+      - "go.sum"
+    outputs:
+      - "bin/watchlist-server"
+
+  start:
+    command: "./bin/watchlist-server"
+    deps:
+      - "build-server"
+    local: true

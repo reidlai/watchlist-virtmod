@@ -13,16 +13,16 @@ import (
 
 // Manage user watchlist
 type Service interface {
-	// List implements list.
-	List(context.Context, *ListPayload) (res []*TickerItem, err error)
-	// Add implements add.
-	Add(context.Context, *AddPayload) (res *TickerItem, err error)
-	// Remove implements remove.
-	Remove(context.Context, *RemovePayload) (err error)
+	// GetWatchlist implements getWatchlist.
+	GetWatchlist(context.Context) (res *Watchlist, err error)
+	// AddWatchlistTicker implements addWatchlistTicker.
+	AddWatchlistTicker(context.Context, *AddWatchlistTickerPayload) (res *TickerItem, err error)
+	// RemoveWatchlistTicker implements removeWatchlistTicker.
+	RemoveWatchlistTicker(context.Context, *RemoveWatchlistTickerPayload) (err error)
 }
 
 // APIName is the name of the API as defined in the design.
-const APIName = "exchange"
+const APIName = "watchlist"
 
 // APIVersion is the version of the API as defined in the design.
 const APIVersion = "0.0.1"
@@ -35,35 +35,218 @@ const ServiceName = "watchlist"
 // MethodNames lists the service method names as defined in the design. These
 // are the same values that are set in the endpoint request contexts under the
 // MethodKey key.
-var MethodNames = [3]string{"list", "add", "remove"}
+var MethodNames = [3]string{"getWatchlist", "addWatchlistTicker", "removeWatchlistTicker"}
 
-// AddPayload is the payload type of the watchlist service add method.
-type AddPayload struct {
-	// User ID
-	UserID string
+// AddWatchlistTickerPayload is the payload type of the watchlist service
+// addWatchlistTicker method.
+type AddWatchlistTickerPayload struct {
+	Ticker *Ticker
+}
+
+type OHLCV struct {
+	// Open Price
+	Open float64
+	// High Price
+	High float64
+	// Low Price
+	Low float64
+	// Close Price
+	Close float64
+	// Volume
+	Volume float64
+	// Price Change
+	Change float64
+	// Price Change Percent
+	ChangePercent float64
+	// Last Update Timestamp (Unix)
+	LastUpdatedAt int64
+}
+
+// RemoveWatchlistTickerPayload is the payload type of the watchlist service
+// removeWatchlistTicker method.
+type RemoveWatchlistTickerPayload struct {
 	Symbol string
-	OnHand bool
 }
 
-// ListPayload is the payload type of the watchlist service list method.
-type ListPayload struct {
-	// User ID
-	UserID string
-}
-
-// RemovePayload is the payload type of the watchlist service remove method.
-type RemovePayload struct {
-	// User ID
-	UserID string
-	Symbol string
-}
-
-// TickerItem is the result type of the watchlist service add method.
-type TickerItem struct {
+type Ticker struct {
 	// Stock Symbol
 	Symbol string
-	// Whether user holds the stock
-	OnHand bool
-	// Creation timestamp
-	CreatedAt *string
+	// Stock Name
+	Name *string
+	// Exchange MIC Code
+	ExchangeMic *string
+}
+
+// TickerItem is the result type of the watchlist service addWatchlistTicker
+// method.
+type TickerItem struct {
+	// Ticker information
+	Ticker *Ticker
+	// latest OHLCV record
+	Ohlcv *OHLCV
+}
+
+// Watchlist is the result type of the watchlist service getWatchlist method.
+type Watchlist struct {
+	Tickers []*TickerItem
+}
+
+// Bad request
+type BadRequest string
+
+// Database record locked
+type DatabaseRecordLocked string
+
+// Database unavailable
+type DatabaseUnavailable string
+
+// Internal server error
+type InternalError string
+
+// Ticker not found in watchlist
+type NotFound string
+
+// Insufficient privileges
+type PermissionDenied string
+
+// Ticker already exists in watchlist
+type TickerAlreadyExists string
+
+// Upstream service or messaging bus failed
+type UpstreamError string
+
+// Error returns an error description.
+func (e BadRequest) Error() string {
+	return "Bad request"
+}
+
+// ErrorName returns "bad_request".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e BadRequest) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "bad_request".
+func (e BadRequest) GoaErrorName() string {
+	return "bad_request"
+}
+
+// Error returns an error description.
+func (e DatabaseRecordLocked) Error() string {
+	return "Database record locked"
+}
+
+// ErrorName returns "database_record_locked".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e DatabaseRecordLocked) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "database_record_locked".
+func (e DatabaseRecordLocked) GoaErrorName() string {
+	return "database_record_locked"
+}
+
+// Error returns an error description.
+func (e DatabaseUnavailable) Error() string {
+	return "Database unavailable"
+}
+
+// ErrorName returns "database_unavailable".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e DatabaseUnavailable) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "database_unavailable".
+func (e DatabaseUnavailable) GoaErrorName() string {
+	return "database_unavailable"
+}
+
+// Error returns an error description.
+func (e InternalError) Error() string {
+	return "Internal server error"
+}
+
+// ErrorName returns "internal_error".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e InternalError) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "internal_error".
+func (e InternalError) GoaErrorName() string {
+	return "internal_error"
+}
+
+// Error returns an error description.
+func (e NotFound) Error() string {
+	return "Ticker not found in watchlist"
+}
+
+// ErrorName returns "not_found".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e NotFound) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "not_found".
+func (e NotFound) GoaErrorName() string {
+	return "not_found"
+}
+
+// Error returns an error description.
+func (e PermissionDenied) Error() string {
+	return "Insufficient privileges"
+}
+
+// ErrorName returns "permission_denied".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e PermissionDenied) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "permission_denied".
+func (e PermissionDenied) GoaErrorName() string {
+	return "permission_denied"
+}
+
+// Error returns an error description.
+func (e TickerAlreadyExists) Error() string {
+	return "Ticker already exists in watchlist"
+}
+
+// ErrorName returns "ticker_already_exists".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e TickerAlreadyExists) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "ticker_already_exists".
+func (e TickerAlreadyExists) GoaErrorName() string {
+	return "ticker_already_exists"
+}
+
+// Error returns an error description.
+func (e UpstreamError) Error() string {
+	return "Upstream service or messaging bus failed"
+}
+
+// ErrorName returns "upstream_error".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e UpstreamError) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "upstream_error".
+func (e UpstreamError) GoaErrorName() string {
+	return "upstream_error"
 }

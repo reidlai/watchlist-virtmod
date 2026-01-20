@@ -14,57 +14,38 @@ import (
 	watchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/watchlist"
 )
 
-// BuildListPayload builds the payload for the watchlist list endpoint from CLI
-// flags.
-func BuildListPayload(watchlistListUserID string) (*watchlist.ListPayload, error) {
-	var userID string
-	{
-		userID = watchlistListUserID
-	}
-	v := &watchlist.ListPayload{}
-	v.UserID = userID
-
-	return v, nil
-}
-
-// BuildAddPayload builds the payload for the watchlist add endpoint from CLI
-// flags.
-func BuildAddPayload(watchlistAddBody string, watchlistAddUserID string) (*watchlist.AddPayload, error) {
+// BuildAddWatchlistTickerPayload builds the payload for the watchlist
+// addWatchlistTicker endpoint from CLI flags.
+func BuildAddWatchlistTickerPayload(watchlistAddWatchlistTickerBody string) (*watchlist.AddWatchlistTickerPayload, error) {
 	var err error
-	var body AddRequestBody
+	var body AddWatchlistTickerRequestBody
 	{
-		err = json.Unmarshal([]byte(watchlistAddBody), &body)
+		err = json.Unmarshal([]byte(watchlistAddWatchlistTickerBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"on_hand\": true,\n      \"symbol\": \"Et quod sit.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"exchange_mic\": \"XNAS\",\n      \"name\": \"Apple Inc\",\n      \"symbol\": \"AAPL\"\n   }'")
 		}
 	}
-	var userID string
-	{
-		userID = watchlistAddUserID
+	v := &watchlist.Ticker{
+		Symbol:      body.Symbol,
+		Name:        body.Name,
+		ExchangeMic: body.ExchangeMic,
 	}
-	v := &watchlist.AddPayload{
-		Symbol: body.Symbol,
-		OnHand: body.OnHand,
+	res := &watchlist.AddWatchlistTickerPayload{
+		Ticker: v,
 	}
-	v.UserID = userID
 
-	return v, nil
+	return res, nil
 }
 
-// BuildRemovePayload builds the payload for the watchlist remove endpoint from
-// CLI flags.
-func BuildRemovePayload(watchlistRemoveSymbol string, watchlistRemoveUserID string) (*watchlist.RemovePayload, error) {
+// BuildRemoveWatchlistTickerPayload builds the payload for the watchlist
+// removeWatchlistTicker endpoint from CLI flags.
+func BuildRemoveWatchlistTickerPayload(watchlistRemoveWatchlistTickerSymbol string) (*watchlist.RemoveWatchlistTickerPayload, error) {
 	var symbol string
 	{
-		symbol = watchlistRemoveSymbol
+		symbol = watchlistRemoveWatchlistTickerSymbol
 	}
-	var userID string
-	{
-		userID = watchlistRemoveUserID
-	}
-	v := &watchlist.RemovePayload{}
+	v := &watchlist.RemoveWatchlistTickerPayload{}
 	v.Symbol = symbol
-	v.UserID = userID
 
 	return v, nil
 }

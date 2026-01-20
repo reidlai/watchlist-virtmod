@@ -17,14 +17,17 @@ import (
 
 // Client lists the watchlist service endpoint HTTP clients.
 type Client struct {
-	// List Doer is the HTTP client used to make requests to the list endpoint.
-	ListDoer goahttp.Doer
+	// GetWatchlist Doer is the HTTP client used to make requests to the
+	// getWatchlist endpoint.
+	GetWatchlistDoer goahttp.Doer
 
-	// Add Doer is the HTTP client used to make requests to the add endpoint.
-	AddDoer goahttp.Doer
+	// AddWatchlistTicker Doer is the HTTP client used to make requests to the
+	// addWatchlistTicker endpoint.
+	AddWatchlistTickerDoer goahttp.Doer
 
-	// Remove Doer is the HTTP client used to make requests to the remove endpoint.
-	RemoveDoer goahttp.Doer
+	// RemoveWatchlistTicker Doer is the HTTP client used to make requests to the
+	// removeWatchlistTicker endpoint.
+	RemoveWatchlistTickerDoer goahttp.Doer
 
 	// RestoreResponseBody controls whether the response bodies are reset after
 	// decoding so they can be read again.
@@ -46,50 +49,45 @@ func NewClient(
 	restoreBody bool,
 ) *Client {
 	return &Client{
-		ListDoer:            doer,
-		AddDoer:             doer,
-		RemoveDoer:          doer,
-		RestoreResponseBody: restoreBody,
-		scheme:              scheme,
-		host:                host,
-		decoder:             dec,
-		encoder:             enc,
+		GetWatchlistDoer:          doer,
+		AddWatchlistTickerDoer:    doer,
+		RemoveWatchlistTickerDoer: doer,
+		RestoreResponseBody:       restoreBody,
+		scheme:                    scheme,
+		host:                      host,
+		decoder:                   dec,
+		encoder:                   enc,
 	}
 }
 
-// List returns an endpoint that makes HTTP requests to the watchlist service
-// list server.
-func (c *Client) List() goa.Endpoint {
+// GetWatchlist returns an endpoint that makes HTTP requests to the watchlist
+// service getWatchlist server.
+func (c *Client) GetWatchlist() goa.Endpoint {
 	var (
-		encodeRequest  = EncodeListRequest(c.encoder)
-		decodeResponse = DecodeListResponse(c.decoder, c.RestoreResponseBody)
+		decodeResponse = DecodeGetWatchlistResponse(c.decoder, c.RestoreResponseBody)
 	)
 	return func(ctx context.Context, v any) (any, error) {
-		req, err := c.BuildListRequest(ctx, v)
+		req, err := c.BuildGetWatchlistRequest(ctx, v)
 		if err != nil {
 			return nil, err
 		}
-		err = encodeRequest(req, v)
+		resp, err := c.GetWatchlistDoer.Do(req)
 		if err != nil {
-			return nil, err
-		}
-		resp, err := c.ListDoer.Do(req)
-		if err != nil {
-			return nil, goahttp.ErrRequestError("watchlist", "list", err)
+			return nil, goahttp.ErrRequestError("watchlist", "getWatchlist", err)
 		}
 		return decodeResponse(resp)
 	}
 }
 
-// Add returns an endpoint that makes HTTP requests to the watchlist service
-// add server.
-func (c *Client) Add() goa.Endpoint {
+// AddWatchlistTicker returns an endpoint that makes HTTP requests to the
+// watchlist service addWatchlistTicker server.
+func (c *Client) AddWatchlistTicker() goa.Endpoint {
 	var (
-		encodeRequest  = EncodeAddRequest(c.encoder)
-		decodeResponse = DecodeAddResponse(c.decoder, c.RestoreResponseBody)
+		encodeRequest  = EncodeAddWatchlistTickerRequest(c.encoder)
+		decodeResponse = DecodeAddWatchlistTickerResponse(c.decoder, c.RestoreResponseBody)
 	)
 	return func(ctx context.Context, v any) (any, error) {
-		req, err := c.BuildAddRequest(ctx, v)
+		req, err := c.BuildAddWatchlistTickerRequest(ctx, v)
 		if err != nil {
 			return nil, err
 		}
@@ -97,33 +95,28 @@ func (c *Client) Add() goa.Endpoint {
 		if err != nil {
 			return nil, err
 		}
-		resp, err := c.AddDoer.Do(req)
+		resp, err := c.AddWatchlistTickerDoer.Do(req)
 		if err != nil {
-			return nil, goahttp.ErrRequestError("watchlist", "add", err)
+			return nil, goahttp.ErrRequestError("watchlist", "addWatchlistTicker", err)
 		}
 		return decodeResponse(resp)
 	}
 }
 
-// Remove returns an endpoint that makes HTTP requests to the watchlist service
-// remove server.
-func (c *Client) Remove() goa.Endpoint {
+// RemoveWatchlistTicker returns an endpoint that makes HTTP requests to the
+// watchlist service removeWatchlistTicker server.
+func (c *Client) RemoveWatchlistTicker() goa.Endpoint {
 	var (
-		encodeRequest  = EncodeRemoveRequest(c.encoder)
-		decodeResponse = DecodeRemoveResponse(c.decoder, c.RestoreResponseBody)
+		decodeResponse = DecodeRemoveWatchlistTickerResponse(c.decoder, c.RestoreResponseBody)
 	)
 	return func(ctx context.Context, v any) (any, error) {
-		req, err := c.BuildRemoveRequest(ctx, v)
+		req, err := c.BuildRemoveWatchlistTickerRequest(ctx, v)
 		if err != nil {
 			return nil, err
 		}
-		err = encodeRequest(req, v)
+		resp, err := c.RemoveWatchlistTickerDoer.Do(req)
 		if err != nil {
-			return nil, err
-		}
-		resp, err := c.RemoveDoer.Do(req)
-		if err != nil {
-			return nil, goahttp.ErrRequestError("watchlist", "remove", err)
+			return nil, goahttp.ErrRequestError("watchlist", "removeWatchlistTicker", err)
 		}
 		return decodeResponse(resp)
 	}

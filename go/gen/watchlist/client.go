@@ -15,42 +15,68 @@ import (
 
 // Client is the "watchlist" service client.
 type Client struct {
-	ListEndpoint   goa.Endpoint
-	AddEndpoint    goa.Endpoint
-	RemoveEndpoint goa.Endpoint
+	GetWatchlistEndpoint          goa.Endpoint
+	AddWatchlistTickerEndpoint    goa.Endpoint
+	RemoveWatchlistTickerEndpoint goa.Endpoint
 }
 
 // NewClient initializes a "watchlist" service client given the endpoints.
-func NewClient(list, add, remove goa.Endpoint) *Client {
+func NewClient(getWatchlist, addWatchlistTicker, removeWatchlistTicker goa.Endpoint) *Client {
 	return &Client{
-		ListEndpoint:   list,
-		AddEndpoint:    add,
-		RemoveEndpoint: remove,
+		GetWatchlistEndpoint:          getWatchlist,
+		AddWatchlistTickerEndpoint:    addWatchlistTicker,
+		RemoveWatchlistTickerEndpoint: removeWatchlistTicker,
 	}
 }
 
-// List calls the "list" endpoint of the "watchlist" service.
-func (c *Client) List(ctx context.Context, p *ListPayload) (res []*TickerItem, err error) {
+// GetWatchlist calls the "getWatchlist" endpoint of the "watchlist" service.
+// GetWatchlist may return the following errors:
+//   - "internal_error" (type InternalError)
+//   - "bad_request" (type BadRequest)
+//   - "upstream_error" (type UpstreamError)
+//   - "database_unavailable" (type DatabaseUnavailable)
+//   - "permission_denied" (type PermissionDenied)
+//   - error: internal error
+func (c *Client) GetWatchlist(ctx context.Context) (res *Watchlist, err error) {
 	var ires any
-	ires, err = c.ListEndpoint(ctx, p)
+	ires, err = c.GetWatchlistEndpoint(ctx, nil)
 	if err != nil {
 		return
 	}
-	return ires.([]*TickerItem), nil
+	return ires.(*Watchlist), nil
 }
 
-// Add calls the "add" endpoint of the "watchlist" service.
-func (c *Client) Add(ctx context.Context, p *AddPayload) (res *TickerItem, err error) {
+// AddWatchlistTicker calls the "addWatchlistTicker" endpoint of the
+// "watchlist" service.
+// AddWatchlistTicker may return the following errors:
+//   - "ticker_already_exists" (type TickerAlreadyExists)
+//   - "internal_error" (type InternalError)
+//   - "bad_request" (type BadRequest)
+//   - "upstream_error" (type UpstreamError)
+//   - "database_unavailable" (type DatabaseUnavailable)
+//   - "permission_denied" (type PermissionDenied)
+//   - error: internal error
+func (c *Client) AddWatchlistTicker(ctx context.Context, p *AddWatchlistTickerPayload) (res *TickerItem, err error) {
 	var ires any
-	ires, err = c.AddEndpoint(ctx, p)
+	ires, err = c.AddWatchlistTickerEndpoint(ctx, p)
 	if err != nil {
 		return
 	}
 	return ires.(*TickerItem), nil
 }
 
-// Remove calls the "remove" endpoint of the "watchlist" service.
-func (c *Client) Remove(ctx context.Context, p *RemovePayload) (err error) {
-	_, err = c.RemoveEndpoint(ctx, p)
+// RemoveWatchlistTicker calls the "removeWatchlistTicker" endpoint of the
+// "watchlist" service.
+// RemoveWatchlistTicker may return the following errors:
+//   - "not_found" (type NotFound)
+//   - "database_record_locked" (type DatabaseRecordLocked)
+//   - "internal_error" (type InternalError)
+//   - "bad_request" (type BadRequest)
+//   - "upstream_error" (type UpstreamError)
+//   - "database_unavailable" (type DatabaseUnavailable)
+//   - "permission_denied" (type PermissionDenied)
+//   - error: internal error
+func (c *Client) RemoveWatchlistTicker(ctx context.Context, p *RemoveWatchlistTickerPayload) (err error) {
+	_, err = c.RemoveWatchlistTickerEndpoint(ctx, p)
 	return
 }
