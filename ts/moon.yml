@@ -5,18 +5,22 @@ stack: 'frontend'
 
 tasks:
   build:
-    outputs:
-      - 'dist'
+    outputs: []
     options:
       mergeOutputs: 'replace'
-  
+
   lint:
-    command: 'pnpm run lint'
-    inputs:
-      - '**/*.ts'
-      - 'eslint.config.mjs'
-      - 'package.json'
+    command: 'eslint .'
     options:
       mergeArgs: 'replace'
 
+  test:
+    command: 'vitest run'
 
+  format:
+    command: 'prettier --write .'
+
+  zodios-gen:
+    command: 'npx openapi-zod-client "../go/gen/http/openapi3.json" -o "./src/lib/api-client.ts"'
+    deps:
+      - 'build'

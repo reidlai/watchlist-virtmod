@@ -18,57 +18,92 @@ import (
 	goa "goa.design/goa/v3/pkg"
 )
 
-// EncodeListResponse returns an encoder for responses returned by the
-// watchlist list endpoint.
-func EncodeListResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
+// EncodeGetWatchlistResponse returns an encoder for responses returned by the
+// watchlist getWatchlist endpoint.
+func EncodeGetWatchlistResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
 	return func(ctx context.Context, w http.ResponseWriter, v any) error {
-		res, _ := v.([]*watchlist.TickerItem)
+		res, _ := v.(*watchlist.Watchlist)
 		enc := encoder(ctx, w)
-		body := NewListResponseBody(res)
+		body := NewGetWatchlistResponseBody(res)
 		w.WriteHeader(http.StatusOK)
 		return enc.Encode(body)
 	}
 }
 
-// DecodeListRequest returns a decoder for requests sent to the watchlist list
-// endpoint.
-func DecodeListRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (*watchlist.ListPayload, error) {
-	return func(r *http.Request) (*watchlist.ListPayload, error) {
-		var (
-			userID string
-			err    error
-		)
-		userID = r.Header.Get("X-User-ID")
-		if userID == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("user_id", "header"))
+// EncodeGetWatchlistError returns an encoder for errors returned by the
+// getWatchlist watchlist endpoint.
+func EncodeGetWatchlistError(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder, formatter func(ctx context.Context, err error) goahttp.Statuser) func(context.Context, http.ResponseWriter, error) error {
+	encodeError := goahttp.ErrorEncoder(encoder, formatter)
+	return func(ctx context.Context, w http.ResponseWriter, v error) error {
+		var en goa.GoaErrorNamer
+		if !errors.As(v, &en) {
+			return encodeError(ctx, w, v)
 		}
-		if err != nil {
-			return nil, err
+		switch en.GoaErrorName() {
+		case "bad_request":
+			var res watchlist.BadRequest
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusBadRequest)
+			return enc.Encode(body)
+		case "database_unavailable":
+			var res watchlist.DatabaseUnavailable
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusServiceUnavailable)
+			return enc.Encode(body)
+		case "internal_error":
+			var res watchlist.InternalError
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusInternalServerError)
+			return enc.Encode(body)
+		case "permission_denied":
+			var res watchlist.PermissionDenied
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusForbidden)
+			return enc.Encode(body)
+		case "upstream_error":
+			var res watchlist.UpstreamError
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusBadGateway)
+			return enc.Encode(body)
+		default:
+			return encodeError(ctx, w, v)
 		}
-		payload := NewListPayload(userID)
-
-		return payload, nil
 	}
 }
 
-// EncodeAddResponse returns an encoder for responses returned by the watchlist
-// add endpoint.
-func EncodeAddResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
+// EncodeAddWatchlistTickerResponse returns an encoder for responses returned
+// by the watchlist addWatchlistTicker endpoint.
+func EncodeAddWatchlistTickerResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
 	return func(ctx context.Context, w http.ResponseWriter, v any) error {
 		res, _ := v.(*watchlist.TickerItem)
 		enc := encoder(ctx, w)
-		body := NewAddResponseBody(res)
-		w.WriteHeader(http.StatusOK)
+		body := NewAddWatchlistTickerResponseBody(res)
+		w.WriteHeader(http.StatusCreated)
 		return enc.Encode(body)
 	}
 }
 
-// DecodeAddRequest returns a decoder for requests sent to the watchlist add
-// endpoint.
-func DecodeAddRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (*watchlist.AddPayload, error) {
-	return func(r *http.Request) (*watchlist.AddPayload, error) {
+// DecodeAddWatchlistTickerRequest returns a decoder for requests sent to the
+// watchlist addWatchlistTicker endpoint.
+func DecodeAddWatchlistTickerRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (*watchlist.AddWatchlistTickerPayload, error) {
+	return func(r *http.Request) (*watchlist.AddWatchlistTickerPayload, error) {
 		var (
-			body AddRequestBody
+			body AddWatchlistTickerRequestBody
 			err  error
 		)
 		err = decoder(r).Decode(&body)
@@ -82,68 +117,215 @@ func DecodeAddRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Dec
 			}
 			return nil, goa.DecodePayloadError(err.Error())
 		}
-		err = ValidateAddRequestBody(&body)
+		err = ValidateAddWatchlistTickerRequestBody(&body)
 		if err != nil {
 			return nil, err
 		}
-
-		var (
-			userID string
-		)
-		userID = r.Header.Get("X-User-ID")
-		if userID == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("user_id", "header"))
-		}
-		if err != nil {
-			return nil, err
-		}
-		payload := NewAddPayload(&body, userID)
+		payload := NewAddWatchlistTickerPayload(&body)
 
 		return payload, nil
 	}
 }
 
-// EncodeRemoveResponse returns an encoder for responses returned by the
-// watchlist remove endpoint.
-func EncodeRemoveResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
+// EncodeAddWatchlistTickerError returns an encoder for errors returned by the
+// addWatchlistTicker watchlist endpoint.
+func EncodeAddWatchlistTickerError(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder, formatter func(ctx context.Context, err error) goahttp.Statuser) func(context.Context, http.ResponseWriter, error) error {
+	encodeError := goahttp.ErrorEncoder(encoder, formatter)
+	return func(ctx context.Context, w http.ResponseWriter, v error) error {
+		var en goa.GoaErrorNamer
+		if !errors.As(v, &en) {
+			return encodeError(ctx, w, v)
+		}
+		switch en.GoaErrorName() {
+		case "bad_request":
+			var res watchlist.BadRequest
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusBadRequest)
+			return enc.Encode(body)
+		case "database_unavailable":
+			var res watchlist.DatabaseUnavailable
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusServiceUnavailable)
+			return enc.Encode(body)
+		case "internal_error":
+			var res watchlist.InternalError
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusInternalServerError)
+			return enc.Encode(body)
+		case "permission_denied":
+			var res watchlist.PermissionDenied
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusForbidden)
+			return enc.Encode(body)
+		case "ticker_already_exists":
+			var res watchlist.TickerAlreadyExists
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusConflict)
+			return enc.Encode(body)
+		case "upstream_error":
+			var res watchlist.UpstreamError
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusBadGateway)
+			return enc.Encode(body)
+		default:
+			return encodeError(ctx, w, v)
+		}
+	}
+}
+
+// EncodeRemoveWatchlistTickerResponse returns an encoder for responses
+// returned by the watchlist removeWatchlistTicker endpoint.
+func EncodeRemoveWatchlistTickerResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
 	return func(ctx context.Context, w http.ResponseWriter, v any) error {
 		w.WriteHeader(http.StatusNoContent)
 		return nil
 	}
 }
 
-// DecodeRemoveRequest returns a decoder for requests sent to the watchlist
-// remove endpoint.
-func DecodeRemoveRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (*watchlist.RemovePayload, error) {
-	return func(r *http.Request) (*watchlist.RemovePayload, error) {
+// DecodeRemoveWatchlistTickerRequest returns a decoder for requests sent to
+// the watchlist removeWatchlistTicker endpoint.
+func DecodeRemoveWatchlistTickerRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (*watchlist.RemoveWatchlistTickerPayload, error) {
+	return func(r *http.Request) (*watchlist.RemoveWatchlistTickerPayload, error) {
 		var (
 			symbol string
-			userID string
-			err    error
 
 			params = mux.Vars(r)
 		)
 		symbol = params["symbol"]
-		userID = r.Header.Get("X-User-ID")
-		if userID == "" {
-			err = goa.MergeErrors(err, goa.MissingFieldError("user_id", "header"))
-		}
-		if err != nil {
-			return nil, err
-		}
-		payload := NewRemovePayload(symbol, userID)
+		payload := NewRemoveWatchlistTickerPayload(symbol)
 
 		return payload, nil
 	}
 }
 
-// marshalWatchlistTickerItemToTickerItemResponse builds a value of type
-// *TickerItemResponse from a value of type *watchlist.TickerItem.
-func marshalWatchlistTickerItemToTickerItemResponse(v *watchlist.TickerItem) *TickerItemResponse {
-	res := &TickerItemResponse{
-		Symbol:    v.Symbol,
-		OnHand:    v.OnHand,
-		CreatedAt: v.CreatedAt,
+// EncodeRemoveWatchlistTickerError returns an encoder for errors returned by
+// the removeWatchlistTicker watchlist endpoint.
+func EncodeRemoveWatchlistTickerError(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder, formatter func(ctx context.Context, err error) goahttp.Statuser) func(context.Context, http.ResponseWriter, error) error {
+	encodeError := goahttp.ErrorEncoder(encoder, formatter)
+	return func(ctx context.Context, w http.ResponseWriter, v error) error {
+		var en goa.GoaErrorNamer
+		if !errors.As(v, &en) {
+			return encodeError(ctx, w, v)
+		}
+		switch en.GoaErrorName() {
+		case "bad_request":
+			var res watchlist.BadRequest
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusBadRequest)
+			return enc.Encode(body)
+		case "database_record_locked":
+			var res watchlist.DatabaseRecordLocked
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusConflict)
+			return enc.Encode(body)
+		case "database_unavailable":
+			var res watchlist.DatabaseUnavailable
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusServiceUnavailable)
+			return enc.Encode(body)
+		case "internal_error":
+			var res watchlist.InternalError
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusInternalServerError)
+			return enc.Encode(body)
+		case "not_found":
+			var res watchlist.NotFound
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusNotFound)
+			return enc.Encode(body)
+		case "permission_denied":
+			var res watchlist.PermissionDenied
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusForbidden)
+			return enc.Encode(body)
+		case "upstream_error":
+			var res watchlist.UpstreamError
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusBadGateway)
+			return enc.Encode(body)
+		default:
+			return encodeError(ctx, w, v)
+		}
+	}
+}
+
+// marshalWatchlistTickerItemToTickerItemResponseBody builds a value of type
+// *TickerItemResponseBody from a value of type *watchlist.TickerItem.
+func marshalWatchlistTickerItemToTickerItemResponseBody(v *watchlist.TickerItem) *TickerItemResponseBody {
+	res := &TickerItemResponseBody{}
+	if v.Ticker != nil {
+		res.Ticker = marshalWatchlistTickerToTickerResponseBody(v.Ticker)
+	}
+	if v.Ohlcv != nil {
+		res.Ohlcv = marshalWatchlistOHLCVToOHLCVResponseBody(v.Ohlcv)
+	}
+
+	return res
+}
+
+// marshalWatchlistTickerToTickerResponseBody builds a value of type
+// *TickerResponseBody from a value of type *watchlist.Ticker.
+func marshalWatchlistTickerToTickerResponseBody(v *watchlist.Ticker) *TickerResponseBody {
+	res := &TickerResponseBody{
+		Symbol:      v.Symbol,
+		Name:        v.Name,
+		ExchangeMic: v.ExchangeMic,
+	}
+
+	return res
+}
+
+// marshalWatchlistOHLCVToOHLCVResponseBody builds a value of type
+// *OHLCVResponseBody from a value of type *watchlist.OHLCV.
+func marshalWatchlistOHLCVToOHLCVResponseBody(v *watchlist.OHLCV) *OHLCVResponseBody {
+	res := &OHLCVResponseBody{
+		Open:          v.Open,
+		High:          v.High,
+		Low:           v.Low,
+		Close:         v.Close,
+		Volume:        v.Volume,
+		Change:        v.Change,
+		ChangePercent: v.ChangePercent,
+		LastUpdatedAt: v.LastUpdatedAt,
 	}
 
 	return res

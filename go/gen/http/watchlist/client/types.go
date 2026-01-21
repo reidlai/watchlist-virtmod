@@ -12,99 +12,344 @@ import (
 	goa "goa.design/goa/v3/pkg"
 )
 
-// AddRequestBody is the type of the "watchlist" service "add" endpoint HTTP
-// request body.
-type AddRequestBody struct {
+// AddWatchlistTickerRequestBody is the type of the "watchlist" service
+// "addWatchlistTicker" endpoint HTTP request body.
+type AddWatchlistTickerRequestBody struct {
+	// Stock Symbol
 	Symbol string `form:"symbol" json:"symbol" xml:"symbol"`
-	OnHand bool   `form:"on_hand" json:"on_hand" xml:"on_hand"`
+	// Stock Name
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+	// Exchange MIC Code
+	ExchangeMic *string `form:"exchange_mic,omitempty" json:"exchange_mic,omitempty" xml:"exchange_mic,omitempty"`
 }
 
-// ListResponseBody is the type of the "watchlist" service "list" endpoint HTTP
-// response body.
-type ListResponseBody []*TickerItemResponse
+// GetWatchlistResponseBody is the type of the "watchlist" service
+// "getWatchlist" endpoint HTTP response body.
+type GetWatchlistResponseBody struct {
+	Tickers []*TickerItemResponseBody `form:"tickers,omitempty" json:"tickers,omitempty" xml:"tickers,omitempty"`
+}
 
-// AddResponseBody is the type of the "watchlist" service "add" endpoint HTTP
-// response body.
-type AddResponseBody struct {
+// AddWatchlistTickerResponseBody is the type of the "watchlist" service
+// "addWatchlistTicker" endpoint HTTP response body.
+type AddWatchlistTickerResponseBody struct {
+	// Ticker information
+	Ticker *TickerResponseBody `form:"ticker,omitempty" json:"ticker,omitempty" xml:"ticker,omitempty"`
+	// latest OHLCV record
+	Ohlcv *OHLCVResponseBody `form:"ohlcv,omitempty" json:"ohlcv,omitempty" xml:"ohlcv,omitempty"`
+}
+
+// TickerItemResponseBody is used to define fields on response body types.
+type TickerItemResponseBody struct {
+	// Ticker information
+	Ticker *TickerResponseBody `form:"ticker,omitempty" json:"ticker,omitempty" xml:"ticker,omitempty"`
+	// latest OHLCV record
+	Ohlcv *OHLCVResponseBody `form:"ohlcv,omitempty" json:"ohlcv,omitempty" xml:"ohlcv,omitempty"`
+}
+
+// TickerResponseBody is used to define fields on response body types.
+type TickerResponseBody struct {
 	// Stock Symbol
 	Symbol *string `form:"symbol,omitempty" json:"symbol,omitempty" xml:"symbol,omitempty"`
-	// Whether user holds the stock
-	OnHand *bool `form:"on_hand,omitempty" json:"on_hand,omitempty" xml:"on_hand,omitempty"`
-	// Creation timestamp
-	CreatedAt *string `form:"created_at,omitempty" json:"created_at,omitempty" xml:"created_at,omitempty"`
+	// Stock Name
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+	// Exchange MIC Code
+	ExchangeMic *string `form:"exchange_mic,omitempty" json:"exchange_mic,omitempty" xml:"exchange_mic,omitempty"`
 }
 
-// TickerItemResponse is used to define fields on response body types.
-type TickerItemResponse struct {
-	// Stock Symbol
-	Symbol *string `form:"symbol,omitempty" json:"symbol,omitempty" xml:"symbol,omitempty"`
-	// Whether user holds the stock
-	OnHand *bool `form:"on_hand,omitempty" json:"on_hand,omitempty" xml:"on_hand,omitempty"`
-	// Creation timestamp
-	CreatedAt *string `form:"created_at,omitempty" json:"created_at,omitempty" xml:"created_at,omitempty"`
+// OHLCVResponseBody is used to define fields on response body types.
+type OHLCVResponseBody struct {
+	// Open Price
+	Open *float64 `form:"open,omitempty" json:"open,omitempty" xml:"open,omitempty"`
+	// High Price
+	High *float64 `form:"high,omitempty" json:"high,omitempty" xml:"high,omitempty"`
+	// Low Price
+	Low *float64 `form:"low,omitempty" json:"low,omitempty" xml:"low,omitempty"`
+	// Close Price
+	Close *float64 `form:"close,omitempty" json:"close,omitempty" xml:"close,omitempty"`
+	// Volume
+	Volume *float64 `form:"volume,omitempty" json:"volume,omitempty" xml:"volume,omitempty"`
+	// Price Change
+	Change *float64 `form:"change,omitempty" json:"change,omitempty" xml:"change,omitempty"`
+	// Price Change Percent
+	ChangePercent *float64 `form:"change_percent,omitempty" json:"change_percent,omitempty" xml:"change_percent,omitempty"`
+	// Last Update Timestamp (Unix)
+	LastUpdatedAt *int64 `form:"last_updated_at,omitempty" json:"last_updated_at,omitempty" xml:"last_updated_at,omitempty"`
 }
 
-// NewAddRequestBody builds the HTTP request body from the payload of the "add"
-// endpoint of the "watchlist" service.
-func NewAddRequestBody(p *watchlist.AddPayload) *AddRequestBody {
-	body := &AddRequestBody{
-		Symbol: p.Symbol,
-		OnHand: p.OnHand,
+// NewAddWatchlistTickerRequestBody builds the HTTP request body from the
+// payload of the "addWatchlistTicker" endpoint of the "watchlist" service.
+func NewAddWatchlistTickerRequestBody(p *watchlist.AddWatchlistTickerPayload) *AddWatchlistTickerRequestBody {
+	body := &AddWatchlistTickerRequestBody{
+		Symbol:      p.Ticker.Symbol,
+		Name:        p.Ticker.Name,
+		ExchangeMic: p.Ticker.ExchangeMic,
 	}
 	return body
 }
 
-// NewListTickerItemOK builds a "watchlist" service "list" endpoint result from
-// a HTTP "OK" response.
-func NewListTickerItemOK(body []*TickerItemResponse) []*watchlist.TickerItem {
-	v := make([]*watchlist.TickerItem, len(body))
-	for i, val := range body {
+// NewGetWatchlistWatchlistOK builds a "watchlist" service "getWatchlist"
+// endpoint result from a HTTP "OK" response.
+func NewGetWatchlistWatchlistOK(body *GetWatchlistResponseBody) *watchlist.Watchlist {
+	v := &watchlist.Watchlist{}
+	v.Tickers = make([]*watchlist.TickerItem, len(body.Tickers))
+	for i, val := range body.Tickers {
 		if val == nil {
-			v[i] = nil
+			v.Tickers[i] = nil
 			continue
 		}
-		v[i] = unmarshalTickerItemResponseToWatchlistTickerItem(val)
+		v.Tickers[i] = unmarshalTickerItemResponseBodyToWatchlistTickerItem(val)
 	}
 
 	return v
 }
 
-// NewAddTickerItemOK builds a "watchlist" service "add" endpoint result from a
-// HTTP "OK" response.
-func NewAddTickerItemOK(body *AddResponseBody) *watchlist.TickerItem {
-	v := &watchlist.TickerItem{
-		Symbol:    *body.Symbol,
-		OnHand:    *body.OnHand,
-		CreatedAt: body.CreatedAt,
-	}
+// NewGetWatchlistBadRequest builds a watchlist service getWatchlist endpoint
+// bad_request error.
+func NewGetWatchlistBadRequest(body string) watchlist.BadRequest {
+	v := watchlist.BadRequest(body)
 
 	return v
 }
 
-// ValidateAddResponseBody runs the validations defined on AddResponseBody
-func ValidateAddResponseBody(body *AddResponseBody) (err error) {
-	if body.Symbol == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("symbol", "body"))
+// NewGetWatchlistDatabaseUnavailable builds a watchlist service getWatchlist
+// endpoint database_unavailable error.
+func NewGetWatchlistDatabaseUnavailable(body string) watchlist.DatabaseUnavailable {
+	v := watchlist.DatabaseUnavailable(body)
+
+	return v
+}
+
+// NewGetWatchlistInternalError builds a watchlist service getWatchlist
+// endpoint internal_error error.
+func NewGetWatchlistInternalError(body string) watchlist.InternalError {
+	v := watchlist.InternalError(body)
+
+	return v
+}
+
+// NewGetWatchlistPermissionDenied builds a watchlist service getWatchlist
+// endpoint permission_denied error.
+func NewGetWatchlistPermissionDenied(body string) watchlist.PermissionDenied {
+	v := watchlist.PermissionDenied(body)
+
+	return v
+}
+
+// NewGetWatchlistUpstreamError builds a watchlist service getWatchlist
+// endpoint upstream_error error.
+func NewGetWatchlistUpstreamError(body string) watchlist.UpstreamError {
+	v := watchlist.UpstreamError(body)
+
+	return v
+}
+
+// NewAddWatchlistTickerTickerItemCreated builds a "watchlist" service
+// "addWatchlistTicker" endpoint result from a HTTP "Created" response.
+func NewAddWatchlistTickerTickerItemCreated(body *AddWatchlistTickerResponseBody) *watchlist.TickerItem {
+	v := &watchlist.TickerItem{}
+	v.Ticker = unmarshalTickerResponseBodyToWatchlistTicker(body.Ticker)
+	v.Ohlcv = unmarshalOHLCVResponseBodyToWatchlistOHLCV(body.Ohlcv)
+
+	return v
+}
+
+// NewAddWatchlistTickerBadRequest builds a watchlist service
+// addWatchlistTicker endpoint bad_request error.
+func NewAddWatchlistTickerBadRequest(body string) watchlist.BadRequest {
+	v := watchlist.BadRequest(body)
+
+	return v
+}
+
+// NewAddWatchlistTickerDatabaseUnavailable builds a watchlist service
+// addWatchlistTicker endpoint database_unavailable error.
+func NewAddWatchlistTickerDatabaseUnavailable(body string) watchlist.DatabaseUnavailable {
+	v := watchlist.DatabaseUnavailable(body)
+
+	return v
+}
+
+// NewAddWatchlistTickerInternalError builds a watchlist service
+// addWatchlistTicker endpoint internal_error error.
+func NewAddWatchlistTickerInternalError(body string) watchlist.InternalError {
+	v := watchlist.InternalError(body)
+
+	return v
+}
+
+// NewAddWatchlistTickerPermissionDenied builds a watchlist service
+// addWatchlistTicker endpoint permission_denied error.
+func NewAddWatchlistTickerPermissionDenied(body string) watchlist.PermissionDenied {
+	v := watchlist.PermissionDenied(body)
+
+	return v
+}
+
+// NewAddWatchlistTickerTickerAlreadyExists builds a watchlist service
+// addWatchlistTicker endpoint ticker_already_exists error.
+func NewAddWatchlistTickerTickerAlreadyExists(body string) watchlist.TickerAlreadyExists {
+	v := watchlist.TickerAlreadyExists(body)
+
+	return v
+}
+
+// NewAddWatchlistTickerUpstreamError builds a watchlist service
+// addWatchlistTicker endpoint upstream_error error.
+func NewAddWatchlistTickerUpstreamError(body string) watchlist.UpstreamError {
+	v := watchlist.UpstreamError(body)
+
+	return v
+}
+
+// NewRemoveWatchlistTickerBadRequest builds a watchlist service
+// removeWatchlistTicker endpoint bad_request error.
+func NewRemoveWatchlistTickerBadRequest(body string) watchlist.BadRequest {
+	v := watchlist.BadRequest(body)
+
+	return v
+}
+
+// NewRemoveWatchlistTickerDatabaseRecordLocked builds a watchlist service
+// removeWatchlistTicker endpoint database_record_locked error.
+func NewRemoveWatchlistTickerDatabaseRecordLocked(body string) watchlist.DatabaseRecordLocked {
+	v := watchlist.DatabaseRecordLocked(body)
+
+	return v
+}
+
+// NewRemoveWatchlistTickerDatabaseUnavailable builds a watchlist service
+// removeWatchlistTicker endpoint database_unavailable error.
+func NewRemoveWatchlistTickerDatabaseUnavailable(body string) watchlist.DatabaseUnavailable {
+	v := watchlist.DatabaseUnavailable(body)
+
+	return v
+}
+
+// NewRemoveWatchlistTickerInternalError builds a watchlist service
+// removeWatchlistTicker endpoint internal_error error.
+func NewRemoveWatchlistTickerInternalError(body string) watchlist.InternalError {
+	v := watchlist.InternalError(body)
+
+	return v
+}
+
+// NewRemoveWatchlistTickerNotFound builds a watchlist service
+// removeWatchlistTicker endpoint not_found error.
+func NewRemoveWatchlistTickerNotFound(body string) watchlist.NotFound {
+	v := watchlist.NotFound(body)
+
+	return v
+}
+
+// NewRemoveWatchlistTickerPermissionDenied builds a watchlist service
+// removeWatchlistTicker endpoint permission_denied error.
+func NewRemoveWatchlistTickerPermissionDenied(body string) watchlist.PermissionDenied {
+	v := watchlist.PermissionDenied(body)
+
+	return v
+}
+
+// NewRemoveWatchlistTickerUpstreamError builds a watchlist service
+// removeWatchlistTicker endpoint upstream_error error.
+func NewRemoveWatchlistTickerUpstreamError(body string) watchlist.UpstreamError {
+	v := watchlist.UpstreamError(body)
+
+	return v
+}
+
+// ValidateGetWatchlistResponseBody runs the validations defined on
+// GetWatchlistResponseBody
+func ValidateGetWatchlistResponseBody(body *GetWatchlistResponseBody) (err error) {
+	if body.Tickers == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("tickers", "body"))
 	}
-	if body.OnHand == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("on_hand", "body"))
-	}
-	if body.CreatedAt != nil {
-		err = goa.MergeErrors(err, goa.ValidateFormat("body.created_at", *body.CreatedAt, goa.FormatDateTime))
+	for _, e := range body.Tickers {
+		if e != nil {
+			if err2 := ValidateTickerItemResponseBody(e); err2 != nil {
+				err = goa.MergeErrors(err, err2)
+			}
+		}
 	}
 	return
 }
 
-// ValidateTickerItemResponse runs the validations defined on TickerItemResponse
-func ValidateTickerItemResponse(body *TickerItemResponse) (err error) {
+// ValidateAddWatchlistTickerResponseBody runs the validations defined on
+// AddWatchlistTickerResponseBody
+func ValidateAddWatchlistTickerResponseBody(body *AddWatchlistTickerResponseBody) (err error) {
+	if body.Ticker == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("ticker", "body"))
+	}
+	if body.Ohlcv == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("ohlcv", "body"))
+	}
+	if body.Ticker != nil {
+		if err2 := ValidateTickerResponseBody(body.Ticker); err2 != nil {
+			err = goa.MergeErrors(err, err2)
+		}
+	}
+	if body.Ohlcv != nil {
+		if err2 := ValidateOHLCVResponseBody(body.Ohlcv); err2 != nil {
+			err = goa.MergeErrors(err, err2)
+		}
+	}
+	return
+}
+
+// ValidateTickerItemResponseBody runs the validations defined on
+// TickerItemResponseBody
+func ValidateTickerItemResponseBody(body *TickerItemResponseBody) (err error) {
+	if body.Ticker == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("ticker", "body"))
+	}
+	if body.Ohlcv == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("ohlcv", "body"))
+	}
+	if body.Ticker != nil {
+		if err2 := ValidateTickerResponseBody(body.Ticker); err2 != nil {
+			err = goa.MergeErrors(err, err2)
+		}
+	}
+	if body.Ohlcv != nil {
+		if err2 := ValidateOHLCVResponseBody(body.Ohlcv); err2 != nil {
+			err = goa.MergeErrors(err, err2)
+		}
+	}
+	return
+}
+
+// ValidateTickerResponseBody runs the validations defined on TickerResponseBody
+func ValidateTickerResponseBody(body *TickerResponseBody) (err error) {
 	if body.Symbol == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("symbol", "body"))
 	}
-	if body.OnHand == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("on_hand", "body"))
+	return
+}
+
+// ValidateOHLCVResponseBody runs the validations defined on OHLCVResponseBody
+func ValidateOHLCVResponseBody(body *OHLCVResponseBody) (err error) {
+	if body.Open == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("open", "body"))
 	}
-	if body.CreatedAt != nil {
-		err = goa.MergeErrors(err, goa.ValidateFormat("body.created_at", *body.CreatedAt, goa.FormatDateTime))
+	if body.High == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("high", "body"))
+	}
+	if body.Low == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("low", "body"))
+	}
+	if body.Close == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("close", "body"))
+	}
+	if body.Volume == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("volume", "body"))
+	}
+	if body.Change == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("change", "body"))
+	}
+	if body.ChangePercent == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("change_percent", "body"))
+	}
+	if body.LastUpdatedAt == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("last_updated_at", "body"))
 	}
 	return
 }

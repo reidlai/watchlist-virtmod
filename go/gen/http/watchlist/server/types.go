@@ -12,98 +12,131 @@ import (
 	goa "goa.design/goa/v3/pkg"
 )
 
-// AddRequestBody is the type of the "watchlist" service "add" endpoint HTTP
-// request body.
-type AddRequestBody struct {
+// AddWatchlistTickerRequestBody is the type of the "watchlist" service
+// "addWatchlistTicker" endpoint HTTP request body.
+type AddWatchlistTickerRequestBody struct {
+	// Stock Symbol
 	Symbol *string `form:"symbol,omitempty" json:"symbol,omitempty" xml:"symbol,omitempty"`
-	OnHand *bool   `form:"on_hand,omitempty" json:"on_hand,omitempty" xml:"on_hand,omitempty"`
+	// Stock Name
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+	// Exchange MIC Code
+	ExchangeMic *string `form:"exchange_mic,omitempty" json:"exchange_mic,omitempty" xml:"exchange_mic,omitempty"`
 }
 
-// ListResponseBody is the type of the "watchlist" service "list" endpoint HTTP
-// response body.
-type ListResponseBody []*TickerItemResponse
+// GetWatchlistResponseBody is the type of the "watchlist" service
+// "getWatchlist" endpoint HTTP response body.
+type GetWatchlistResponseBody struct {
+	Tickers []*TickerItemResponseBody `form:"tickers" json:"tickers" xml:"tickers"`
+}
 
-// AddResponseBody is the type of the "watchlist" service "add" endpoint HTTP
-// response body.
-type AddResponseBody struct {
+// AddWatchlistTickerResponseBody is the type of the "watchlist" service
+// "addWatchlistTicker" endpoint HTTP response body.
+type AddWatchlistTickerResponseBody struct {
+	// Ticker information
+	Ticker *TickerResponseBody `form:"ticker" json:"ticker" xml:"ticker"`
+	// latest OHLCV record
+	Ohlcv *OHLCVResponseBody `form:"ohlcv" json:"ohlcv" xml:"ohlcv"`
+}
+
+// TickerItemResponseBody is used to define fields on response body types.
+type TickerItemResponseBody struct {
+	// Ticker information
+	Ticker *TickerResponseBody `form:"ticker" json:"ticker" xml:"ticker"`
+	// latest OHLCV record
+	Ohlcv *OHLCVResponseBody `form:"ohlcv" json:"ohlcv" xml:"ohlcv"`
+}
+
+// TickerResponseBody is used to define fields on response body types.
+type TickerResponseBody struct {
 	// Stock Symbol
 	Symbol string `form:"symbol" json:"symbol" xml:"symbol"`
-	// Whether user holds the stock
-	OnHand bool `form:"on_hand" json:"on_hand" xml:"on_hand"`
-	// Creation timestamp
-	CreatedAt *string `form:"created_at,omitempty" json:"created_at,omitempty" xml:"created_at,omitempty"`
+	// Stock Name
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+	// Exchange MIC Code
+	ExchangeMic *string `form:"exchange_mic,omitempty" json:"exchange_mic,omitempty" xml:"exchange_mic,omitempty"`
 }
 
-// TickerItemResponse is used to define fields on response body types.
-type TickerItemResponse struct {
-	// Stock Symbol
-	Symbol string `form:"symbol" json:"symbol" xml:"symbol"`
-	// Whether user holds the stock
-	OnHand bool `form:"on_hand" json:"on_hand" xml:"on_hand"`
-	// Creation timestamp
-	CreatedAt *string `form:"created_at,omitempty" json:"created_at,omitempty" xml:"created_at,omitempty"`
+// OHLCVResponseBody is used to define fields on response body types.
+type OHLCVResponseBody struct {
+	// Open Price
+	Open float64 `form:"open" json:"open" xml:"open"`
+	// High Price
+	High float64 `form:"high" json:"high" xml:"high"`
+	// Low Price
+	Low float64 `form:"low" json:"low" xml:"low"`
+	// Close Price
+	Close float64 `form:"close" json:"close" xml:"close"`
+	// Volume
+	Volume float64 `form:"volume" json:"volume" xml:"volume"`
+	// Price Change
+	Change float64 `form:"change" json:"change" xml:"change"`
+	// Price Change Percent
+	ChangePercent float64 `form:"change_percent" json:"change_percent" xml:"change_percent"`
+	// Last Update Timestamp (Unix)
+	LastUpdatedAt int64 `form:"last_updated_at" json:"last_updated_at" xml:"last_updated_at"`
 }
 
-// NewListResponseBody builds the HTTP response body from the result of the
-// "list" endpoint of the "watchlist" service.
-func NewListResponseBody(res []*watchlist.TickerItem) ListResponseBody {
-	body := make([]*TickerItemResponse, len(res))
-	for i, val := range res {
-		if val == nil {
-			body[i] = nil
-			continue
+// NewGetWatchlistResponseBody builds the HTTP response body from the result of
+// the "getWatchlist" endpoint of the "watchlist" service.
+func NewGetWatchlistResponseBody(res *watchlist.Watchlist) *GetWatchlistResponseBody {
+	body := &GetWatchlistResponseBody{}
+	if res.Tickers != nil {
+		body.Tickers = make([]*TickerItemResponseBody, len(res.Tickers))
+		for i, val := range res.Tickers {
+			if val == nil {
+				body.Tickers[i] = nil
+				continue
+			}
+			body.Tickers[i] = marshalWatchlistTickerItemToTickerItemResponseBody(val)
 		}
-		body[i] = marshalWatchlistTickerItemToTickerItemResponse(val)
+	} else {
+		body.Tickers = []*TickerItemResponseBody{}
 	}
 	return body
 }
 
-// NewAddResponseBody builds the HTTP response body from the result of the
-// "add" endpoint of the "watchlist" service.
-func NewAddResponseBody(res *watchlist.TickerItem) *AddResponseBody {
-	body := &AddResponseBody{
-		Symbol:    res.Symbol,
-		OnHand:    res.OnHand,
-		CreatedAt: res.CreatedAt,
+// NewAddWatchlistTickerResponseBody builds the HTTP response body from the
+// result of the "addWatchlistTicker" endpoint of the "watchlist" service.
+func NewAddWatchlistTickerResponseBody(res *watchlist.TickerItem) *AddWatchlistTickerResponseBody {
+	body := &AddWatchlistTickerResponseBody{}
+	if res.Ticker != nil {
+		body.Ticker = marshalWatchlistTickerToTickerResponseBody(res.Ticker)
+	}
+	if res.Ohlcv != nil {
+		body.Ohlcv = marshalWatchlistOHLCVToOHLCVResponseBody(res.Ohlcv)
 	}
 	return body
 }
 
-// NewListPayload builds a watchlist service list endpoint payload.
-func NewListPayload(userID string) *watchlist.ListPayload {
-	v := &watchlist.ListPayload{}
-	v.UserID = userID
-
-	return v
-}
-
-// NewAddPayload builds a watchlist service add endpoint payload.
-func NewAddPayload(body *AddRequestBody, userID string) *watchlist.AddPayload {
-	v := &watchlist.AddPayload{
-		Symbol: *body.Symbol,
-		OnHand: *body.OnHand,
+// NewAddWatchlistTickerPayload builds a watchlist service addWatchlistTicker
+// endpoint payload.
+func NewAddWatchlistTickerPayload(body *AddWatchlistTickerRequestBody) *watchlist.AddWatchlistTickerPayload {
+	v := &watchlist.Ticker{
+		Symbol:      *body.Symbol,
+		Name:        body.Name,
+		ExchangeMic: body.ExchangeMic,
 	}
-	v.UserID = userID
+	res := &watchlist.AddWatchlistTickerPayload{
+		Ticker: v,
+	}
 
-	return v
+	return res
 }
 
-// NewRemovePayload builds a watchlist service remove endpoint payload.
-func NewRemovePayload(symbol string, userID string) *watchlist.RemovePayload {
-	v := &watchlist.RemovePayload{}
+// NewRemoveWatchlistTickerPayload builds a watchlist service
+// removeWatchlistTicker endpoint payload.
+func NewRemoveWatchlistTickerPayload(symbol string) *watchlist.RemoveWatchlistTickerPayload {
+	v := &watchlist.RemoveWatchlistTickerPayload{}
 	v.Symbol = symbol
-	v.UserID = userID
 
 	return v
 }
 
-// ValidateAddRequestBody runs the validations defined on AddRequestBody
-func ValidateAddRequestBody(body *AddRequestBody) (err error) {
+// ValidateAddWatchlistTickerRequestBody runs the validations defined on
+// AddWatchlistTickerRequestBody
+func ValidateAddWatchlistTickerRequestBody(body *AddWatchlistTickerRequestBody) (err error) {
 	if body.Symbol == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("symbol", "body"))
-	}
-	if body.OnHand == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("on_hand", "body"))
 	}
 	return
 }

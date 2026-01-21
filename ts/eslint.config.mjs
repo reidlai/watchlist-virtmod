@@ -5,11 +5,13 @@ export default tseslint.config(
     eslint.configs.recommended,
     ...tseslint.configs.recommended,
     {
+        ignores: ["dist/**", "node_modules/**"]
+    },
+    {
         rules: {
             '@typescript-eslint/no-explicit-any': 'warn',
             '@typescript-eslint/no-unused-vars': 'warn'
-        },
-        ignores: ["dist/**"]
+        }
     },
     {
         files: ["**/*.test.ts", "src/test-utils.ts"],

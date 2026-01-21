@@ -16,16 +16,15 @@ import (
 
 	watchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/watchlist"
 	goahttp "goa.design/goa/v3/http"
-	goa "goa.design/goa/v3/pkg"
 )
 
-// BuildListRequest instantiates a HTTP request object with method and path set
-// to call the "watchlist" service "list" endpoint
-func (c *Client) BuildListRequest(ctx context.Context, v any) (*http.Request, error) {
-	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: ListWatchlistPath()}
+// BuildGetWatchlistRequest instantiates a HTTP request object with method and
+// path set to call the "watchlist" service "getWatchlist" endpoint
+func (c *Client) BuildGetWatchlistRequest(ctx context.Context, v any) (*http.Request, error) {
+	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: GetWatchlistWatchlistPath()}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
-		return nil, goahttp.ErrInvalidURL("watchlist", "list", u.String(), err)
+		return nil, goahttp.ErrInvalidURL("watchlist", "getWatchlist", u.String(), err)
 	}
 	if ctx != nil {
 		req = req.WithContext(ctx)
@@ -34,26 +33,17 @@ func (c *Client) BuildListRequest(ctx context.Context, v any) (*http.Request, er
 	return req, nil
 }
 
-// EncodeListRequest returns an encoder for requests sent to the watchlist list
-// server.
-func EncodeListRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, any) error {
-	return func(req *http.Request, v any) error {
-		p, ok := v.(*watchlist.ListPayload)
-		if !ok {
-			return goahttp.ErrInvalidType("watchlist", "list", "*watchlist.ListPayload", v)
-		}
-		{
-			head := p.UserID
-			req.Header.Set("X-User-ID", head)
-		}
-		return nil
-	}
-}
-
-// DecodeListResponse returns a decoder for responses returned by the watchlist
-// list endpoint. restoreBody controls whether the response body should be
-// restored after having been read.
-func DecodeListResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
+// DecodeGetWatchlistResponse returns a decoder for responses returned by the
+// watchlist getWatchlist endpoint. restoreBody controls whether the response
+// body should be restored after having been read.
+// DecodeGetWatchlistResponse may return the following errors:
+//   - "bad_request" (type watchlist.BadRequest): http.StatusBadRequest
+//   - "database_unavailable" (type watchlist.DatabaseUnavailable): http.StatusServiceUnavailable
+//   - "internal_error" (type watchlist.InternalError): http.StatusInternalServerError
+//   - "permission_denied" (type watchlist.PermissionDenied): http.StatusForbidden
+//   - "upstream_error" (type watchlist.UpstreamError): http.StatusBadGateway
+//   - error: internal error
+func DecodeGetWatchlistResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
 			b, err := io.ReadAll(resp.Body)
@@ -70,39 +60,84 @@ func DecodeListResponse(decoder func(*http.Response) goahttp.Decoder, restoreBod
 		switch resp.StatusCode {
 		case http.StatusOK:
 			var (
-				body ListResponseBody
+				body GetWatchlistResponseBody
 				err  error
 			)
 			err = decoder(resp).Decode(&body)
 			if err != nil {
-				return nil, goahttp.ErrDecodingError("watchlist", "list", err)
+				return nil, goahttp.ErrDecodingError("watchlist", "getWatchlist", err)
 			}
-			for _, e := range body {
-				if e != nil {
-					if err2 := ValidateTickerItemResponse(e); err2 != nil {
-						err = goa.MergeErrors(err, err2)
-					}
-				}
-			}
+			err = ValidateGetWatchlistResponseBody(&body)
 			if err != nil {
-				return nil, goahttp.ErrValidationError("watchlist", "list", err)
+				return nil, goahttp.ErrValidationError("watchlist", "getWatchlist", err)
 			}
-			res := NewListTickerItemOK(body)
+			res := NewGetWatchlistWatchlistOK(&body)
 			return res, nil
+		case http.StatusBadRequest:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "getWatchlist", err)
+			}
+			return nil, NewGetWatchlistBadRequest(body)
+		case http.StatusServiceUnavailable:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "getWatchlist", err)
+			}
+			return nil, NewGetWatchlistDatabaseUnavailable(body)
+		case http.StatusInternalServerError:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "getWatchlist", err)
+			}
+			return nil, NewGetWatchlistInternalError(body)
+		case http.StatusForbidden:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "getWatchlist", err)
+			}
+			return nil, NewGetWatchlistPermissionDenied(body)
+		case http.StatusBadGateway:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "getWatchlist", err)
+			}
+			return nil, NewGetWatchlistUpstreamError(body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
-			return nil, goahttp.ErrInvalidResponse("watchlist", "list", resp.StatusCode, string(body))
+			return nil, goahttp.ErrInvalidResponse("watchlist", "getWatchlist", resp.StatusCode, string(body))
 		}
 	}
 }
 
-// BuildAddRequest instantiates a HTTP request object with method and path set
-// to call the "watchlist" service "add" endpoint
-func (c *Client) BuildAddRequest(ctx context.Context, v any) (*http.Request, error) {
-	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: AddWatchlistPath()}
+// BuildAddWatchlistTickerRequest instantiates a HTTP request object with
+// method and path set to call the "watchlist" service "addWatchlistTicker"
+// endpoint
+func (c *Client) BuildAddWatchlistTickerRequest(ctx context.Context, v any) (*http.Request, error) {
+	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: AddWatchlistTickerWatchlistPath()}
 	req, err := http.NewRequest("POST", u.String(), nil)
 	if err != nil {
-		return nil, goahttp.ErrInvalidURL("watchlist", "add", u.String(), err)
+		return nil, goahttp.ErrInvalidURL("watchlist", "addWatchlistTicker", u.String(), err)
 	}
 	if ctx != nil {
 		req = req.WithContext(ctx)
@@ -111,30 +146,34 @@ func (c *Client) BuildAddRequest(ctx context.Context, v any) (*http.Request, err
 	return req, nil
 }
 
-// EncodeAddRequest returns an encoder for requests sent to the watchlist add
-// server.
-func EncodeAddRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, any) error {
+// EncodeAddWatchlistTickerRequest returns an encoder for requests sent to the
+// watchlist addWatchlistTicker server.
+func EncodeAddWatchlistTickerRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, any) error {
 	return func(req *http.Request, v any) error {
-		p, ok := v.(*watchlist.AddPayload)
+		p, ok := v.(*watchlist.AddWatchlistTickerPayload)
 		if !ok {
-			return goahttp.ErrInvalidType("watchlist", "add", "*watchlist.AddPayload", v)
+			return goahttp.ErrInvalidType("watchlist", "addWatchlistTicker", "*watchlist.AddWatchlistTickerPayload", v)
 		}
-		{
-			head := p.UserID
-			req.Header.Set("X-User-ID", head)
-		}
-		body := NewAddRequestBody(p)
+		body := NewAddWatchlistTickerRequestBody(p)
 		if err := encoder(req).Encode(&body); err != nil {
-			return goahttp.ErrEncodingError("watchlist", "add", err)
+			return goahttp.ErrEncodingError("watchlist", "addWatchlistTicker", err)
 		}
 		return nil
 	}
 }
 
-// DecodeAddResponse returns a decoder for responses returned by the watchlist
-// add endpoint. restoreBody controls whether the response body should be
-// restored after having been read.
-func DecodeAddResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
+// DecodeAddWatchlistTickerResponse returns a decoder for responses returned by
+// the watchlist addWatchlistTicker endpoint. restoreBody controls whether the
+// response body should be restored after having been read.
+// DecodeAddWatchlistTickerResponse may return the following errors:
+//   - "bad_request" (type watchlist.BadRequest): http.StatusBadRequest
+//   - "database_unavailable" (type watchlist.DatabaseUnavailable): http.StatusServiceUnavailable
+//   - "internal_error" (type watchlist.InternalError): http.StatusInternalServerError
+//   - "permission_denied" (type watchlist.PermissionDenied): http.StatusForbidden
+//   - "ticker_already_exists" (type watchlist.TickerAlreadyExists): http.StatusConflict
+//   - "upstream_error" (type watchlist.UpstreamError): http.StatusBadGateway
+//   - error: internal error
+func DecodeAddWatchlistTickerResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
 			b, err := io.ReadAll(resp.Body)
@@ -149,45 +188,106 @@ func DecodeAddResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody
 			defer resp.Body.Close()
 		}
 		switch resp.StatusCode {
-		case http.StatusOK:
+		case http.StatusCreated:
 			var (
-				body AddResponseBody
+				body AddWatchlistTickerResponseBody
 				err  error
 			)
 			err = decoder(resp).Decode(&body)
 			if err != nil {
-				return nil, goahttp.ErrDecodingError("watchlist", "add", err)
+				return nil, goahttp.ErrDecodingError("watchlist", "addWatchlistTicker", err)
 			}
-			err = ValidateAddResponseBody(&body)
+			err = ValidateAddWatchlistTickerResponseBody(&body)
 			if err != nil {
-				return nil, goahttp.ErrValidationError("watchlist", "add", err)
+				return nil, goahttp.ErrValidationError("watchlist", "addWatchlistTicker", err)
 			}
-			res := NewAddTickerItemOK(&body)
+			res := NewAddWatchlistTickerTickerItemCreated(&body)
 			return res, nil
+		case http.StatusBadRequest:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "addWatchlistTicker", err)
+			}
+			return nil, NewAddWatchlistTickerBadRequest(body)
+		case http.StatusServiceUnavailable:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "addWatchlistTicker", err)
+			}
+			return nil, NewAddWatchlistTickerDatabaseUnavailable(body)
+		case http.StatusInternalServerError:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "addWatchlistTicker", err)
+			}
+			return nil, NewAddWatchlistTickerInternalError(body)
+		case http.StatusForbidden:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "addWatchlistTicker", err)
+			}
+			return nil, NewAddWatchlistTickerPermissionDenied(body)
+		case http.StatusConflict:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "addWatchlistTicker", err)
+			}
+			return nil, NewAddWatchlistTickerTickerAlreadyExists(body)
+		case http.StatusBadGateway:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "addWatchlistTicker", err)
+			}
+			return nil, NewAddWatchlistTickerUpstreamError(body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
-			return nil, goahttp.ErrInvalidResponse("watchlist", "add", resp.StatusCode, string(body))
+			return nil, goahttp.ErrInvalidResponse("watchlist", "addWatchlistTicker", resp.StatusCode, string(body))
 		}
 	}
 }
 
-// BuildRemoveRequest instantiates a HTTP request object with method and path
-// set to call the "watchlist" service "remove" endpoint
-func (c *Client) BuildRemoveRequest(ctx context.Context, v any) (*http.Request, error) {
+// BuildRemoveWatchlistTickerRequest instantiates a HTTP request object with
+// method and path set to call the "watchlist" service "removeWatchlistTicker"
+// endpoint
+func (c *Client) BuildRemoveWatchlistTickerRequest(ctx context.Context, v any) (*http.Request, error) {
 	var (
 		symbol string
 	)
 	{
-		p, ok := v.(*watchlist.RemovePayload)
+		p, ok := v.(*watchlist.RemoveWatchlistTickerPayload)
 		if !ok {
-			return nil, goahttp.ErrInvalidType("watchlist", "remove", "*watchlist.RemovePayload", v)
+			return nil, goahttp.ErrInvalidType("watchlist", "removeWatchlistTicker", "*watchlist.RemoveWatchlistTickerPayload", v)
 		}
 		symbol = p.Symbol
 	}
-	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: RemoveWatchlistPath(symbol)}
+	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: RemoveWatchlistTickerWatchlistPath(symbol)}
 	req, err := http.NewRequest("DELETE", u.String(), nil)
 	if err != nil {
-		return nil, goahttp.ErrInvalidURL("watchlist", "remove", u.String(), err)
+		return nil, goahttp.ErrInvalidURL("watchlist", "removeWatchlistTicker", u.String(), err)
 	}
 	if ctx != nil {
 		req = req.WithContext(ctx)
@@ -196,26 +296,19 @@ func (c *Client) BuildRemoveRequest(ctx context.Context, v any) (*http.Request, 
 	return req, nil
 }
 
-// EncodeRemoveRequest returns an encoder for requests sent to the watchlist
-// remove server.
-func EncodeRemoveRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, any) error {
-	return func(req *http.Request, v any) error {
-		p, ok := v.(*watchlist.RemovePayload)
-		if !ok {
-			return goahttp.ErrInvalidType("watchlist", "remove", "*watchlist.RemovePayload", v)
-		}
-		{
-			head := p.UserID
-			req.Header.Set("X-User-ID", head)
-		}
-		return nil
-	}
-}
-
-// DecodeRemoveResponse returns a decoder for responses returned by the
-// watchlist remove endpoint. restoreBody controls whether the response body
-// should be restored after having been read.
-func DecodeRemoveResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
+// DecodeRemoveWatchlistTickerResponse returns a decoder for responses returned
+// by the watchlist removeWatchlistTicker endpoint. restoreBody controls
+// whether the response body should be restored after having been read.
+// DecodeRemoveWatchlistTickerResponse may return the following errors:
+//   - "bad_request" (type watchlist.BadRequest): http.StatusBadRequest
+//   - "database_record_locked" (type watchlist.DatabaseRecordLocked): http.StatusConflict
+//   - "database_unavailable" (type watchlist.DatabaseUnavailable): http.StatusServiceUnavailable
+//   - "internal_error" (type watchlist.InternalError): http.StatusInternalServerError
+//   - "not_found" (type watchlist.NotFound): http.StatusNotFound
+//   - "permission_denied" (type watchlist.PermissionDenied): http.StatusForbidden
+//   - "upstream_error" (type watchlist.UpstreamError): http.StatusBadGateway
+//   - error: internal error
+func DecodeRemoveWatchlistTickerResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
 			b, err := io.ReadAll(resp.Body)
@@ -232,20 +325,117 @@ func DecodeRemoveResponse(decoder func(*http.Response) goahttp.Decoder, restoreB
 		switch resp.StatusCode {
 		case http.StatusNoContent:
 			return nil, nil
+		case http.StatusBadRequest:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "removeWatchlistTicker", err)
+			}
+			return nil, NewRemoveWatchlistTickerBadRequest(body)
+		case http.StatusConflict:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "removeWatchlistTicker", err)
+			}
+			return nil, NewRemoveWatchlistTickerDatabaseRecordLocked(body)
+		case http.StatusServiceUnavailable:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "removeWatchlistTicker", err)
+			}
+			return nil, NewRemoveWatchlistTickerDatabaseUnavailable(body)
+		case http.StatusInternalServerError:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "removeWatchlistTicker", err)
+			}
+			return nil, NewRemoveWatchlistTickerInternalError(body)
+		case http.StatusNotFound:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "removeWatchlistTicker", err)
+			}
+			return nil, NewRemoveWatchlistTickerNotFound(body)
+		case http.StatusForbidden:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "removeWatchlistTicker", err)
+			}
+			return nil, NewRemoveWatchlistTickerPermissionDenied(body)
+		case http.StatusBadGateway:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "removeWatchlistTicker", err)
+			}
+			return nil, NewRemoveWatchlistTickerUpstreamError(body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
-			return nil, goahttp.ErrInvalidResponse("watchlist", "remove", resp.StatusCode, string(body))
+			return nil, goahttp.ErrInvalidResponse("watchlist", "removeWatchlistTicker", resp.StatusCode, string(body))
 		}
 	}
 }
 
-// unmarshalTickerItemResponseToWatchlistTickerItem builds a value of type
-// *watchlist.TickerItem from a value of type *TickerItemResponse.
-func unmarshalTickerItemResponseToWatchlistTickerItem(v *TickerItemResponse) *watchlist.TickerItem {
-	res := &watchlist.TickerItem{
-		Symbol:    *v.Symbol,
-		OnHand:    *v.OnHand,
-		CreatedAt: v.CreatedAt,
+// unmarshalTickerItemResponseBodyToWatchlistTickerItem builds a value of type
+// *watchlist.TickerItem from a value of type *TickerItemResponseBody.
+func unmarshalTickerItemResponseBodyToWatchlistTickerItem(v *TickerItemResponseBody) *watchlist.TickerItem {
+	res := &watchlist.TickerItem{}
+	res.Ticker = unmarshalTickerResponseBodyToWatchlistTicker(v.Ticker)
+	res.Ohlcv = unmarshalOHLCVResponseBodyToWatchlistOHLCV(v.Ohlcv)
+
+	return res
+}
+
+// unmarshalTickerResponseBodyToWatchlistTicker builds a value of type
+// *watchlist.Ticker from a value of type *TickerResponseBody.
+func unmarshalTickerResponseBodyToWatchlistTicker(v *TickerResponseBody) *watchlist.Ticker {
+	res := &watchlist.Ticker{
+		Symbol:      *v.Symbol,
+		Name:        v.Name,
+		ExchangeMic: v.ExchangeMic,
+	}
+
+	return res
+}
+
+// unmarshalOHLCVResponseBodyToWatchlistOHLCV builds a value of type
+// *watchlist.OHLCV from a value of type *OHLCVResponseBody.
+func unmarshalOHLCVResponseBodyToWatchlistOHLCV(v *OHLCVResponseBody) *watchlist.OHLCV {
+	res := &watchlist.OHLCV{
+		Open:          *v.Open,
+		High:          *v.High,
+		Low:           *v.Low,
+		Close:         *v.Close,
+		Volume:        *v.Volume,
+		Change:        *v.Change,
+		ChangePercent: *v.ChangePercent,
+		LastUpdatedAt: *v.LastUpdatedAt,
 	}
 
 	return res

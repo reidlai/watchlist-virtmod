@@ -1,6 +1,6 @@
 # Virtual Module Architecture
 
-**Reference**: [`ta-workspace/docs/APPSHELL-ARCHITECTURE.md`](https://github.com/reidlai/ta-workspace/blob/main/docs/APPSHELL-ARCHITECTURE.md)
+**Reference**: [`ta-workspace/docs/APPSHELL-ARCHITECTURE.md`](https://github.com/reidlai/virtual-module-core/blob/main/docs/APPSHELL-ARCHITECTURE.md)
 
 ## Overview
 
@@ -221,8 +221,8 @@ npx @moonrepo/cli run :test
 
 The module produces **no independent artifacts**. It's compiled into:
 
-- `ta-server` binary (Go services embedded)
-- `sv-appshell` bundle (Svelte widgets bundled)
+- `go-server` binary (Go services embedded)
+- `sveltekit-appshell` bundle (Svelte widgets bundled)
 
 ### Release Process
 

@@ -4,7 +4,7 @@ language: "unknown" # Mixed/Polyglot
 
 fileGroups:
   go: ["go/**/*"]
-  svelte: ["svelte/**/*"]
+  sveltekit: ["sveltekit/**/*"]
   ts: ["ts/**/*"]
 
 tasks:
@@ -19,22 +19,43 @@ tasks:
     inputs: ["go/**/*"]
     platform: "system"
 
+  go-lint:
+    command: "go run github.com/golangci/golangci-lint/cmd/golangci-lint@latest run -v ./go/..."
+    inputs: ["go/**/*"]
+    platform: "system"
+
+  go-format:
+    command: "goimports -w ./go"
+    inputs: ["go/**/*"]
+    platform: "system"
+
+  go-run:
+    command: "cd go && go run ."
+    inputs: ["go/**/*"]
+    platform: "system"
+    local: true
+
+  goa-gen:
+    command: "cd go && goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design"
+    inputs: ["go/design/**/*"]
+    platform: "system"
+
   # Svelte Frontend
   svelte-dev:
-    command: "pnpm --dir svelte dev"
+    command: "pnpm --dir sveltekit dev"
     local: true
     platform: "node"
 
   svelte-build:
-    command: "pnpm --dir svelte build"
-    inputs: ["svelte/**/*", "ts/**/*"]
+    command: "pnpm --dir sveltekit build"
+    inputs: ["sveltekit/**/*", "ts/**/*"]
     deps: ["ts-build"] # Depends on shared lib
     platform: "node"
 
   svelte-sync:
-    command: "pnpm --dir svelte run sync"
+    command: "pnpm --dir sveltekit run sync"
 
-    inputs: ["svelte/**/*.svelte", "svelte/**/*.ts", "svelte/**/*.js"]
+    inputs: ["sveltekit/**/*.svelte", "sveltekit/**/*.ts", "sveltekit/**/*.js"]
     platform: "node"
     local: true
     options:
@@ -44,19 +65,36 @@ tasks:
 
 
   svelte-check:
-    command: "pnpm --dir svelte check"
-    inputs: ["svelte/**/*", "ts/**/*"]
+    command: "pnpm --dir sveltekit check"
+    inputs: ["sveltekit/**/*", "ts/**/*"]
     deps: ["svelte-sync"]
     platform: "node"
 
 
   svelte-test:
-    command: "pnpm --dir svelte run test"
+    command: "pnpm --dir sveltekit run test"
     env:
       CI: "true"
-    inputs: ["svelte/**/*", "ts/**/*"]
+    inputs: ["sveltekit/**/*", "ts/**/*"]
     deps: ["ts-build"]
     platform: "node"
+
+  svelte-lint:
+    command: "pnpm --dir sveltekit lint"
+    inputs: ["sveltekit/**/*"]
+    deps: ["svelte-sync"]
+    platform: "node"
+
+  svelte-format:
+    command: "pnpm --dir sveltekit run format"
+    inputs: ["sveltekit/**/*"]
+    platform: "node"
+
+  svelte-storybook:
+    command: "pnpm --dir sveltekit run story:dev"
+    inputs: ["sveltekit/**/*"]
+    platform: "node"
+    local: true
 
   # TypeScript Shared Lib
   ts-build:
@@ -76,6 +114,11 @@ tasks:
     inputs: ["ts/**/*"]
     platform: "node"
 
+  ts-format:
+    command: "pnpm --dir ts run format"
+    inputs: ["ts/**/*"]
+    platform: "node"
+
   # Composite Tasks
   build:
     command: 'echo "Building all components"'
@@ -84,8 +127,15 @@ tasks:
 
   test:
     command: 'echo "Testing all components"'
+    deps: ["go-test", "svelte-test", "ts-test", "svelte-check"]
+    platform: "system"
+
   lint:
     command: 'echo "Linting all components"'
-    deps: ["ts-lint", "svelte-check"]
+    deps: ["go-lint", "ts-lint", "svelte-lint"]
+    platform: "system"
 
+  format:
+    command: 'echo "Formatting all components"'
+    deps: ["go-format", "ts-format", "svelte-format"]
     platform: "system"

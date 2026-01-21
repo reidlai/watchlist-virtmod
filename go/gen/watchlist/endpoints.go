@@ -15,50 +15,49 @@ import (
 
 // Endpoints wraps the "watchlist" service endpoints.
 type Endpoints struct {
-	List   goa.Endpoint
-	Add    goa.Endpoint
-	Remove goa.Endpoint
+	GetWatchlist          goa.Endpoint
+	AddWatchlistTicker    goa.Endpoint
+	RemoveWatchlistTicker goa.Endpoint
 }
 
 // NewEndpoints wraps the methods of the "watchlist" service with endpoints.
 func NewEndpoints(s Service) *Endpoints {
 	return &Endpoints{
-		List:   NewListEndpoint(s),
-		Add:    NewAddEndpoint(s),
-		Remove: NewRemoveEndpoint(s),
+		GetWatchlist:          NewGetWatchlistEndpoint(s),
+		AddWatchlistTicker:    NewAddWatchlistTickerEndpoint(s),
+		RemoveWatchlistTicker: NewRemoveWatchlistTickerEndpoint(s),
 	}
 }
 
 // Use applies the given middleware to all the "watchlist" service endpoints.
 func (e *Endpoints) Use(m func(goa.Endpoint) goa.Endpoint) {
-	e.List = m(e.List)
-	e.Add = m(e.Add)
-	e.Remove = m(e.Remove)
+	e.GetWatchlist = m(e.GetWatchlist)
+	e.AddWatchlistTicker = m(e.AddWatchlistTicker)
+	e.RemoveWatchlistTicker = m(e.RemoveWatchlistTicker)
 }
 
-// NewListEndpoint returns an endpoint function that calls the method "list" of
-// service "watchlist".
-func NewListEndpoint(s Service) goa.Endpoint {
+// NewGetWatchlistEndpoint returns an endpoint function that calls the method
+// "getWatchlist" of service "watchlist".
+func NewGetWatchlistEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
-		p := req.(*ListPayload)
-		return s.List(ctx, p)
+		return s.GetWatchlist(ctx)
 	}
 }
 
-// NewAddEndpoint returns an endpoint function that calls the method "add" of
-// service "watchlist".
-func NewAddEndpoint(s Service) goa.Endpoint {
+// NewAddWatchlistTickerEndpoint returns an endpoint function that calls the
+// method "addWatchlistTicker" of service "watchlist".
+func NewAddWatchlistTickerEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
-		p := req.(*AddPayload)
-		return s.Add(ctx, p)
+		p := req.(*AddWatchlistTickerPayload)
+		return s.AddWatchlistTicker(ctx, p)
 	}
 }
 
-// NewRemoveEndpoint returns an endpoint function that calls the method
-// "remove" of service "watchlist".
-func NewRemoveEndpoint(s Service) goa.Endpoint {
+// NewRemoveWatchlistTickerEndpoint returns an endpoint function that calls the
+// method "removeWatchlistTicker" of service "watchlist".
+func NewRemoveWatchlistTickerEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
-		p := req.(*RemovePayload)
-		return nil, s.Remove(ctx, p)
+		p := req.(*RemoveWatchlistTickerPayload)
+		return nil, s.RemoveWatchlistTicker(ctx, p)
 	}
 }
