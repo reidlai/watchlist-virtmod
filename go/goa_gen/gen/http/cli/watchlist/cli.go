@@ -4,6 +4,7 @@
 //
 // Command:
 // $ goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design
+// --output goa_gen
 
 package cli
 
@@ -13,7 +14,7 @@ import (
 	"net/http"
 	"os"
 
-	watchlistc "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/http/watchlist/client"
+	watchlistc "github.com/reidlai/ta-workspace/modules/watchlist/go/goa_gen/gen/http/watchlist/client"
 	goahttp "goa.design/goa/v3/http"
 	goa "goa.design/goa/v3/pkg"
 )

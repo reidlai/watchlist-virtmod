@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	genwatchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/watchlist"
+	genwatchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/goa_gen/gen/watchlist"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

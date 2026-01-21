@@ -4,8 +4,9 @@
 //
 // Command:
 // $ goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design
+// --output goa_gen
 
-package server
+package client
 
 import (
 	"fmt"

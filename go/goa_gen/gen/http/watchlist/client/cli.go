@@ -4,6 +4,7 @@
 //
 // Command:
 // $ goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design
+// --output goa_gen
 
 package client
 
@@ -11,7 +12,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	watchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/watchlist"
+	watchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/goa_gen/gen/watchlist"
 )
 
 // BuildAddWatchlistTickerPayload builds the payload for the watchlist

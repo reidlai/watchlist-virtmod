@@ -42,6 +42,7 @@ tasks:
       - "go.sum"
     options:
       mergeArgs: "replace"
+      mergeInputs: "replace"
 
   test:
     command: "go test ./..."
@@ -54,10 +55,12 @@ tasks:
       mergeArgs: "replace"
 
   goa-gen:
-    command: "goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design"
+    command: "goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design --output goa_gen"
     inputs:
       - "design/**/*.go"
       - "go.mod"
+    outputs:
+      - "goa_gen/**"
     options:
       mergeArgs: "replace"
 

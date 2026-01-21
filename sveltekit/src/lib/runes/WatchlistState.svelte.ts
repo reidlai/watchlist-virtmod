@@ -1,5 +1,5 @@
 import { watchlistRxService } from "@modules/watchlist-ts";
-import { type ITicker, type IWatchlistSummaryState, type IWatchlistSummaryWidgetStory } from "$lib/widgets/WatchlistSummaryWidget.types"
+import { type ITicker, type IWatchlistSummaryState, type IWatchlistSummaryWidgetStory } from "../widgets/WatchlistSummaryWidget.types"
 
 /**
  * WatchlistState
@@ -15,6 +15,7 @@ class WatchlistState implements IWatchlistSummaryWidgetStory {
 
     constructor() {
         watchlistRxService.watchlist$.subscribe((watchlist) => {
+            if (!watchlist?.tickers) return;
             this.tickers = watchlist.tickers.map((item) => ({
                 name: item.ticker.name ?? "",
                 symbol: item.ticker.symbol,

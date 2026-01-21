@@ -111,7 +111,7 @@ var _ = Service("watchlist", func() {
 			Attribute("symbol", String)
 			Required("symbol")
 		})
-		Error("not_found", "Ticker not found in watchlist")
+		Error("not_found", String, "Ticker not found in watchlist")
 		Error("database_record_locked", String, "Database record locked")
 		HTTP(func() {
 			DELETE("/watchlist/{symbol}")

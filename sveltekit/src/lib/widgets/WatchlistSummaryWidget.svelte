@@ -1,8 +1,8 @@
 <script lang="ts">
-  import * as Card from "$lib/components/ui/card";
+  import * as Card from "../components/ui/card";
   import { type IWatchlistSummaryWidgetStory } from "./WatchlistSummaryWidget.types";
   import { onMount } from "svelte";
-  import { watchlistState } from "$lib/runes/WatchlistState.svelte";
+  import { watchlistState } from "../runes/WatchlistState.svelte";
   // Use the singleton instance directly
   import { goto } from "$app/navigation";
   let {

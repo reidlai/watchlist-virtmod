@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"time"
 
-	genwatchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/watchlist"
+	genwatchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/goa_gen/gen/watchlist"
 )
 
 // watchlist service implementation.
