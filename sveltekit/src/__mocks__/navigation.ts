@@ -1,1 +1,1 @@
-export const goto = () => { };
+export const goto = () => {};

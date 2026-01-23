@@ -4,8 +4,8 @@ language: "unknown" # Mixed/Polyglot
 
 fileGroups:
   go: ["go/**/*"]
-  sveltekit: ["sveltekit/**/*", "!sveltekit/node_modules/**"]
-  ts: ["ts/**/*", "!ts/node_modules/**"]
+  sveltekit: ["sveltekit/**/*", "!sveltekit/node_modules/**", "!sveltekit/dist/**", "**/.*/**"]
+  ts: ["ts/**/*", "!ts/node_modules/**", "**/.*/**"]
 
 tasks:
   # Go Backend
@@ -116,6 +116,7 @@ tasks:
     outputs: []
     platform: "system"
     options:
+      mergeArgs: 'replace'
       mergeInputs: 'replace'
       mergeOutputs: 'replace'
 
@@ -123,6 +124,8 @@ tasks:
     command: 'echo "Testing all components"'
     deps: ["go-test", "svelte-test", "ts-test", "svelte-check"]
     platform: "system"
+    options:
+      mergeArgs: 'replace'
 
   lint:
     command: 'echo "Linting all components"'
@@ -130,6 +133,7 @@ tasks:
     platform: "system"
     inputs: ["moon.yml"]
     options:
+      mergeArgs: 'replace'
       mergeInputs: 'replace'
 
   format:
@@ -138,4 +142,10 @@ tasks:
     platform: "system"
     inputs: ["moon.yml"]
     options:
+      mergeArgs: 'replace'
       mergeInputs: 'replace'
+
+  storybook:
+    deps: ["svelte-storybook"]
+    local: true
+    platform: "system"

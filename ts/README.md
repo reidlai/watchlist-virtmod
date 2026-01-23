@@ -3,10 +3,12 @@
 ## Overview
 
 The watchlist module provides two reactive services using RxJS for state management:
+
 - **WatchlistService** - Manage user's stock watchlist
 - **ExchangeService** - Browse and search stock exchanges
 
 Both services are **framework-agnostic** and work with:
+
 - ✅ Svelte (via `$` syntax)
 - ✅ React (via `useEffect` + `subscribe`)
 - ✅ Angular (via `async` pipe)
@@ -55,8 +57,8 @@ function handleRemove(symbol) {
 ### React Usage
 
 ```tsx
-import { useEffect, useState } from 'react';
-import { watchlistService, type TickerItem } from '@watchlist/services';
+import { useEffect, useState } from "react";
+import { watchlistService, type TickerItem } from "@watchlist/services";
 
 export const WatchlistComponent = () => {
   const [tickers, setTickers] = useState<TickerItem[]>([]);
@@ -76,7 +78,7 @@ export const WatchlistComponent = () => {
   }, []);
 
   const handleAdd = () => {
-    watchlistService.addTicker('AAPL', true).subscribe();
+    watchlistService.addTicker("AAPL", true).subscribe();
   };
 
   const handleRemove = (symbol: string) => {
@@ -88,9 +90,9 @@ export const WatchlistComponent = () => {
 
   return (
     <div>
-      {tickers.map(ticker => (
+      {tickers.map((ticker) => (
         <div key={ticker.symbol}>
-          {ticker.symbol} - {ticker.on_hand ? 'Owned' : 'Watching'}
+          {ticker.symbol} - {ticker.on_hand ? "Owned" : "Watching"}
           <button onClick={() => handleRemove(ticker.symbol)}>Remove</button>
         </div>
       ))}
@@ -105,24 +107,24 @@ export const WatchlistComponent = () => {
 ```typescript
 // Fetch all tickers (returns Observable)
 watchlistService.fetchTickers().subscribe({
-  next: (tickers) => console.log('Tickers:', tickers),
-  error: (err) => console.error('Error:', err),
+  next: (tickers) => console.log("Tickers:", tickers),
+  error: (err) => console.error("Error:", err),
 });
 
 // Add a ticker
-watchlistService.addTicker('GOOGL', false).subscribe({
-  next: (ticker) => console.log('Added:', ticker),
-  error: (err) => console.error('Error:', err),
+watchlistService.addTicker("GOOGL", false).subscribe({
+  next: (ticker) => console.log("Added:", ticker),
+  error: (err) => console.error("Error:", err),
 });
 
 // Remove a ticker
-watchlistService.removeTicker('AAPL').subscribe({
-  next: () => console.log('Removed'),
-  error: (err) => console.error('Error:', err),
+watchlistService.removeTicker("AAPL").subscribe({
+  next: () => console.log("Removed"),
+  error: (err) => console.error("Error:", err),
 });
 
 // Set user ID (triggers re-fetch)
-watchlistService.setUserId('user-456');
+watchlistService.setUserId("user-456");
 
 // Clear error
 watchlistService.clearError();
@@ -170,13 +172,13 @@ function handleSearch() {
 ### React Usage
 
 ```tsx
-import { useEffect, useState } from 'react';
-import { exchangeService, type Exchange } from '@watchlist/services';
+import { useEffect, useState } from "react";
+import { exchangeService, type Exchange } from "@watchlist/services";
 
 export const ExchangeList = () => {
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
   const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const sub = exchangeService.exchanges$.subscribe(setExchanges);
@@ -203,10 +205,12 @@ export const ExchangeList = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        exchanges.map(exchange => (
+        exchanges.map((exchange) => (
           <div key={exchange.operating_mic}>
             <strong>{exchange.display_name}</strong>
-            <p>{exchange.operating_mic} - {exchange.city}, {exchange.country}</p>
+            <p>
+              {exchange.operating_mic} - {exchange.city}, {exchange.country}
+            </p>
           </div>
         ))
       )}
@@ -220,19 +224,19 @@ export const ExchangeList = () => {
 ```typescript
 // Fetch all exchanges
 exchangeService.fetchExchanges().subscribe({
-  next: (exchanges) => console.log('Exchanges:', exchanges),
-  error: (err) => console.error('Error:', err),
+  next: (exchanges) => console.log("Exchanges:", exchanges),
+  error: (err) => console.error("Error:", err),
 });
 
 // Search exchanges by query
-exchangeService.searchExchanges('New York').subscribe({
-  next: (exchanges) => console.log('Results:', exchanges),
+exchangeService.searchExchanges("New York").subscribe({
+  next: (exchanges) => console.log("Results:", exchanges),
 });
 
 // Get specific exchange by MIC
-exchangeService.getExchange('XNYS').subscribe({
-  next: (exchange) => console.log('NYSE:', exchange),
-  error: (err) => console.error('Not found:', err),
+exchangeService.getExchange("XNYS").subscribe({
+  next: (exchange) => console.log("NYSE:", exchange),
+  error: (err) => console.error("Not found:", err),
 });
 
 // Clear error
@@ -250,9 +254,9 @@ console.log(state.exchanges, state.loading, state.error);
 ### Combining Multiple Streams
 
 ```typescript
-import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { watchlistService, exchangeService } from '@watchlist/services';
+import { combineLatest } from "rxjs";
+import { map } from "rxjs/operators";
+import { watchlistService, exchangeService } from "@watchlist/services";
 
 // Combine tickers with exchange data
 const enrichedTickers$ = combineLatest([
@@ -260,32 +264,34 @@ const enrichedTickers$ = combineLatest([
   exchangeService.exchanges$,
 ]).pipe(
   map(([tickers, exchanges]) => {
-    return tickers.map(ticker => ({
+    return tickers.map((ticker) => ({
       ...ticker,
       // Add exchange info if available
-      exchangeInfo: exchanges.find(ex => ex.acronym === ticker.symbol),
+      exchangeInfo: exchanges.find((ex) => ex.acronym === ticker.symbol),
     }));
-  })
+  }),
 );
 
-enrichedTickers$.subscribe(enriched => {
-  console.log('Enriched tickers:', enriched);
+enrichedTickers$.subscribe((enriched) => {
+  console.log("Enriched tickers:", enriched);
 });
 ```
 
 ### Debounced Search
 
 ```typescript
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 
 const searchInput$ = new Subject<string>();
 
-searchInput$.pipe(
-  debounceTime(300),
-  distinctUntilChanged(),
-  switchMap(query => exchangeService.searchExchanges(query))
-).subscribe();
+searchInput$
+  .pipe(
+    debounceTime(300),
+    distinctUntilChanged(),
+    switchMap((query) => exchangeService.searchExchanges(query)),
+  )
+  .subscribe();
 
 // In your component:
 function onSearchInput(value: string) {
@@ -296,17 +302,20 @@ function onSearchInput(value: string) {
 ### Error Recovery
 
 ```typescript
-import { retry, catchError, of } from 'rxjs';
+import { retry, catchError, of } from "rxjs";
 
-watchlistService.fetchTickers().pipe(
-  retry(3), // Retry up to 3 times
-  catchError(err => {
-    console.error('Failed after retries:', err);
-    return of([]); // Return empty array as fallback
-  })
-).subscribe(tickers => {
-  console.log('Tickers:', tickers);
-});
+watchlistService
+  .fetchTickers()
+  .pipe(
+    retry(3), // Retry up to 3 times
+    catchError((err) => {
+      console.error("Failed after retries:", err);
+      return of([]); // Return empty array as fallback
+    }),
+  )
+  .subscribe((tickers) => {
+    console.log("Tickers:", tickers);
+  });
 ```
 
 ---

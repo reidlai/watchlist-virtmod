@@ -43,9 +43,7 @@
   onclick={handleClick}
   onkeydown={handleKeydown}
 >
-  <Card.Root
-    class="@container w-full h-full cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98]"
-  >
+  <Card.Root class="w-full">
     <Card.Header class="pb-2">
       <Card.Description>Number of Tickers in Watchlist</Card.Description>
 
