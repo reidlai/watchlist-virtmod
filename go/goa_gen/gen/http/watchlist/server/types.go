@@ -4,11 +4,12 @@
 //
 // Command:
 // $ goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design
+// --output goa_gen
 
 package server
 
 import (
-	watchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/watchlist"
+	watchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/goa_gen/gen/watchlist"
 	goa "goa.design/goa/v3/pkg"
 )
 

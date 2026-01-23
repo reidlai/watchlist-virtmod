@@ -1,6 +1,6 @@
 packages:
-  - "sveltekit"
   - "ts"
+  - "sveltekit"
 
 onlyBuiltDependencies:
   - "virtual-module-core"

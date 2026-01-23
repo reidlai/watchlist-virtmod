@@ -9,7 +9,7 @@ const config = {
     adapter: adapter(),
     alias: {
       "@ui": "src/lib/components/ui",
-      "@modules/portfolio-ts": "../ts/src",      
+      "@modules/watchlist-ts": "../ts/src",
     },
   },
 };

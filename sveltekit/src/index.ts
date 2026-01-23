@@ -3,10 +3,10 @@ import WatchlistSummaryWidget from "./lib/widgets/WatchlistSummaryWidget.svelte"
 
 /**
  * Watchlist Virtual Module Bundle
- * 
+ *
  * This module provides widgets for viewing watchlist summary and browsing exchanges.
  * All widgets integrate with RxJS services backed by Go APIs.
- * 
+ *
  * Routes are now handled by SvelteKit 2 routing in src/routes/
  */
 const bundle: IModuleBundle = {
@@ -19,7 +19,6 @@ const bundle: IModuleBundle = {
       location: "dashboard",
       size: "small",
     },
-
   ],
 };
 

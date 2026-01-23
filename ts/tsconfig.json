@@ -8,11 +8,6 @@
     "outDir": "./dist",
     "skipLibCheck": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "**/*.test.ts",
-    "src/test-utils.ts"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["**/*.test.ts", "src/test-utils.ts"]
 }

@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"time"
 
-	genwatchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/gen/watchlist"
+	genwatchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/goa_gen/gen/watchlist"
 )
 
 // watchlist service implementation.
@@ -27,7 +27,7 @@ func NewWatchlist(logger *slog.Logger) genwatchlist.Service {
 // TODO: Implement real persistence layer (database/repository)
 func (s *watchlistsrvc) GetWatchlist(ctx context.Context) (res *genwatchlist.Watchlist, err error) {
 	s.logger.InfoContext(ctx, "watchlist.getWatchlist")
-	
+
 	// Return mock data for now
 	return &genwatchlist.Watchlist{
 		Tickers: []*genwatchlist.TickerItem{},
@@ -38,7 +38,7 @@ func (s *watchlistsrvc) GetWatchlist(ctx context.Context) (res *genwatchlist.Wat
 // TODO: Implement real persistence layer (database/repository)
 func (s *watchlistsrvc) AddWatchlistTicker(ctx context.Context, p *genwatchlist.AddWatchlistTickerPayload) (res *genwatchlist.TickerItem, err error) {
 	s.logger.InfoContext(ctx, "watchlist.addWatchlistTicker", "symbol", p.Ticker.Symbol)
-	
+
 	// Return mock response
 	now := time.Now().UnixMilli()
 	return &genwatchlist.TickerItem{
@@ -60,7 +60,7 @@ func (s *watchlistsrvc) AddWatchlistTicker(ctx context.Context, p *genwatchlist.
 // TODO: Implement real persistence layer (database/repository)
 func (s *watchlistsrvc) RemoveWatchlistTicker(ctx context.Context, p *genwatchlist.RemoveWatchlistTickerPayload) (err error) {
 	s.logger.InfoContext(ctx, "watchlist.removeWatchlistTicker", "symbol", p.Symbol)
-	
+
 	// Return success for now
 	return nil
 }

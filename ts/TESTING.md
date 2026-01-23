@@ -51,7 +51,7 @@ Each test is isolated using `beforeEach`:
 beforeEach(() => {
   // Reset singleton instance
   (WatchlistService as any).instance = undefined;
-  
+
   // Clear all mocks
   vi.clearAllMocks();
 });
@@ -110,7 +110,7 @@ describe("WatchlistService", () => {
 
     // VERIFY: Check the result
     expect(result).toEqual(mockTickers);
-    
+
     // VERIFY: Ensure fetch was called correctly
     expectFetchCalledWith("/watchlist", {
       headers: { "X-User-ID": "demo-user" },
@@ -160,6 +160,7 @@ npm run test -- --coverage
 ```
 
 This generates a coverage report showing:
+
 - Line coverage
 - Branch coverage
 - Function coverage
@@ -174,9 +175,9 @@ This generates a coverage report showing:
 ```typescript
 it("should call fetch with correct params", () => {
   mockFetchSuccess([]);
-  
+
   service.fetchTickers().subscribe();
-  
+
   // See all calls to fetch
   console.log((global.fetch as any).mock.calls);
 });
@@ -187,10 +188,10 @@ it("should call fetch with correct params", () => {
 ```typescript
 it("should handle errors", () => {
   mockFetchError(500, "Error");
-  
+
   // Check how many times fetch was called
   expect(global.fetch).toHaveBeenCalledTimes(1);
-  
+
   // Check what it was called with
   expect(global.fetch).toHaveBeenCalledWith("/watchlist", ...);
 });
@@ -213,12 +214,14 @@ it("should handle errors", () => {
 ## Anti-Patterns to Avoid
 
 ❌ **Don't make real HTTP calls**
+
 ```typescript
 // BAD - Makes real network call
 await fetch("/api/watchlist");
 ```
 
 ✅ **Do use mocks**
+
 ```typescript
 // GOOD - Mocked, no network call
 mockFetchSuccess(mockData);
@@ -226,15 +229,21 @@ await firstValueFrom(service.fetchTickers());
 ```
 
 ❌ **Don't share state between tests**
+
 ```typescript
 // BAD - Shared service instance
 const service = WatchlistService.getInstance();
 
-it("test 1", () => { /* uses shared service */ });
-it("test 2", () => { /* uses shared service */ });
+it("test 1", () => {
+  /* uses shared service */
+});
+it("test 2", () => {
+  /* uses shared service */
+});
 ```
 
 ✅ **Do reset state in beforeEach**
+
 ```typescript
 // GOOD - Fresh instance per test
 beforeEach(() => {

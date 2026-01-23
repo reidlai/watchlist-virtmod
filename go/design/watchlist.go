@@ -56,7 +56,6 @@ var Watchlist = Type("Watchlist", func() {
 	Required("tickers")
 })
 
-
 var _ = Service("watchlist", func() {
 	Description("Manage user watchlist")
 
@@ -73,11 +72,11 @@ var _ = Service("watchlist", func() {
 	 * Module-levle highest level HTTP Response
 	 */
 	HTTP(func() {
-		Response("internal_error", StatusInternalServerError) // HTTP 500
-		Response("bad_request", StatusBadRequest) // HTTP 400
-		Response("upstream_error", StatusBadGateway) // HTTP 502
+		Response("internal_error", StatusInternalServerError)      // HTTP 500
+		Response("bad_request", StatusBadRequest)                  // HTTP 400
+		Response("upstream_error", StatusBadGateway)               // HTTP 502
 		Response("database_unavailable", StatusServiceUnavailable) // HTTP 503
-		Response("permission_denied", StatusForbidden) // HTTP 403
+		Response("permission_denied", StatusForbidden)             // HTTP 403
 	})
 
 	/**
@@ -111,13 +110,13 @@ var _ = Service("watchlist", func() {
 			Attribute("symbol", String)
 			Required("symbol")
 		})
-		Error("not_found", "Ticker not found in watchlist")
+		Error("not_found", String, "Ticker not found in watchlist")
 		Error("database_record_locked", String, "Database record locked")
 		HTTP(func() {
 			DELETE("/watchlist/{symbol}")
-			Response(StatusNoContent) // HTTP 204
-			Response("not_found", StatusNotFound) // HTTP 404
-			Response("database_record_locked", StatusConflict) // HTTP 409			
+			Response(StatusNoContent)                          // HTTP 204
+			Response("not_found", StatusNotFound)              // HTTP 404
+			Response("database_record_locked", StatusConflict) // HTTP 409
 		})
 	})
 })

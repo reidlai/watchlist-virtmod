@@ -1,8 +1,8 @@
 <script lang="ts">
-  import * as Card from "$lib/components/ui/card";
+  import * as Card from "../components/ui/card";
   import { type IWatchlistSummaryWidgetStory } from "./WatchlistSummaryWidget.types";
   import { onMount } from "svelte";
-  import { watchlistState } from "$lib/runes/WatchlistState.svelte";
+  import { watchlistState } from "../runes/WatchlistState.svelte";
   // Use the singleton instance directly
   import { goto } from "$app/navigation";
   let {
@@ -43,9 +43,7 @@
   onclick={handleClick}
   onkeydown={handleKeydown}
 >
-  <Card.Root
-    class="@container w-full h-full cursor-pointer transition-transform hover:scale-[1.02] active:scale-[0.98]"
-  >
+  <Card.Root class="w-full">
     <Card.Header class="pb-2">
       <Card.Description>Number of Tickers in Watchlist</Card.Description>
 
