@@ -79,3 +79,11 @@ As a user, I want the ticker states to update automatically so that I have the m
 6. Data Scale: [RESOLVED] Up to 50 tickers, vertical scrolling.
 7. Error Handling: [RESOLVED] Toast notification + empty table area.
 8. Component Architecture: [RESOLVED] Use `WatchlistTickerTableWidget` following the module's widget pattern.
+
+### Session 2026-01-25
+
+- Q: What behavior refers to "Service errors MUST be communicated via toast notifications"? → A: Auto-dismiss after 5 seconds with a user-initiated close button.
+- Q: What is the specific constraint for "vertical scrolling"? → A: Responsive viewport-based height (e.g., `max-h-[70vh]`) to ensure focused experience.
+- Q: Are "touch target" sizes considered for sorting headers on mobile devices? → A: Yes, headers MUST meet WCAG AAA (min 44px height) with sort icons always visible on touch devices.
+- Q: What are the specific measurement conditions for the 500ms load time goal? → A: Measured under Standard 4G/LTE/Wi-Fi conditions.
+- Q: What is the focus management behavior for error toasts? → A: Do not move focus automatically; use `role="alert"` for screen reader announcements.

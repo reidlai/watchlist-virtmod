@@ -11,7 +11,7 @@
 
 - **[P]**: Can run in parallel (different files, no dependencies)
 - **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
-- Include exact file paths in descriptions
+- **Include exact file paths in descriptions**
 
 ## Phase 1: Setup (Shared Infrastructure)
 
@@ -40,14 +40,15 @@
 - [ ] T009 [P] [US1] Create Storybook stories in `sveltekit/src/lib/widgets/WatchlistTickerTableWidget.stories.ts`
 - [ ] T010 [US1] Implement `WatchlistTickerTableWidget.svelte` using ShadCN Table components
 - [ ] T011 [US1] Implement Symbol-only sorting logic within the widget or as a component-level derived rune
-- [ ] T012 [US1] Implement empty state message within the widget
+- [ ] T012 [US1] Implement empty state message within the widget ('No tickers tracked')
 - [ ] T013 [US1] Create Unit Tests in `sveltekit/src/lib/widgets/WatchlistTickerTableWidget.test.ts` (Shallow testing)
+- [ ] T014 [US1] Ensure widget supports vertical scrolling (max-h-[70vh]) and mobile responsiveness (overflow-x-auto)
 
 ### Page Integration & BDD
 
-- [ ] T014 [P] [US1] Create BDD feature file `features/15-watchlist_home_page_view.feature` with Gherkin scenarios
-- [ ] T015 [US1] Import and use `WatchlistTickerTableWidget` in `sveltekit/src/routes/+page.svelte`
-- [ ] T016 [US1] Inject `watchlistState.tickers` into the widget via props/binding
+- [ ] T015 [P] [US1] Create BDD feature file `features/15-watchlist_home_page_view.feature` with Gherkin scenarios
+- [ ] T016 [US1] Import and use `WatchlistTickerTableWidget` in `sveltekit/src/routes/+page.svelte`
+- [ ] T017 [US1] Inject `watchlistState.tickers` into the widget via props/binding
 
 **Checkpoint**: User Story 1 (MVP) is fully functional and independently testable at `/`.
 
@@ -57,21 +58,21 @@
 
 ### Tests for User Story 2 (MANDATORY)
 
-- [ ] T017 [P] [US2] Add BDD scenarios for real-time updates and error toasts in `features/15-watchlist_home_page_updates.feature`
-- [ ] T018 [P] [US2] Implement unit tests for error state in `sveltekit/src/lib/runes/WatchlistState.test.ts`
+- [ ] T018 [P] [US2] Add BDD scenarios for real-time updates and error toasts in `features/15-watchlist_home_page_updates.feature`
+- [ ] T019 [P] [US2] Implement unit tests for error state in `sveltekit/src/lib/runes/WatchlistState.test.ts`
 
 ### Implementation for User Story 2
 
-- [ ] T019 [P] [US2] Add reactive effect to watch for `watchlistState.error` and trigger ShadCN `toast` in `sveltekit/src/routes/+page.svelte`
-- [ ] T020 [US2] Ensure the widget properties use Svelte 5's fine-grained reactivity to update when individual ticker properties change
-- [ ] T021 [US2] Add vertical scrolling configuration (CSS max-height/overflow) to the table container within the widget
+- [ ] T020 [P] [US2] Add reactive effect to watch for `watchlistState.error` and trigger ShadCN `toast` in `sveltekit/src/routes/+page.svelte`
+- [ ] T021 [US2] Ensure the widget properties use Svelte 5's fine-grained reactivity to update when individual ticker properties change
+- [ ] T022 [US2] Configure toast component with `role="alert"` and 5s auto-dismiss behavior in `sveltekit/src/routes/+page.svelte`
 
 ## Phase 5: Polish & Cross-Cutting Concerns
 
-- [ ] T022 [P] Optimize widget responsiveness for mobile viewports (overflow-x-auto)
-- [ ] T023 Add loading spinner/state while `watchlistState.loading` is true (inside the widget or page)
-- [ ] T024 Verify performance goals (500ms load, 100ms update latency) via Playwright benchmarks
-- [ ] T025 Final code cleanup and documentation updates
+- [ ] T023 [P] Verify touch targets (44px) on headers for sorting columns on mobile
+- [ ] T024 Add loading spinner/state while `watchlistState.loading` is true (inside the widget or page)
+- [ ] T025 Verify performance goals (500ms load, 100ms update latency) via Playwright benchmarks under 4G throttling
+- [ ] T026 Final code cleanup and documentation updates
 
 ---
 
@@ -81,7 +82,7 @@
 2. **Foundational (Phase 2)**: Depends on Phase 1 completion.
 3. **Widget Implementation (Phase 3)**: Depends on Phase 2 completion.
 4. **Page Integration (Phase 3)**: Depends on Widget implementation completion (T010).
-5. **User Story 2 (P2)**: Depends on Page Integration completion (T015).
+5. **User Story 2 (P2)**: Depends on Page Integration completion (T017).
 6. **Polish**: Depends on US1 completion.
 
 ## Parallel Execution Examples
