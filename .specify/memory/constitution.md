@@ -1,3 +1,17 @@
+<!--
+Sync Impact Report
+- Version change: v1.0.0 -> v1.1.0
+- List of modified principles:
+  - Added Section 12: Virtual Module Development Guidelines
+- Added sections:
+  - ## 12. Virtual Module Development Guidelines
+- Removed sections: None
+- Templates requiring updates:
+  - .specify/templates/plan-template.md (Checked)
+  - .specify/templates/spec-template.md (Checked)
+  - .specify/templates/tasks-template.md (Checked)
+- Follow-up TODOs: None
+-->
 # Constitution
 
 ## Purpose
@@ -129,11 +143,10 @@ AI coding agents MUST:
 - `pre-commit-config.yaml`
 - `features/` (Cucumber specs)
 - `tests/integration/`, `tests/contract/` (integration and contract tests)
-- `apps/**/src/` (Source code for applications)
-- `modules/**/<lang>/src/` (Polyglot source code for modules, where <lang> means different languages like ts, go, rust, etc.)
+- `sveltekit/**/src/` (SvelteKit source code for applications)
+- `ts/**/src/` (RxJS, Zodios API client source code for applications)
+- `go/**/src/` (Goa Design DSL and Go source code for applications)
 - `threat_modelling/` (incl. `reports/`)
-- `deploy/docker/` (Dockerfile, entrypoint.sh, etc.)
-- `local-devsecops.sh` (local pipeline script)
 
 ### 10. Engineering Principles
 
@@ -211,6 +224,16 @@ See `docs/policies/` for:
 - Long-form threat modeling methodology.
 - Detailed runbooks (rollback, paging, DAST tuning).
 
+## 12. Virtual Module Development Guidelines
+
+This project consumes `virtual-module-core` as its foundational framework. All module development MUST adhere to the architecture and standards defined in the following docs from [reidlai/virtual-module-core](https://github.com/reidlai/virtual-module-core):
+
+- [Appshell Architecture](https://github.com/reidlai/virtual-module-core/blob/main/docs/APPSHELL-ARCHITECTURE.md)
+- [Developer Guide](https://github.com/reidlai/virtual-module-core/blob/main/docs/DEVELOPER-GUIDE.md)
+- [Monorepo Reference](https://github.com/reidlai/virtual-module-core/blob/main/docs/MONOREPO-REFERENCE.md)
+- [SDK Reference](https://github.com/reidlai/virtual-module-core/blob/main/docs/SDK-REFERENCE.md)
+- [Virtual Module Architecture](https://github.com/reidlai/virtual-module-core/blob/main/docs/VIRTUAL-MODULE-ARCHITECTURE.md)
+
 ## Governance
 
 This constitution supersedes all other practices. All PRs and reviews MUST verify
@@ -219,3 +242,9 @@ guidance.
 
 Amendments require: documentation, approval from Security Lead + PO + Maintainer,
 `constitution-change` label, and passing CI policy jobs before merge.
+
+---
+
+**Version**: v1.1.0
+**Ratification Date**: 2026-01-20
+**Last Amended Date**: 2026-01-24
