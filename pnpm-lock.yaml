@@ -25,7 +25,7 @@ importers:
         version: 7.8.2
       virtual-module-core:
         specifier: github:reidlai/virtual-module-core
-        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/23c2fd87ffc6bdb5ff333d7ed432f54707e008da
+        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/8505112b28d0edb4e6ba93814b1252b210b86f6f
       zod:
         specifier: ^3.24.1
         version: 3.25.76
@@ -2650,8 +2650,8 @@ packages:
   v8-compile-cache@2.4.0:
     resolution: {integrity: sha512-ocyWc3bAHBB/guyqJQVI5o4BZkPhznPYUG2ea80Gond/BgNWpap8TOmLSeeQG7bnh2KMISxskdADG59j7zruhw==}
 
-  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/23c2fd87ffc6bdb5ff333d7ed432f54707e008da:
-    resolution: {tarball: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/23c2fd87ffc6bdb5ff333d7ed432f54707e008da}
+  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/8505112b28d0edb4e6ba93814b1252b210b86f6f:
+    resolution: {tarball: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/8505112b28d0edb4e6ba93814b1252b210b86f6f}
     version: 0.1.0
 
   vite-node@1.6.1:
@@ -5325,7 +5325,7 @@ snapshots:
 
   v8-compile-cache@2.4.0: {}
 
-  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/23c2fd87ffc6bdb5ff333d7ed432f54707e008da: {}
+  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/8505112b28d0edb4e6ba93814b1252b210b86f6f: {}
 
   vite-node@1.6.1(@types/node@20.19.27)(lightningcss@1.30.2):
     dependencies:

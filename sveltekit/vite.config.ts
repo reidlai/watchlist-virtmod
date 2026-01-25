@@ -11,7 +11,7 @@ export default defineConfig({
       $lib: path.resolve(__dirname, "./src/lib"),
       svelte: "svelte",
       "@ui": path.resolve(__dirname, "./src/lib/components/ui"),
-      "@modules/portfolio-ts": path.resolve(__dirname, "../ts/src"),      
+      "@modules/portfolio-ts": path.resolve(__dirname, "../ts/src"),
     },
   },
 });
