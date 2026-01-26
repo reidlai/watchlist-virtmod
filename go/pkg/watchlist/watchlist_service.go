@@ -3,9 +3,9 @@ package watchlist
 import (
 	"context"
 	"log/slog"
-	"time"
 
 	genwatchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/goa_gen/gen/watchlist"
+	"github.com/reidlai/ta-workspace/modules/watchlist/go/mocks"
 )
 
 // watchlist service implementation.
@@ -17,7 +17,11 @@ type watchlistsrvc struct {
 var _ genwatchlist.Service = (*watchlistsrvc)(nil)
 
 // NewWatchlist returns the watchlist service implementation.
-func NewWatchlist(logger *slog.Logger) genwatchlist.Service {
+// If useMockData is true, it returns the mock service.
+func NewWatchlist(logger *slog.Logger, useMockData bool) genwatchlist.Service {
+	if useMockData {
+		return mocks.NewWatchlistMock(logger)
+	}
 	return &watchlistsrvc{
 		logger: logger,
 	}
@@ -26,41 +30,30 @@ func NewWatchlist(logger *slog.Logger) genwatchlist.Service {
 // GetWatchlist returns mock watchlist data.
 // TODO: Implement real persistence layer (database/repository)
 func (s *watchlistsrvc) GetWatchlist(ctx context.Context) (res *genwatchlist.Watchlist, err error) {
-	s.logger.InfoContext(ctx, "watchlist.getWatchlist")
-
-	// Return mock data for now
-	return &genwatchlist.Watchlist{
+	s.logger.InfoContext(ctx, "GetWatchlist is running...")
+	res = &genwatchlist.Watchlist{
 		Tickers: []*genwatchlist.TickerItem{},
-	}, nil
+	}
+	err = genwatchlist.InternalError("Not implemented")
+	return res, err
 }
 
 // AddWatchlistTicker returns the added ticker with mock OHLCV data.
 // TODO: Implement real persistence layer (database/repository)
-func (s *watchlistsrvc) AddWatchlistTicker(ctx context.Context, p *genwatchlist.AddWatchlistTickerPayload) (res *genwatchlist.TickerItem, err error) {
-	s.logger.InfoContext(ctx, "watchlist.addWatchlistTicker", "symbol", p.Ticker.Symbol)
+func (s *watchlistsrvc) AddWatchlistTicker(ctx context.Context, params *genwatchlist.AddWatchlistTickerPayload) (res *genwatchlist.TickerItem, err error) {
+	s.logger.InfoContext(ctx, "AddWatchlistTicker is running...")
 
-	// Return mock response
-	now := time.Now().UnixMilli()
-	return &genwatchlist.TickerItem{
-		Ticker: p.Ticker,
-		Ohlcv: &genwatchlist.OHLCV{
-			Open:          150.0,
-			High:          155.0,
-			Low:           149.0,
-			Close:         152.0,
-			Volume:        1000000,
-			Change:        2.0,
-			ChangePercent: 1.3,
-			LastUpdatedAt: now,
-		},
-	}, nil
+	res = &genwatchlist.TickerItem{}
+	err = genwatchlist.InternalError("Not implemented")
+
+	return res, err
 }
 
 // RemoveWatchlistTicker acknowledges removal.
 // TODO: Implement real persistence layer (database/repository)
-func (s *watchlistsrvc) RemoveWatchlistTicker(ctx context.Context, p *genwatchlist.RemoveWatchlistTickerPayload) (err error) {
-	s.logger.InfoContext(ctx, "watchlist.removeWatchlistTicker", "symbol", p.Symbol)
+func (s *watchlistsrvc) RemoveWatchlistTicker(ctx context.Context, params *genwatchlist.RemoveWatchlistTickerPayload) (err error) {
+	s.logger.InfoContext(ctx, "RemoveWatchlistTicker is running...")
 
-	// Return success for now
-	return nil
+	err = genwatchlist.InternalError("Not implemented")
+	return err
 }

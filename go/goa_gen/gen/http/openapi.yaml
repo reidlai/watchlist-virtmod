@@ -204,6 +204,10 @@ definitions:
         title: Ticker
         type: object
         properties:
+            currency:
+                type: string
+                description: Currency
+                example: USD
             exchange_mic:
                 type: string
                 description: Exchange MIC Code
@@ -217,6 +221,7 @@ definitions:
                 description: Stock Symbol
                 example: AAPL
         example:
+            currency: USD
             exchange_mic: XNAS
             name: Apple Inc
             symbol: AAPL
@@ -241,6 +246,7 @@ definitions:
                 open: 150
                 volume: 1000000
             ticker:
+                currency: USD
                 exchange_mic: XNAS
                 name: Apple Inc
                 symbol: AAPL
@@ -266,6 +272,7 @@ definitions:
                         open: 150
                         volume: 1000000
                       ticker:
+                        currency: USD
                         exchange_mic: XNAS
                         name: Apple Inc
                         symbol: AAPL
@@ -279,6 +286,7 @@ definitions:
                         open: 150
                         volume: 1000000
                       ticker:
+                        currency: USD
                         exchange_mic: XNAS
                         name: Apple Inc
                         symbol: AAPL
@@ -292,6 +300,7 @@ definitions:
                         open: 150
                         volume: 1000000
                       ticker:
+                        currency: USD
                         exchange_mic: XNAS
                         name: Apple Inc
                         symbol: AAPL
@@ -307,6 +316,7 @@ definitions:
                     open: 150
                     volume: 1000000
                   ticker:
+                    currency: USD
                     exchange_mic: XNAS
                     name: Apple Inc
                     symbol: AAPL
@@ -320,6 +330,7 @@ definitions:
                     open: 150
                     volume: 1000000
                   ticker:
+                    currency: USD
                     exchange_mic: XNAS
                     name: Apple Inc
                     symbol: AAPL
@@ -333,6 +344,7 @@ definitions:
                     open: 150
                     volume: 1000000
                   ticker:
+                    currency: USD
                     exchange_mic: XNAS
                     name: Apple Inc
                     symbol: AAPL

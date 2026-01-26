@@ -420,6 +420,7 @@ func unmarshalTickerResponseBodyToWatchlistTicker(v *TickerResponseBody) *watchl
 		Symbol:      *v.Symbol,
 		Name:        v.Name,
 		ExchangeMic: v.ExchangeMic,
+		Currency:    v.Currency,
 	}
 
 	return res

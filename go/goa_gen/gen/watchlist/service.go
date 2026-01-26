@@ -76,6 +76,8 @@ type Ticker struct {
 	Name *string
 	// Exchange MIC Code
 	ExchangeMic *string
+	// Currency
+	Currency *string
 }
 
 // TickerItem is the result type of the watchlist service addWatchlistTicker

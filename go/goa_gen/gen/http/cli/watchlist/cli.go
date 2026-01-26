@@ -189,7 +189,7 @@ func watchlistAddWatchlistTickerUsage() {
 
 	fmt.Fprintln(os.Stderr)
 	fmt.Fprintln(os.Stderr, "Example:")
-	fmt.Fprintf(os.Stderr, "    %s %s\n", os.Args[0], "watchlist add-watchlist-ticker --body '{\n      \"exchange_mic\": \"XNAS\",\n      \"name\": \"Apple Inc\",\n      \"symbol\": \"AAPL\"\n   }'")
+	fmt.Fprintf(os.Stderr, "    %s %s\n", os.Args[0], "watchlist add-watchlist-ticker --body '{\n      \"currency\": \"USD\",\n      \"exchange_mic\": \"XNAS\",\n      \"name\": \"Apple Inc\",\n      \"symbol\": \"AAPL\"\n   }'")
 }
 
 func watchlistRemoveWatchlistTickerUsage() {

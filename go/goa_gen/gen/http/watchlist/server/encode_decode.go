@@ -310,6 +310,7 @@ func marshalWatchlistTickerToTickerResponseBody(v *watchlist.Ticker) *TickerResp
 		Symbol:      v.Symbol,
 		Name:        v.Name,
 		ExchangeMic: v.ExchangeMic,
+		Currency:    v.Currency,
 	}
 
 	return res

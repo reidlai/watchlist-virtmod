@@ -14,6 +14,9 @@ var Ticker = Type("Ticker", func() {
 	Attribute("exchange_mic", String, "Exchange MIC Code", func() {
 		Example("XNAS")
 	})
+	Attribute("currency", String, "Currency", func() {
+		Example("USD")
+	})
 	Required("symbol")
 })
 
