@@ -29,7 +29,8 @@ describe("Watchlist Home Page", () => {
         const mockData = {
             tickers: [{ symbol: "AAPL", last: 150.00, volume: 100 }],
             loading: false,
-            error: null
+            error: null,
+            usingMockData: true,
         };
 
         // Pass data via props option
@@ -43,7 +44,9 @@ describe("Watchlist Home Page", () => {
     it("should render loading state", () => {
         const mockData = {
             loading: true,
-            tickers: []
+            tickers: [],
+            error: null,
+            usingMockData: true,
         };
 
         render(Page, { props: { data: mockData } });

@@ -11,7 +11,7 @@ export interface IWatchlistSummaryWidgetStory {
 export interface ITicker {
   name?: string;
   symbol?: string;
-  currency?: string;
+  
   last?: number;
   open?: number;
   high?: number;
@@ -19,6 +19,7 @@ export interface ITicker {
   change?: number;
   changePercent?: number;
   volume?: number;
+  currency?: string;
   last_updated_at?: number;
 }
 
