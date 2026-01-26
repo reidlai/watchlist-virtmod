@@ -31,6 +31,6 @@ tasks:
       mergeArgs: "replace"
 
   zodios-gen:
-    command: 'npx openapi-zod-client "../go/gen/http/openapi3.json" -o "./src/lib/api-client.ts"'
+    command: 'npx openapi-zod-client "../go/goa_gen/gen/http/openapi3.json" -o "./src/lib/api-client.ts"'
     deps:
       - "build"

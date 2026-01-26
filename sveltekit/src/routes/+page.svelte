@@ -1,7 +1,28 @@
 <script lang="ts">
-    import WatchlistSummaryWidget from "../lib/widgets/WatchlistSummaryWidget.svelte";
+    import WatchlistTickerTableWidget from "$lib/widgets/WatchlistTickerTableWidget.svelte";
+    import { Toaster } from "$lib/components/ui/sonner";
+
+    import type { PageData } from "./$types";
+
+    interface Props {
+        data: PageData & { loading: boolean };
+    }
+
+    let { data }: Props = $props();
 </script>
 
-<div class="h-64 w-96 p-8">
-    <WatchlistSummaryWidget />
+<div class="container mx-auto py-8 space-y-8">
+    <section>
+        <h1 class="text-3xl font-bold tracking-tight mb-4">Watchlist</h1>
+
+        <!-- Widget Consumption -->
+        <WatchlistTickerTableWidget
+            tickers={data.tickers}
+            loading={data.loading}
+            error={data.error}
+            usingMockData={data.usingMockData}
+        />
+    </section>
 </div>
+
+<Toaster />

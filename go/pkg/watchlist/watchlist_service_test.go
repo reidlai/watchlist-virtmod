@@ -14,25 +14,26 @@ import (
 func TestNewWatchlist(t *testing.T) {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 
-	svc := NewWatchlist(logger)
+	svc := NewWatchlist(logger, true)
 
 	require.NotNil(t, svc, "NewWatchlist should return a non-nil service")
 }
 
 func TestWatchlistService_GetWatchlist(t *testing.T) {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	svc := NewWatchlist(logger)
+	svc := NewWatchlist(logger, true)
 	ctx := context.Background()
 
 	result, err := svc.GetWatchlist(ctx)
 
 	require.NoError(t, err, "GetWatchlist should not return an error")
-	assert.Empty(t, result.Tickers, "GetWatchlist should return empty slice initially (mock)")
+	assert.NotEmpty(t, result.Tickers, "GetWatchlist should return mock tickers")
+	assert.Equal(t, "AAPL", result.Tickers[0].Ticker.Symbol, "First ticker should be AAPL")
 }
 
 func TestWatchlistService_AddWatchlistTicker(t *testing.T) {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	svc := NewWatchlist(logger)
+	svc := NewWatchlist(logger, true)
 	ctx := context.Background()
 
 	symbol := "AAPL"
@@ -54,7 +55,7 @@ func TestWatchlistService_AddWatchlistTicker_Idempotency(t *testing.T) {
 	// Note: The mock implementation currently returns a new object every time and doesn't explicitly handle state.
 	// This test ensures the API call succeeds, but state persistence is TODO in implementation.
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	svc := NewWatchlist(logger)
+	svc := NewWatchlist(logger, true)
 	ctx := context.Background()
 
 	symbol := "AAPL"
@@ -77,7 +78,7 @@ func TestWatchlistService_AddWatchlistTicker_Idempotency(t *testing.T) {
 
 func TestWatchlistService_RemoveWatchlistTicker(t *testing.T) {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	svc := NewWatchlist(logger)
+	svc := NewWatchlist(logger, true)
 	ctx := context.Background()
 
 	symbol := "AAPL"

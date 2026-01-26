@@ -1,7 +1,6 @@
-import { watchlistRxService } from "@modules/watchlist-ts";
+import { watchlistRxService, type WatchlistRxServiceConfig } from "@modules/watchlist-ts";
 import {
   type ITicker,
-  type IWatchlistSummaryState,
   type IWatchlistSummaryWidgetStory,
 } from "../widgets/WatchlistSummaryWidget.types";
 
@@ -11,9 +10,12 @@ import {
  * Provides reactive state and derived values for the user's watchlist.
  */
 class WatchlistState implements IWatchlistSummaryWidgetStory {
+  private static instance: WatchlistState;
+
   tickers = $state<ITicker[]>([]);
-  loading = $state<IWatchlistSummaryState["loading"]>(false);
-  error = $state<IWatchlistSummaryState["error"]>(null);
+  loading = $state<boolean>(false);
+  error = $state<string | null>(null);
+  usingMockData = $state<boolean>(false);
 
   tickerCount = $derived(this.tickers.length);
 
@@ -23,6 +25,7 @@ class WatchlistState implements IWatchlistSummaryWidgetStory {
       this.tickers = watchlist.tickers.map((item) => ({
         name: item.ticker.name ?? "",
         symbol: item.ticker.symbol,
+        currency: item.ticker.currency,
         last: item.ohlcv.close,
         open: item.ohlcv.open,
         high: item.ohlcv.high,
@@ -33,6 +36,7 @@ class WatchlistState implements IWatchlistSummaryWidgetStory {
         last_updated_at: item.ohlcv.last_updated_at,
       }));
       this.loading = false;
+      this.usingMockData = false;
     });
 
     watchlistRxService.error$.subscribe((err) => {
@@ -41,6 +45,21 @@ class WatchlistState implements IWatchlistSummaryWidgetStory {
         this.loading = false;
       }
     });
+
+    watchlistRxService.usingMockData$.subscribe((usingMockData) => {
+      this.usingMockData = usingMockData;
+    });
+  }
+
+  public static getInstance(): WatchlistState {
+    if (!WatchlistState.instance) {
+      WatchlistState.instance = new WatchlistState();
+    }
+    return WatchlistState.instance;
+  }
+
+  public setRxServiceConfig(config: WatchlistRxServiceConfig) {
+    watchlistRxService.setConfig(config);
   }
 
   public getWatchlist() {
@@ -50,4 +69,4 @@ class WatchlistState implements IWatchlistSummaryWidgetStory {
   }
 }
 
-export const watchlistState = new WatchlistState();
+export const watchlistState = WatchlistState.getInstance();

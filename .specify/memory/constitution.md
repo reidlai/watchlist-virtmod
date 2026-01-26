@@ -1,10 +1,10 @@
 <!--
 Sync Impact Report
-- Version change: v1.0.0 -> v1.1.0
+- Version change: v1.1.0 -> v1.2.0
 - List of modified principles:
-  - Added Section 12: Virtual Module Development Guidelines
+  - Added Section 13: ShadCN Component Policy
 - Added sections:
-  - ## 12. Virtual Module Development Guidelines
+  - ## 13. ShadCN Component Policy
 - Removed sections: None
 - Templates requiring updates:
   - .specify/templates/plan-template.md (Checked)
@@ -234,6 +234,15 @@ This project consumes `virtual-module-core` as its foundational framework. All m
 - [SDK Reference](https://github.com/reidlai/virtual-module-core/blob/main/docs/SDK-REFERENCE.md)
 - [Virtual Module Architecture](https://github.com/reidlai/virtual-module-core/blob/main/docs/VIRTUAL-MODULE-ARCHITECTURE.md)
 
+## 13. ShadCN Component Policy
+
+- **Immutable Installation**: ShadCN components installed in `sveltekit/src/lib/components/ui` via the `shadcn-svelte` CLI MUST NOT be manually modified.
+- **Customization**: All customization MUST be achieved via:
+  1. `props` (including `class` overrides via `cn()`)
+  2. Wrapping components in project-specific widgets
+  3. Composing components
+- **Reinstallation**: If a component needs to be reset, it MUST be reinstalled using the `shadcn-svelte add [component] --overwrite` command.
+
 ## Governance
 
 This constitution supersedes all other practices. All PRs and reviews MUST verify
@@ -245,6 +254,6 @@ Amendments require: documentation, approval from Security Lead + PO + Maintainer
 
 ---
 
-**Version**: v1.1.0
+**Version**: v1.2.0
 **Ratification Date**: 2026-01-20
-**Last Amended Date**: 2026-01-24
+**Last Amended Date**: 2026-01-26

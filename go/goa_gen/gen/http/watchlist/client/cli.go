@@ -23,13 +23,14 @@ func BuildAddWatchlistTickerPayload(watchlistAddWatchlistTickerBody string) (*wa
 	{
 		err = json.Unmarshal([]byte(watchlistAddWatchlistTickerBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"exchange_mic\": \"XNAS\",\n      \"name\": \"Apple Inc\",\n      \"symbol\": \"AAPL\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"currency\": \"USD\",\n      \"exchange_mic\": \"XNAS\",\n      \"name\": \"Apple Inc\",\n      \"symbol\": \"AAPL\"\n   }'")
 		}
 	}
 	v := &watchlist.Ticker{
 		Symbol:      body.Symbol,
 		Name:        body.Name,
 		ExchangeMic: body.ExchangeMic,
+		Currency:    body.Currency,
 	}
 	res := &watchlist.AddWatchlistTickerPayload{
 		Ticker: v,

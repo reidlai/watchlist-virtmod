@@ -6,7 +6,7 @@ type ApiClient = typeof api;
  * Confugration Type
  */
 export interface WatchlistRxServiceConfig {
-    apiBaseUrl: string;
+    apiBaseUrl?: string;
     apiClient?: ApiClient;
     usingMockData?: boolean;
 }
@@ -55,14 +55,17 @@ export declare class WatchlistRxService {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -97,14 +100,17 @@ export declare class WatchlistRxService {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -139,14 +145,17 @@ export declare class WatchlistRxService {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -212,14 +221,17 @@ export declare class WatchlistRxService {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -254,14 +266,17 @@ export declare class WatchlistRxService {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -296,14 +311,17 @@ export declare class WatchlistRxService {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;

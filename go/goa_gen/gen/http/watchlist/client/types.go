@@ -22,6 +22,8 @@ type AddWatchlistTickerRequestBody struct {
 	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
 	// Exchange MIC Code
 	ExchangeMic *string `form:"exchange_mic,omitempty" json:"exchange_mic,omitempty" xml:"exchange_mic,omitempty"`
+	// Currency
+	Currency *string `form:"currency,omitempty" json:"currency,omitempty" xml:"currency,omitempty"`
 }
 
 // GetWatchlistResponseBody is the type of the "watchlist" service
@@ -55,6 +57,8 @@ type TickerResponseBody struct {
 	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
 	// Exchange MIC Code
 	ExchangeMic *string `form:"exchange_mic,omitempty" json:"exchange_mic,omitempty" xml:"exchange_mic,omitempty"`
+	// Currency
+	Currency *string `form:"currency,omitempty" json:"currency,omitempty" xml:"currency,omitempty"`
 }
 
 // OHLCVResponseBody is used to define fields on response body types.
@@ -84,6 +88,7 @@ func NewAddWatchlistTickerRequestBody(p *watchlist.AddWatchlistTickerPayload) *A
 		Symbol:      p.Ticker.Symbol,
 		Name:        p.Ticker.Name,
 		ExchangeMic: p.Ticker.ExchangeMic,
+		Currency:    p.Ticker.Currency,
 	}
 	return body
 }

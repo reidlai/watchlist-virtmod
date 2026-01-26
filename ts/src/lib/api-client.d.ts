@@ -30,14 +30,17 @@ export declare const schemas: {
         volume: z.ZodNumber;
     }, z.ZodTypeAny, "passthrough">>;
     Ticker: z.ZodObject<{
+        currency: z.ZodOptional<z.ZodString>;
         exchange_mic: z.ZodOptional<z.ZodString>;
         name: z.ZodOptional<z.ZodString>;
         symbol: z.ZodString;
     }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+        currency: z.ZodOptional<z.ZodString>;
         exchange_mic: z.ZodOptional<z.ZodString>;
         name: z.ZodOptional<z.ZodString>;
         symbol: z.ZodString;
     }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+        currency: z.ZodOptional<z.ZodString>;
         exchange_mic: z.ZodOptional<z.ZodString>;
         name: z.ZodOptional<z.ZodString>;
         symbol: z.ZodString;
@@ -72,14 +75,17 @@ export declare const schemas: {
             volume: z.ZodNumber;
         }, z.ZodTypeAny, "passthrough">>;
         ticker: z.ZodObject<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
@@ -114,14 +120,17 @@ export declare const schemas: {
             volume: z.ZodNumber;
         }, z.ZodTypeAny, "passthrough">>;
         ticker: z.ZodObject<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
@@ -156,14 +165,17 @@ export declare const schemas: {
             volume: z.ZodNumber;
         }, z.ZodTypeAny, "passthrough">>;
         ticker: z.ZodObject<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
@@ -200,14 +212,17 @@ export declare const schemas: {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -242,14 +257,17 @@ export declare const schemas: {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -284,14 +302,17 @@ export declare const schemas: {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -328,14 +349,17 @@ export declare const schemas: {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -370,14 +394,17 @@ export declare const schemas: {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -412,14 +439,17 @@ export declare const schemas: {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -456,14 +486,17 @@ export declare const schemas: {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -498,14 +531,17 @@ export declare const schemas: {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -540,14 +576,17 @@ export declare const schemas: {
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -591,14 +630,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -633,14 +675,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -675,14 +720,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -719,14 +767,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -761,14 +812,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -803,14 +857,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -847,14 +904,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -889,14 +949,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -931,14 +994,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -1015,14 +1081,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
         name: "body";
         type: "Body";
         schema: z.ZodObject<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
@@ -1058,14 +1127,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
             volume: z.ZodNumber;
         }, z.ZodTypeAny, "passthrough">>;
         ticker: z.ZodObject<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
@@ -1100,14 +1172,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
             volume: z.ZodNumber;
         }, z.ZodTypeAny, "passthrough">>;
         ticker: z.ZodObject<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
@@ -1142,14 +1217,17 @@ export declare const api: import("@zodios/core").ZodiosInstance<[{
             volume: z.ZodNumber;
         }, z.ZodTypeAny, "passthrough">>;
         ticker: z.ZodObject<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
@@ -1217,14 +1295,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -1259,14 +1340,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -1301,14 +1385,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -1345,14 +1432,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -1387,14 +1477,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -1429,14 +1522,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -1473,14 +1569,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -1515,14 +1614,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -1557,14 +1659,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
                 volume: z.ZodNumber;
             }, z.ZodTypeAny, "passthrough">>;
             ticker: z.ZodObject<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
             }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+                currency: z.ZodOptional<z.ZodString>;
                 exchange_mic: z.ZodOptional<z.ZodString>;
                 name: z.ZodOptional<z.ZodString>;
                 symbol: z.ZodString;
@@ -1641,14 +1746,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
         name: "body";
         type: "Body";
         schema: z.ZodObject<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
@@ -1684,14 +1792,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
             volume: z.ZodNumber;
         }, z.ZodTypeAny, "passthrough">>;
         ticker: z.ZodObject<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
@@ -1726,14 +1837,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
             volume: z.ZodNumber;
         }, z.ZodTypeAny, "passthrough">>;
         ticker: z.ZodObject<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
@@ -1768,14 +1882,17 @@ export declare function createApiClient(baseUrl: string, options?: ZodiosOptions
             volume: z.ZodNumber;
         }, z.ZodTypeAny, "passthrough">>;
         ticker: z.ZodObject<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, "passthrough", z.ZodTypeAny, z.objectOutputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;
         }, z.ZodTypeAny, "passthrough">, z.objectInputType<{
+            currency: z.ZodOptional<z.ZodString>;
             exchange_mic: z.ZodOptional<z.ZodString>;
             name: z.ZodOptional<z.ZodString>;
             symbol: z.ZodString;

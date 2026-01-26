@@ -21,6 +21,10 @@ const meta: Meta<typeof WatchlistSummaryWidget> = {
       control: "text",
       description: "Error message (if any)",
     },
+    usingMockData: {
+      control: "boolean",
+      description: "Use mock data from service",
+    },    
   },
 };
 
@@ -56,6 +60,7 @@ export const Default: Story = {
     tickerCount: 2,
     loading: false,
     error: "",
+    usingMockData: true,
   },
 };
 
@@ -88,6 +93,7 @@ export const Loading: Story = {
     tickerCount: 2,
     loading: true,
     error: "",
+    usingMockData: true,
   },
 };
 
@@ -120,5 +126,6 @@ export const Error: Story = {
     tickerCount: 2,
     loading: false,
     error: "No tickers in watchlist",
+    usingMockData: true,
   },
 };

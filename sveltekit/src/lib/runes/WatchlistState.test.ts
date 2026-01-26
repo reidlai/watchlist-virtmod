@@ -38,7 +38,16 @@ describe("Watchlist Runes", () => {
     expect(watchlistRxService.getWatchlist).not.toHaveBeenCalled();
   });
 
-  // Note: Testing reactivity (Runes) in Node environment (Vitest) without Svelte component context
-  // can be tricky. Svelte 5 testing often requires a specific setup or browser-like environment.
-  // For unit logic, we trust the integration.
+  it("should update error state when error stream emits", () => {
+    // Simulate error
+    (watchlistRxService.error$ as any).next("Network Error using Mock Check");
+
+    // Note: In a real Svelte component, this updates. In pure TS/JS class instance, if it's using $state,
+    // we assume the property is set.
+    // However, verify logic in constructor:
+    // watchlistRxService.error$.subscribe(...) sets this.error
+
+    expect(watchlistState.error).toBe("Network Error using Mock Check");
+    expect(watchlistState.loading).toBe(false);
+  });
 });

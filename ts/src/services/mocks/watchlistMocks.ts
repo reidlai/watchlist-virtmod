@@ -4,7 +4,7 @@ import type { WatchlistType } from "../WatchlistRxService";
 export const mockGetWatchlistSuccessfulResponse: WatchlistType = {
   tickers: [
     {
-      ticker: { name: "Alphabet C", symbol: "GOOG" },
+      ticker: { name: "Alphabet C", symbol: "GOOG", currency: "USD" },
       ohlcv: {
         open: 334.68,
         high: 337.02,
@@ -17,7 +17,7 @@ export const mockGetWatchlistSuccessfulResponse: WatchlistType = {
       },
     },
     {
-      ticker: { name: "NVIDIA", symbol: "NVDA" },
+      ticker: { name: "NVIDIA", symbol: "NVDA", currency: "USD" },
       ohlcv: {
         open: 184.33,
         high: 184.45,
