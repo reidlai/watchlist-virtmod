@@ -5,7 +5,7 @@ import WatchlistTickerTableWidget from './WatchlistTickerTableWidget.svelte';
 describe('WatchlistTickerTableWidget', () => {
     it('renders loading state correctly', () => {
         render(WatchlistTickerTableWidget, { loading: true, tickers: [] });
-        expect(screen.getByText('Loading watchlist data...')).toBeTruthy();
+        expect(screen.getByText('Loading...')).toBeTruthy();
     });
 
     it('renders empty state correctly', () => {

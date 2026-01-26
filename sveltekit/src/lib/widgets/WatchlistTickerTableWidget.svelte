@@ -31,7 +31,7 @@
     let error = $derived(errorProp ?? null);
     let usingMockData = $derived(usingMockDataProp ?? false);
 
-    let sorting = $state<SortingState>([]);
+    let sorting = $state<SortingState>([{ id: "symbol", desc: false }]);
 
     function formatPrice(price?: number) {
         if (typeof price !== "number") return "-";
@@ -180,12 +180,14 @@
 
 <div class="relative w-full rounded-md border">
     {#if loading}
-        <div class="flex h-64 items-center justify-center text-muted-foreground space-x-2 p-8">
-          <div
-            class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"
-          ></div>
-          <span class="text-sm text-muted-foreground">Loading...</span>
-        </div>        
+        <div
+            class="flex h-64 items-center justify-center text-muted-foreground space-x-2 p-8"
+        >
+            <div
+                class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"
+            ></div>
+            <span class="text-sm text-muted-foreground">Loading...</span>
+        </div>
     {:else if error}
         <div class="flex h-64 items-center justify-center text-destructive p-8">
             <span class="font-medium">Error: {error}</span>

@@ -38,7 +38,7 @@ describe("Watchlist Home Page", () => {
 
         // Assert that the real widget rendered the data
         expect(screen.getByText("AAPL")).toBeTruthy();
-        expect(screen.getByText("150")).toBeTruthy();
+        expect(screen.getByText("150.00")).toBeTruthy();
     });
 
     it("should render loading state", () => {
@@ -51,6 +51,6 @@ describe("Watchlist Home Page", () => {
 
         render(Page, { props: { data: mockData } });
 
-        expect(screen.getByText("Loading watchlist data...")).toBeTruthy();
+        expect(screen.getByText("Loading...")).toBeTruthy();
     });
 });
