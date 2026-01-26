@@ -1,22 +1,23 @@
 <script lang="ts">
   import * as Card from "../components/ui/card";
   import { type IWatchlistSummaryWidgetStory } from "./WatchlistSummaryWidget.types";
-  import { onMount } from "svelte";
-  import { watchlistState } from "../runes/WatchlistState.svelte";
-  // Use the singleton instance directly
+
   import { goto } from "$app/navigation";
+  import { watchlistState } from "$lib/runes/WatchlistState.svelte";
+
   let {
     tickers: tickersProp,
     tickerCount: tickerCountProp,
     loading: loadingProp,
     error: errorProp,
+    usingMockData: usingMockDataProp,
+    serverData,
   }: IWatchlistSummaryWidgetStory = $props();
 
-  let tickers = $derived(
-    tickersProp ?? watchlistState.tickers ?? ["PLACEHOLDER"],
-  );
-  let loading = $derived(loadingProp ?? watchlistState.loading ?? false);
-  let error = $derived(errorProp ?? watchlistState.error ?? null);
+  let tickers = $derived(tickersProp ?? serverData?.tickers ?? ["PLACEHOLDER"]);
+  let loading = $derived(loadingProp ?? serverData?.loading ?? false);
+  let error = $derived(errorProp ?? serverData?.error ?? null);
+  let usingMockData = $derived(usingMockDataProp ?? false);
 
   let tickerCount = $derived(tickerCountProp ?? tickers.length);
 
@@ -31,8 +32,8 @@
     }
   }
 
-  onMount(() => {
-    watchlistState.getWatchlist();
+  $effect(() => {
+    watchlistState.setRxServiceConfig({ usingMockData });
   });
 </script>
 

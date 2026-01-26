@@ -18,6 +18,10 @@ const meta: Meta<typeof WatchlistTickerTableWidget> = {
             control: "text",
             description: "Error message (if any)",
         },
+        usingMockData: {
+            control: "boolean",
+            description: "Use mock data from service",
+        },
     },
 };
 
@@ -28,6 +32,7 @@ const mockTickers = [
     {
         symbol: "GOOG",
         name: "Alphabet C",
+        currency: "USD",
         last: 336.42,
         open: 334.68,
         high: 337.02,
@@ -40,6 +45,7 @@ const mockTickers = [
     {
         symbol: "NVDA",
         name: "NVIDIA",
+        currency: "USD",
         last: 183.27,
         open: 184.33,
         high: 184.45,
@@ -52,6 +58,7 @@ const mockTickers = [
     {
         symbol: "AAPL",
         name: "Apple Inc.",
+        currency: "USD",
         last: 180.00,
         open: 179.00,
         high: 181.00,
@@ -68,6 +75,7 @@ export const Default: Story = {
         tickers: mockTickers,
         loading: false,
         error: null,
+        usingMockData: true,
     },
 };
 
@@ -76,6 +84,7 @@ export const Loading: Story = {
         tickers: [],
         loading: true,
         error: null,
+        usingMockData: true,
     },
 };
 
@@ -84,6 +93,7 @@ export const Empty: Story = {
         tickers: [],
         loading: false,
         error: null,
+        usingMockData: true,
     },
 };
 
@@ -92,5 +102,6 @@ export const Error: Story = {
         tickers: [],
         loading: false,
         error: "Failed to fetch watchlist data",
+        usingMockData: true,
     },
 };

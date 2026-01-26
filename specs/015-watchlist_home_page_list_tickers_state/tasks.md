@@ -73,6 +73,8 @@
 - [x] T024 Add loading spinner/state while `watchlistState.loading` is true (inside the widget or page)
 - [x] T025 Verify performance goals (500ms load, 100ms update latency) via Playwright benchmarks under 4G throttling
 - [x] T026 Final code cleanup and documentation updates
+- [x] T027 Create Storybook stories for the home page at `sveltekit/src/routes/+page.stories.svelte` to verify states (Loading, Error, Populated)
+- [x] T028 Create Unit Tests for page and layout at `sveltekit/src/routes/` (+page.test.ts, +layout.test.ts) to verify mounting and interactions
 
 ---
 

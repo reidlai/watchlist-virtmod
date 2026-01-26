@@ -14,7 +14,7 @@ type ApiClient = typeof api;
  * Confugration Type
  */
 export interface WatchlistRxServiceConfig {
-  apiBaseUrl: string;
+  apiBaseUrl?: string;
   apiClient?: ApiClient;
   usingMockData?: boolean;
 }
@@ -55,7 +55,7 @@ export class WatchlistRxService {
    * @param config: PortfolioRxServiceConfig
    */
   constructor(
-    config: WatchlistRxServiceConfig = { apiBaseUrl: "http://localhost:8000" },
+    config: WatchlistRxServiceConfig = { apiBaseUrl: "http://localhost:8000", usingMockData: false },
   ) {
     this.setConfig(config);
   }
@@ -64,10 +64,12 @@ export class WatchlistRxService {
     if (config.apiClient) {
       this.apiClient = config.apiClient;
     } else {
-      this.apiClient = createApiClient(config.apiBaseUrl);
+      this.apiClient = createApiClient(config.apiBaseUrl ?? "http://localhost:8000");
     }
 
-    this.usingMockData = !!config.usingMockData;
+    if (config.usingMockData !== undefined) {
+      this.usingMockData = config.usingMockData;
+    }
   }
 
   /**
@@ -75,7 +77,7 @@ export class WatchlistRxService {
    */
   public static getInstance(): WatchlistRxService {
     if (!WatchlistRxService.instance) {
-      WatchlistRxService.instance = new WatchlistRxService();
+      WatchlistRxService.instance = WatchlistRxService.getInstance();
     }
     return WatchlistRxService.instance;
   }

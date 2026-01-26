@@ -12,48 +12,40 @@ vi.mock("$app/navigation", () => ({
 }));
 
 // Mock Runes State
-vi.mock("../runes/WatchlistState.svelte", () => ({
+// Mock Runes State - using exact alias match
+vi.mock("$lib/runes/WatchlistState.svelte", () => ({
   watchlistState: {
     tickerCount: 0,
     loading: false,
     error: null,
     tickers: [],
     getWatchlist: vi.fn(),
+    setRxServiceConfig: vi.fn(),
   },
 }));
 
-import { watchlistState } from "../runes/WatchlistState.svelte";
+
 
 describe("WatchlistSummaryWidget", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Reset state defaults
-    // @ts-ignore
-    watchlistState.tickerCount = 0;
-    watchlistState.loading = false;
-    watchlistState.error = null;
   });
 
   it("should render loading state", () => {
-    // @ts-ignore
-    watchlistState.loading = true;
-    const { getByText } = render(WatchlistSummaryWidget);
+    const { getByText } = render(WatchlistSummaryWidget, { loading: true });
     expect(getByText("Loading...")).toBeTruthy();
   });
 
   it("should render error state", () => {
-    // @ts-ignore
-    watchlistState.error = "Failed to load";
-    const { getByText } = render(WatchlistSummaryWidget);
+    const { getByText } = render(WatchlistSummaryWidget, { error: "Failed to load" });
     expect(getByText("Failed to load")).toBeTruthy();
   });
 
   it("should render data state", () => {
-    // @ts-ignore
-    watchlistState.tickers = new Array(5).fill({});
-    watchlistState.tickerCount = 5;
-
-    const { getByText } = render(WatchlistSummaryWidget);
+    const { getByText } = render(WatchlistSummaryWidget, {
+      tickerCount: 5,
+      tickers: new Array(5).fill({})
+    });
     expect(getByText("5")).toBeTruthy();
   });
 

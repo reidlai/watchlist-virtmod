@@ -14,7 +14,7 @@
 **Language/Version**: TypeScript, Node.js v20 (LTS)
 **Primary Dependencies**: Svelte 5 (Runes), SvelteKit 2, RxJS v7, ShadCN Svelte, TailwindCSS 4, Zod
 **Storage**: N/A (Consumes data from Go backend via `watchlistRxService`)
-**Testing**: Vitest (Unit/Widget), Storybook (Component), Playwright (Integration), Cucumber (BDD)
+**Testing**: Vitest (Unit/Widget/Page), Storybook (Component/Page), Playwright (Integration), Cucumber (BDD)
 **Target Platform**: Web Browser (Desktop/Mobile) via SvelteKit AppShell
 **Project Type**: SvelteKit Library/Service
 **Performance Goals**: <500ms initial load (Standard 4G), <100ms update latency

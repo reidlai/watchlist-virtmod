@@ -1,39 +1,184 @@
 <script lang="ts">
+    import {
+        type ColumnDef,
+        getCoreRowModel,
+        getSortedRowModel,
+        type SortingState,
+    } from "@tanstack/table-core";
+    import {
+        createSvelteTable,
+        FlexRender,
+        renderComponent,
+    } from "$lib/components/ui/data-table";
     import * as Table from "$lib/components/ui/table";
-    import type { IWatchlistTickerTableWidgetProps } from "./WatchlistTickerTableWidget.types";
+    import { watchlistState } from "$lib/runes/WatchlistState.svelte";
+    import type {
+        IWatchlistTickerTableWidgetProps,
+        ITicker,
+    } from "./WatchlistTickerTableWidget.types";
+    import WatchlistColumnHeader from "./WatchlistColumnHeader.svelte";
+    import type { Column, Row, Updater } from "@tanstack/table-core";
 
     let {
-        tickers = [],
-        loading = false,
-        error = null,
+        tickers: tickersProp,
+        loading: loadingProp,
+        error: errorProp,
+        usingMockData: usingMockDataProp,
     }: IWatchlistTickerTableWidgetProps = $props();
 
-    let sortDirection = $state<"asc" | "desc">("asc");
+    let tickers = $derived(tickersProp ?? []);
+    let loading = $derived(loadingProp ?? false);
+    let error = $derived(errorProp ?? null);
+    let usingMockData = $derived(usingMockDataProp ?? false);
 
-    let sortedTickers = $derived(
-        [...tickers].sort((a, b) => {
-            const symA = a.symbol?.toLowerCase() || "";
-            const symB = b.symbol?.toLowerCase() || "";
-            if (symA < symB) return sortDirection === "asc" ? -1 : 1;
-            if (symA > symB) return sortDirection === "asc" ? 1 : -1;
-            return 0;
-        }),
-    );
+    let sorting = $state<SortingState>([]);
 
-    function toggleSort() {
-        sortDirection = sortDirection === "asc" ? "desc" : "asc";
+    function formatPrice(price?: number) {
+        if (typeof price !== "number") return "-";
+        return price.toFixed(2);
     }
 
     function formatTime(ts?: number | string) {
         if (!ts) return "-";
-        return new Date(ts).toLocaleTimeString();
+        return new Date(ts)
+            .toLocaleString(undefined, {
+                timeZoneName: "longOffset",
+                hour12: false,
+            })
+            .replace("GMT", "UTC");
     }
+
+    function formatVolume(vol?: number) {
+        if (typeof vol !== "number") return "-";
+        if (vol >= 1e9) return (vol / 1e9).toFixed(2) + "B";
+        if (vol >= 1e6) return (vol / 1e6).toFixed(2) + "M";
+        if (vol >= 1e3) return (vol / 1e3).toFixed(2) + "K";
+        return vol.toFixed(2);
+    }
+
+    const columns: ColumnDef<ITicker>[] = [
+        {
+            accessorKey: "symbol",
+            header: ({ column }: { column: Column<ITicker, unknown> }) =>
+                renderComponent(WatchlistColumnHeader, {
+                    column,
+                    title: "Symbol",
+                }),
+            cell: ({ row }: { row: Row<ITicker> }) => {
+                return row.getValue("symbol");
+            },
+        },
+        {
+            accessorKey: "currency",
+            header: ({ column }: { column: Column<ITicker, unknown> }) =>
+                renderComponent(WatchlistColumnHeader, {
+                    column,
+                    title: "Currency",
+                }),
+            cell: ({ row }: { row: Row<ITicker> }) => {
+                return row.getValue("currency") || "-";
+            },
+        },
+        {
+            accessorKey: "last",
+            header: ({ column }: { column: Column<ITicker, unknown> }) =>
+                renderComponent(WatchlistColumnHeader, {
+                    column,
+                    title: "Last",
+                }),
+            cell: ({ row }: { row: Row<ITicker> }) => {
+                return formatPrice(row.getValue("last"));
+            },
+        },
+        {
+            accessorKey: "open",
+            header: ({ column }: { column: Column<ITicker, unknown> }) =>
+                renderComponent(WatchlistColumnHeader, {
+                    column,
+                    title: "Open",
+                }),
+            cell: ({ row }: { row: Row<ITicker> }) => {
+                return formatPrice(row.getValue("open"));
+            },
+        },
+        {
+            accessorKey: "high",
+            header: ({ column }: { column: Column<ITicker, unknown> }) =>
+                renderComponent(WatchlistColumnHeader, {
+                    column,
+                    title: "High",
+                }),
+            cell: ({ row }: { row: Row<ITicker> }) => {
+                return formatPrice(row.getValue("high"));
+            },
+        },
+        {
+            accessorKey: "low",
+            header: ({ column }: { column: Column<ITicker, unknown> }) =>
+                renderComponent(WatchlistColumnHeader, {
+                    column,
+                    title: "Low",
+                }),
+            cell: ({ row }: { row: Row<ITicker> }) => {
+                return formatPrice(row.getValue("low"));
+            },
+        },
+        {
+            accessorKey: "volume",
+            header: ({ column }: { column: Column<ITicker, unknown> }) =>
+                renderComponent(WatchlistColumnHeader, {
+                    column,
+                    title: "Volume",
+                }),
+            cell: ({ row }: { row: Row<ITicker> }) => {
+                return formatVolume(row.getValue<number>("volume"));
+            },
+        },
+        {
+            accessorKey: "last_updated_at",
+            header: ({ column }: { column: Column<ITicker, unknown> }) =>
+                renderComponent(WatchlistColumnHeader, {
+                    column,
+                    title: "Updated",
+                    className: "text-right w-full",
+                }),
+            cell: ({ row }: { row: Row<ITicker> }) => {
+                return formatTime(row.getValue("last_updated_at"));
+            },
+            meta: {
+                headerClass: "text-right",
+                cellClass: "text-right text-muted-foreground",
+            },
+        },
+    ];
+
+    const table = createSvelteTable({
+        get data() {
+            return tickers;
+        },
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        onSortingChange: (updater: Updater<SortingState>) => {
+            if (typeof updater === "function") {
+                sorting = updater(sorting);
+            } else {
+                sorting = updater;
+            }
+        },
+        state: {
+            get sorting() {
+                return sorting;
+            },
+        },
+    });
+
+    $effect(() => {
+        watchlistState.setRxServiceConfig({ usingMockData });
+    });
 </script>
 
-<div
-    class="relative w-full rounded-md border"
-    style="max-height: 70vh; overflow-y: auto;"
->
+<div class="relative w-full rounded-md border">
     {#if loading}
         <div
             class="flex h-64 items-center justify-center text-muted-foreground p-8"
@@ -54,53 +199,52 @@
             </p>
         </div>
     {:else}
-        <div class="w-full overflow-x-auto">
+        <div class="w-full overflow-auto" style="max-height: 70vh;">
             <Table.Root>
                 <Table.Header>
-                    <Table.Row>
-                        <!-- Symbol Header: Sortable, Min Height 44px -->
-                        <Table.Head
-                            class="h-11 min-h-[44px] cursor-pointer hover:bg-muted/50"
-                            onclick={toggleSort}
-                        >
-                            <button
-                                class="flex items-center gap-2 font-bold w-full h-full text-left"
-                            >
-                                Symbol
-                                <span class="text-xs" aria-hidden="true">
-                                    {#if sortDirection === "asc"}
-                                        ▲
-                                    {:else}
-                                        ▼
+                    {#each table.getHeaderGroups() as headerGroup (headerGroup.id)}
+                        <Table.Row>
+                            {#each headerGroup.headers as header (header.id)}
+                                <Table.Head
+                                    class={header.column.columnDef.meta
+                                        ?.headerClass}
+                                >
+                                    {#if !header.isPlaceholder}
+                                        <FlexRender
+                                            content={header.column.columnDef
+                                                .header}
+                                            context={header.getContext()}
+                                        />
                                     {/if}
-                                </span>
-                            </button>
-                        </Table.Head>
-                        <Table.Head>Last</Table.Head>
-                        <Table.Head>Open</Table.Head>
-                        <Table.Head>High</Table.Head>
-                        <Table.Head>Low</Table.Head>
-                        <Table.Head>Volume</Table.Head>
-                        <Table.Head class="text-right">Updated</Table.Head>
-                    </Table.Row>
+                                </Table.Head>
+                            {/each}
+                        </Table.Row>
+                    {/each}
                 </Table.Header>
                 <Table.Body>
-                    {#each sortedTickers as ticker (ticker.symbol)}
+                    {#each table.getRowModel().rows as row (row.id)}
+                        <Table.Row
+                            data-state={row.getIsSelected() && "selected"}
+                        >
+                            {#each row.getVisibleCells() as cell (cell.id)}
+                                <Table.Cell
+                                    class={cell.column.columnDef.meta
+                                        ?.cellClass}
+                                >
+                                    <FlexRender
+                                        content={cell.column.columnDef.cell}
+                                        context={cell.getContext()}
+                                    />
+                                </Table.Cell>
+                            {/each}
+                        </Table.Row>
+                    {:else}
                         <Table.Row>
-                            <Table.Cell class="font-medium"
-                                >{ticker.symbol}</Table.Cell
-                            >
-                            <Table.Cell>{ticker.last}</Table.Cell>
-                            <Table.Cell>{ticker.open}</Table.Cell>
-                            <Table.Cell>{ticker.high}</Table.Cell>
-                            <Table.Cell>{ticker.low}</Table.Cell>
                             <Table.Cell
-                                >{ticker.volume?.toLocaleString()}</Table.Cell
+                                colspan={columns.length}
+                                class="h-24 text-center"
                             >
-                            <Table.Cell
-                                class="text-right text-muted-foreground"
-                            >
-                                {formatTime(ticker.last_updated_at)}
+                                No results.
                             </Table.Cell>
                         </Table.Row>
                     {/each}

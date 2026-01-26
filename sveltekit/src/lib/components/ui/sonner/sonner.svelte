@@ -1,17 +1,34 @@
 <script lang="ts">
-	import { Toaster as Sonner } from "svelte-sonner";
-    // Simplified without mode-watcher for now
+	import CircleCheckIcon from "@lucide/svelte/icons/circle-check";
+	import InfoIcon from "@lucide/svelte/icons/info";
+	import Loader2Icon from "@lucide/svelte/icons/loader-2";
+	import OctagonXIcon from "@lucide/svelte/icons/octagon-x";
+	import TriangleAlertIcon from "@lucide/svelte/icons/triangle-alert";
+
+	import { Toaster as Sonner, type ToasterProps as SonnerProps } from "svelte-sonner";
+	import { mode } from "mode-watcher";
+
+	let { ...restProps }: SonnerProps = $props();
 </script>
 
 <Sonner
+	theme={mode.current}
 	class="toaster group"
-	toastOptions={{
-		classes: {
-			toast: "group toast group-[.toaster]:bg-white group-[.toaster]:text-stone-950 group-[.toaster]:border-stone-200 group-[.toaster]:shadow-lg dark:group-[.toaster]:bg-stone-950 dark:group-[.toaster]:text-stone-50 dark:group-[.toaster]:border-stone-800",
-			description: "group-[.toast]:text-stone-500 dark:group-[.toast]:text-stone-400",
-			actionButton: "group-[.toast]:bg-stone-900 group-[.toast]:text-stone-50 dark:group-[.toast]:bg-stone-50 dark:group-[.toast]:text-stone-900",
-			cancelButton: "group-[.toast]:bg-stone-100 group-[.toast]:text-stone-500 dark:group-[.toast]:bg-stone-800 dark:group-[.toast]:text-stone-400"
-		}
-	}}
-	{...$$restProps}
-/>
+	style="--normal-bg: var(--color-popover); --normal-text: var(--color-popover-foreground); --normal-border: var(--color-border);"
+	{...restProps}
+	>{#snippet loadingIcon()}
+		<Loader2Icon class="size-4 animate-spin" />
+	{/snippet}
+	{#snippet successIcon()}
+		<CircleCheckIcon class="size-4" />
+	{/snippet}
+	{#snippet errorIcon()}
+		<OctagonXIcon class="size-4" />
+	{/snippet}
+	{#snippet infoIcon()}
+		<InfoIcon class="size-4" />
+	{/snippet}
+	{#snippet warningIcon()}
+		<TriangleAlertIcon class="size-4" />
+	{/snippet}
+</Sonner>

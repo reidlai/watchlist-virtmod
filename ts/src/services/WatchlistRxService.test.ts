@@ -7,7 +7,8 @@ describe("WatchlistRxService (In-Memory)", () => {
 
   beforeEach(() => {
     vi.useFakeTimers();
-    service = new WatchlistRxService({
+    service = WatchlistRxService.getInstance();
+    service.setConfig({
       apiBaseUrl: "http://localhost:8000",
       usingMockData: true,
     });

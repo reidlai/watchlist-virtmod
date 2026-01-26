@@ -18,6 +18,7 @@ const Ticker = z
     exchange_mic: z.string().optional(),
     name: z.string().optional(),
     symbol: z.string(),
+    currency: z.string().optional(),
   })
   .passthrough();
 const TickerItem = z.object({ ohlcv: OHLCV, ticker: Ticker }).passthrough();
