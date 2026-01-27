@@ -8,14 +8,14 @@ import pino from "pino";
  * @returns Merged class string
  */
 export function cn(...inputs: ClassValue[]) {
-	return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs));
 }
 
 /**
  * Type utility to extract element reference props from a component
  */
 export type WithElementRef<T> = T & {
-	ref?: T extends { ref?: infer R } ? R : HTMLElement | null;
+  ref?: T extends { ref?: infer R } ? R : HTMLElement | null;
 };
 
 /**
@@ -28,22 +28,22 @@ export type WithElementRef<T> = T & {
  */
 const isBrowser = typeof process === "undefined";
 const logLevel =
-	!isBrowser && process.env.LOG_LEVEL ? process.env.LOG_LEVEL : "info";
+  !isBrowser && process.env.LOG_LEVEL ? process.env.LOG_LEVEL : "info";
 const isProduction = !isBrowser && process.env.NODE_ENV === "production";
 
 export const logger = pino({
-	name: "watchlist",
-	level: logLevel,
-	// Only use pino-pretty in Node.js development environment
-	transport:
-		!isBrowser && !isProduction
-			? {
-				target: "pino-pretty",
-				options: {
-					colorize: true,
-					translateTime: "HH:MM:ss Z",
-					ignore: "pid,hostname",
-				},
-			}
-			: undefined,
+  name: "watchlist",
+  level: logLevel,
+  // Only use pino-pretty in Node.js development environment
+  transport:
+    !isBrowser && !isProduction
+      ? {
+          target: "pino-pretty",
+          options: {
+            colorize: true,
+            translateTime: "HH:MM:ss Z",
+            ignore: "pid,hostname",
+          },
+        }
+      : undefined,
 });

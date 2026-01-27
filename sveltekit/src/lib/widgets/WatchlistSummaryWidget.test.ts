@@ -13,7 +13,7 @@ vi.mock("$app/navigation", () => ({
 
 // Mock Runes State
 // Mock Runes State - using exact alias match
-vi.mock("$lib/runes/WatchlistState.svelte", () => ({
+vi.mock("../runes/WatchlistState.svelte", () => ({
   watchlistState: {
     tickerCount: 0,
     loading: false,
@@ -23,8 +23,6 @@ vi.mock("$lib/runes/WatchlistState.svelte", () => ({
     setRxServiceConfig: vi.fn(),
   },
 }));
-
-
 
 describe("WatchlistSummaryWidget", () => {
   beforeEach(() => {
@@ -37,14 +35,16 @@ describe("WatchlistSummaryWidget", () => {
   });
 
   it("should render error state", () => {
-    const { getByText } = render(WatchlistSummaryWidget, { error: "Failed to load" });
+    const { getByText } = render(WatchlistSummaryWidget, {
+      error: "Failed to load",
+    });
     expect(getByText("Failed to load")).toBeTruthy();
   });
 
   it("should render data state", () => {
     const { getByText } = render(WatchlistSummaryWidget, {
       tickerCount: 5,
-      tickers: new Array(5).fill({})
+      tickers: new Array(5).fill({}),
     });
     expect(getByText("5")).toBeTruthy();
   });

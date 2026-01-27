@@ -24,7 +24,7 @@ const meta: Meta<typeof WatchlistSummaryWidget> = {
     usingMockData: {
       control: "boolean",
       description: "Use mock data from service",
-    },    
+    },
   },
 };
 

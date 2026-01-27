@@ -11,7 +11,7 @@ export interface IWatchlistSummaryWidgetStory {
 export interface ITicker {
   name?: string;
   symbol?: string;
-  
+
   last?: number;
   open?: number;
   high?: number;

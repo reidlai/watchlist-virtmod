@@ -3,7 +3,7 @@
   import { type IWatchlistSummaryWidgetStory } from "./WatchlistSummaryWidget.types";
 
   import { goto } from "$app/navigation";
-  import { watchlistState } from "$lib/runes/WatchlistState.svelte";
+  import { watchlistState } from "../runes/WatchlistState.svelte";
 
   let {
     tickers: tickersProp,

@@ -1,4 +1,7 @@
-import { watchlistRxService, type WatchlistRxServiceConfig } from "@modules/watchlist-ts";
+import {
+  watchlistRxService,
+  type WatchlistRxServiceConfig,
+} from "@modules/watchlist-ts";
 import {
   type ITicker,
   type IWatchlistSummaryWidgetStory,
