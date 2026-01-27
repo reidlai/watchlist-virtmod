@@ -2,7 +2,7 @@ import { watchlistState } from "../lib/runes/WatchlistState.svelte";
 
 import type { PageServerLoad } from "./$types";
 import { API_BASE_URL, USE_MOCK_DATA } from "$env/static/private";
-import { logger } from "$lib/utils";
+import { logger } from "../lib/utils";
 
 export const load: PageServerLoad = async () => {
   watchlistState.setRxServiceConfig({

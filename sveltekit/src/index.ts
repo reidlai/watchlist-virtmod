@@ -1,6 +1,8 @@
 import type { IModuleBundle } from "virtual-module-core/types";
 import WatchlistSummaryWidget from "./lib/widgets/WatchlistSummaryWidget.svelte";
 
+import WatchlistPage from "./routes/+page.svelte";
+
 /**
  * Watchlist Virtual Module Bundle
  *
@@ -18,6 +20,13 @@ const bundle: IModuleBundle = {
       component: WatchlistSummaryWidget,
       location: "dashboard",
       size: "small",
+    },
+  ],
+  routes: [
+    {
+      path: "/watchlist",
+      type: "page",
+      component: WatchlistPage,
     },
   ],
 };

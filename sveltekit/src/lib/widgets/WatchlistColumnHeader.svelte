@@ -1,6 +1,6 @@
 <script lang="ts">
     import { ArrowUpDown } from "@lucide/svelte";
-    import { Button } from "$lib/components/ui/button";
+    import { Button } from "../components/ui/button";
     import type { Column } from "@tanstack/table-core";
 
     interface Props {

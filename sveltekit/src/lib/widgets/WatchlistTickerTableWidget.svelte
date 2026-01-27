@@ -9,8 +9,8 @@
         createSvelteTable,
         FlexRender,
         renderComponent,
-    } from "$lib/components/ui/data-table";
-    import * as Table from "$lib/components/ui/table";
+    } from "../components/ui/data-table";
+    import * as Table from "../components/ui/table";
     import { watchlistState } from "../runes/WatchlistState.svelte";
     import type {
         IWatchlistTickerTableWidgetProps,
