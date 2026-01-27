@@ -1,6 +1,6 @@
 <script lang="ts">
-    import WatchlistTickerTableWidget from "$lib/widgets/WatchlistTickerTableWidget.svelte";
-    import { Toaster } from "$lib/components/ui/sonner";
+    import WatchlistTickerTableWidget from "../lib/widgets/WatchlistTickerTableWidget.svelte";
+    import { Toaster } from "../lib/components/ui/sonner";
 
     import type { PageData } from "./$types";
 
