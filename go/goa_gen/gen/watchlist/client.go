@@ -37,6 +37,7 @@ func NewClient(getWatchlist, addWatchlistTicker, removeWatchlistTicker goa.Endpo
 //   - "upstream_error" (type UpstreamError)
 //   - "database_unavailable" (type DatabaseUnavailable)
 //   - "permission_denied" (type PermissionDenied)
+//   - "too_many_requests" (type TooManyRequests)
 //   - error: internal error
 func (c *Client) GetWatchlist(ctx context.Context) (res *Watchlist, err error) {
 	var ires any
@@ -56,6 +57,7 @@ func (c *Client) GetWatchlist(ctx context.Context) (res *Watchlist, err error) {
 //   - "upstream_error" (type UpstreamError)
 //   - "database_unavailable" (type DatabaseUnavailable)
 //   - "permission_denied" (type PermissionDenied)
+//   - "too_many_requests" (type TooManyRequests)
 //   - error: internal error
 func (c *Client) AddWatchlistTicker(ctx context.Context, p *AddWatchlistTickerPayload) (res *TickerItem, err error) {
 	var ires any
@@ -76,6 +78,7 @@ func (c *Client) AddWatchlistTicker(ctx context.Context, p *AddWatchlistTickerPa
 //   - "upstream_error" (type UpstreamError)
 //   - "database_unavailable" (type DatabaseUnavailable)
 //   - "permission_denied" (type PermissionDenied)
+//   - "too_many_requests" (type TooManyRequests)
 //   - error: internal error
 func (c *Client) RemoveWatchlistTicker(ctx context.Context, p *RemoveWatchlistTickerPayload) (err error) {
 	_, err = c.RemoveWatchlistTickerEndpoint(ctx, p)

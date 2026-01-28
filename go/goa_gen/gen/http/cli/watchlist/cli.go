@@ -207,5 +207,5 @@ func watchlistRemoveWatchlistTickerUsage() {
 
 	fmt.Fprintln(os.Stderr)
 	fmt.Fprintln(os.Stderr, "Example:")
-	fmt.Fprintf(os.Stderr, "    %s %s\n", os.Args[0], "watchlist remove-watchlist-ticker --symbol \"Nobis quia consequatur totam et.\"")
+	fmt.Fprintf(os.Stderr, "    %s %s\n", os.Args[0], "watchlist remove-watchlist-ticker --symbol \"Quia blanditiis sint.\"")
 }

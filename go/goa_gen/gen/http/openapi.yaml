@@ -33,6 +33,10 @@ paths:
                     description: Forbidden response.
                     schema:
                         type: string
+                "429":
+                    description: Too Many Requests response.
+                    schema:
+                        type: string
                 "500":
                     description: Internal Server Error response.
                     schema:
@@ -75,6 +79,10 @@ paths:
                         type: string
                 "409":
                     description: Conflict response.
+                    schema:
+                        type: string
+                "429":
+                    description: Too Many Requests response.
                     schema:
                         type: string
                 "500":
@@ -121,6 +129,10 @@ paths:
                         type: string
                 "409":
                     description: Conflict response.
+                    schema:
+                        type: string
+                "429":
+                    description: Too Many Requests response.
                     schema:
                         type: string
                 "500":
@@ -306,20 +318,6 @@ definitions:
                         symbol: AAPL
         example:
             tickers:
-                - ohlcv:
-                    change: 20
-                    change_percent: 13.33
-                    close: 170
-                    high: 200
-                    last_updated_at: 1768744190
-                    low: 50
-                    open: 150
-                    volume: 1000000
-                  ticker:
-                    currency: USD
-                    exchange_mic: XNAS
-                    name: Apple Inc
-                    symbol: AAPL
                 - ohlcv:
                     change: 20
                     change_percent: 13.33

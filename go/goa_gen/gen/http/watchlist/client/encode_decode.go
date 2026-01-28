@@ -42,6 +42,7 @@ func (c *Client) BuildGetWatchlistRequest(ctx context.Context, v any) (*http.Req
 //   - "database_unavailable" (type watchlist.DatabaseUnavailable): http.StatusServiceUnavailable
 //   - "internal_error" (type watchlist.InternalError): http.StatusInternalServerError
 //   - "permission_denied" (type watchlist.PermissionDenied): http.StatusForbidden
+//   - "too_many_requests" (type watchlist.TooManyRequests): http.StatusTooManyRequests
 //   - "upstream_error" (type watchlist.UpstreamError): http.StatusBadGateway
 //   - error: internal error
 func DecodeGetWatchlistResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
@@ -114,6 +115,16 @@ func DecodeGetWatchlistResponse(decoder func(*http.Response) goahttp.Decoder, re
 				return nil, goahttp.ErrDecodingError("watchlist", "getWatchlist", err)
 			}
 			return nil, NewGetWatchlistPermissionDenied(body)
+		case http.StatusTooManyRequests:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "getWatchlist", err)
+			}
+			return nil, NewGetWatchlistTooManyRequests(body)
 		case http.StatusBadGateway:
 			var (
 				body string
@@ -172,6 +183,7 @@ func EncodeAddWatchlistTickerRequest(encoder func(*http.Request) goahttp.Encoder
 //   - "internal_error" (type watchlist.InternalError): http.StatusInternalServerError
 //   - "permission_denied" (type watchlist.PermissionDenied): http.StatusForbidden
 //   - "ticker_already_exists" (type watchlist.TickerAlreadyExists): http.StatusConflict
+//   - "too_many_requests" (type watchlist.TooManyRequests): http.StatusTooManyRequests
 //   - "upstream_error" (type watchlist.UpstreamError): http.StatusBadGateway
 //   - error: internal error
 func DecodeAddWatchlistTickerResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
@@ -254,6 +266,16 @@ func DecodeAddWatchlistTickerResponse(decoder func(*http.Response) goahttp.Decod
 				return nil, goahttp.ErrDecodingError("watchlist", "addWatchlistTicker", err)
 			}
 			return nil, NewAddWatchlistTickerTickerAlreadyExists(body)
+		case http.StatusTooManyRequests:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "addWatchlistTicker", err)
+			}
+			return nil, NewAddWatchlistTickerTooManyRequests(body)
 		case http.StatusBadGateway:
 			var (
 				body string
@@ -307,6 +329,7 @@ func (c *Client) BuildRemoveWatchlistTickerRequest(ctx context.Context, v any) (
 //   - "internal_error" (type watchlist.InternalError): http.StatusInternalServerError
 //   - "not_found" (type watchlist.NotFound): http.StatusNotFound
 //   - "permission_denied" (type watchlist.PermissionDenied): http.StatusForbidden
+//   - "too_many_requests" (type watchlist.TooManyRequests): http.StatusTooManyRequests
 //   - "upstream_error" (type watchlist.UpstreamError): http.StatusBadGateway
 //   - error: internal error
 func DecodeRemoveWatchlistTickerResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
@@ -386,6 +409,16 @@ func DecodeRemoveWatchlistTickerResponse(decoder func(*http.Response) goahttp.De
 				return nil, goahttp.ErrDecodingError("watchlist", "removeWatchlistTicker", err)
 			}
 			return nil, NewRemoveWatchlistTickerPermissionDenied(body)
+		case http.StatusTooManyRequests:
+			var (
+				body string
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("watchlist", "removeWatchlistTicker", err)
+			}
+			return nil, NewRemoveWatchlistTickerTooManyRequests(body)
 		case http.StatusBadGateway:
 			var (
 				body string

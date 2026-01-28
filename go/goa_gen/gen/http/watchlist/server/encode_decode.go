@@ -73,6 +73,14 @@ func EncodeGetWatchlistError(encoder func(context.Context, http.ResponseWriter) 
 			w.Header().Set("goa-error", res.GoaErrorName())
 			w.WriteHeader(http.StatusForbidden)
 			return enc.Encode(body)
+		case "too_many_requests":
+			var res watchlist.TooManyRequests
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusTooManyRequests)
+			return enc.Encode(body)
 		case "upstream_error":
 			var res watchlist.UpstreamError
 			errors.As(v, &res)
@@ -178,6 +186,14 @@ func EncodeAddWatchlistTickerError(encoder func(context.Context, http.ResponseWr
 			w.Header().Set("goa-error", res.GoaErrorName())
 			w.WriteHeader(http.StatusConflict)
 			return enc.Encode(body)
+		case "too_many_requests":
+			var res watchlist.TooManyRequests
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusTooManyRequests)
+			return enc.Encode(body)
 		case "upstream_error":
 			var res watchlist.UpstreamError
 			errors.As(v, &res)
@@ -274,6 +290,14 @@ func EncodeRemoveWatchlistTickerError(encoder func(context.Context, http.Respons
 			body := res
 			w.Header().Set("goa-error", res.GoaErrorName())
 			w.WriteHeader(http.StatusForbidden)
+			return enc.Encode(body)
+		case "too_many_requests":
+			var res watchlist.TooManyRequests
+			errors.As(v, &res)
+			enc := encoder(ctx, w)
+			body := res
+			w.Header().Set("goa-error", res.GoaErrorName())
+			w.WriteHeader(http.StatusTooManyRequests)
 			return enc.Encode(body)
 		case "upstream_error":
 			var res watchlist.UpstreamError

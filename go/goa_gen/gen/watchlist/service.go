@@ -115,6 +115,9 @@ type PermissionDenied string
 // Ticker already exists in watchlist
 type TickerAlreadyExists string
 
+// Too many requests. Please try again later.
+type TooManyRequests string
+
 // Upstream service or messaging bus failed
 type UpstreamError string
 
@@ -235,6 +238,23 @@ func (e TickerAlreadyExists) ErrorName() string {
 // GoaErrorName returns "ticker_already_exists".
 func (e TickerAlreadyExists) GoaErrorName() string {
 	return "ticker_already_exists"
+}
+
+// Error returns an error description.
+func (e TooManyRequests) Error() string {
+	return "Too many requests. Please try again later."
+}
+
+// ErrorName returns "too_many_requests".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e TooManyRequests) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "too_many_requests".
+func (e TooManyRequests) GoaErrorName() string {
+	return "too_many_requests"
 }
 
 // Error returns an error description.

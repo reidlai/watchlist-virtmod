@@ -141,6 +141,14 @@ func NewGetWatchlistPermissionDenied(body string) watchlist.PermissionDenied {
 	return v
 }
 
+// NewGetWatchlistTooManyRequests builds a watchlist service getWatchlist
+// endpoint too_many_requests error.
+func NewGetWatchlistTooManyRequests(body string) watchlist.TooManyRequests {
+	v := watchlist.TooManyRequests(body)
+
+	return v
+}
+
 // NewGetWatchlistUpstreamError builds a watchlist service getWatchlist
 // endpoint upstream_error error.
 func NewGetWatchlistUpstreamError(body string) watchlist.UpstreamError {
@@ -199,6 +207,14 @@ func NewAddWatchlistTickerTickerAlreadyExists(body string) watchlist.TickerAlrea
 	return v
 }
 
+// NewAddWatchlistTickerTooManyRequests builds a watchlist service
+// addWatchlistTicker endpoint too_many_requests error.
+func NewAddWatchlistTickerTooManyRequests(body string) watchlist.TooManyRequests {
+	v := watchlist.TooManyRequests(body)
+
+	return v
+}
+
 // NewAddWatchlistTickerUpstreamError builds a watchlist service
 // addWatchlistTicker endpoint upstream_error error.
 func NewAddWatchlistTickerUpstreamError(body string) watchlist.UpstreamError {
@@ -251,6 +267,14 @@ func NewRemoveWatchlistTickerNotFound(body string) watchlist.NotFound {
 // removeWatchlistTicker endpoint permission_denied error.
 func NewRemoveWatchlistTickerPermissionDenied(body string) watchlist.PermissionDenied {
 	v := watchlist.PermissionDenied(body)
+
+	return v
+}
+
+// NewRemoveWatchlistTickerTooManyRequests builds a watchlist service
+// removeWatchlistTicker endpoint too_many_requests error.
+func NewRemoveWatchlistTickerTooManyRequests(body string) watchlist.TooManyRequests {
+	v := watchlist.TooManyRequests(body)
 
 	return v
 }

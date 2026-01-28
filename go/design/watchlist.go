@@ -70,6 +70,7 @@ var _ = Service("watchlist", func() {
 	Error("upstream_error", String, "Upstream service or messaging bus failed")
 	Error("database_unavailable", String, "Database unavailable")
 	Error("permission_denied", String, "Insufficient privileges")
+	Error("too_many_requests", String, "Too many requests. Please try again later.")
 
 	/**
 	 * Module-levle highest level HTTP Response
@@ -80,6 +81,7 @@ var _ = Service("watchlist", func() {
 		Response("upstream_error", StatusBadGateway)               // HTTP 502
 		Response("database_unavailable", StatusServiceUnavailable) // HTTP 503
 		Response("permission_denied", StatusForbidden)             // HTTP 403
+		Response("too_many_requests", StatusTooManyRequests)       // HTTP 429
 	})
 
 	/**

@@ -55,40 +55,48 @@ paths:
                         application/json:
                             schema:
                                 type: string
-                                example: Ratione praesentium est beatae officiis.
-                            example: Distinctio et quo.
+                                example: Assumenda expedita consectetur aut et quia.
+                            example: Et rerum est quia optio quam.
                 "403":
                     description: 'permission_denied: Forbidden response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Laboriosam vel.
-                            example: Et quia veritatis.
+                                example: In suscipit quod.
+                            example: Repellendus ex sed quaerat a ullam et.
+                "429":
+                    description: 'too_many_requests: Too Many Requests response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Ipsum cum mollitia.
+                            example: Sequi et repudiandae voluptas.
                 "500":
                     description: 'internal_error: Internal Server Error response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Ut voluptate porro aliquid quos voluptate eaque.
-                            example: Ea veritatis magni pariatur.
+                                example: Deserunt autem voluptas quo repellendus consequatur.
+                            example: Ut neque molestiae.
                 "502":
                     description: 'upstream_error: Bad Gateway response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Officiis nisi ut.
-                            example: Et culpa officiis ea ex placeat.
+                                example: Voluptas provident.
+                            example: Enim id sed vitae.
                 "503":
                     description: 'database_unavailable: Service Unavailable response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Est maxime nam rem culpa.
-                            example: Reiciendis quia eum quasi.
+                                example: Velit et ratione distinctio.
+                            example: Autem quasi eum.
     /watchlist/{symbol}:
         delete:
             tags:
@@ -101,8 +109,8 @@ paths:
                   required: true
                   schema:
                     type: string
-                    example: Enim id sed vitae.
-                  example: Autem quasi eum.
+                    example: Voluptas nam tempore dolores.
+                  example: Harum aliquid vitae dolores nam sit qui.
             responses:
                 "204":
                     description: No Content response.
@@ -112,56 +120,64 @@ paths:
                         application/json:
                             schema:
                                 type: string
-                                example: Iure consequatur libero molestiae vel.
-                            example: Quibusdam et eius dignissimos.
+                                example: Et quia veritatis.
+                            example: Sint corrupti qui.
                 "403":
                     description: 'permission_denied: Forbidden response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Et nobis aut omnis sit deleniti.
-                            example: Voluptas fuga non.
+                                example: Est exercitationem repudiandae autem libero.
+                            example: Debitis sed dignissimos et.
                 "404":
                     description: 'not_found: Not Found response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Ipsum cum mollitia.
-                            example: Repellendus ex sed quaerat a ullam et.
+                                example: Distinctio et quo.
+                            example: Neque ut repudiandae omnis vitae vero sapiente.
                 "409":
                     description: 'database_record_locked: Conflict response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Ea expedita vel dolores sit.
-                            example: Sequi et repudiandae voluptas.
+                                example: Et culpa officiis ea ex placeat.
+                            example: Officiis necessitatibus perspiciatis molestiae molestias est voluptas.
+                "429":
+                    description: 'too_many_requests: Too Many Requests response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Distinctio quas.
+                            example: Quis eligendi officiis sint amet alias.
                 "500":
                     description: 'internal_error: Internal Server Error response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Qui minus et provident.
-                            example: Sunt modi et perferendis cupiditate modi tempore.
+                                example: Reiciendis quia eum quasi.
+                            example: Natus ipsa maiores enim aut.
                 "502":
                     description: 'upstream_error: Bad Gateway response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Enim soluta minima impedit ratione ratione voluptate.
-                            example: Unde laboriosam omnis voluptatem aut.
+                                example: Aut nam iste distinctio.
+                            example: Voluptatem est.
                 "503":
                     description: 'database_unavailable: Service Unavailable response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Nihil quia sed est consectetur dolorum a.
-                            example: Aperiam rerum molestiae totam.
+                                example: Nobis qui qui fugiat.
+                            example: Consequatur non ea laudantium accusantium.
     /watchlist/ticker:
         post:
             tags:
@@ -207,48 +223,56 @@ paths:
                         application/json:
                             schema:
                                 type: string
-                                example: Quia aspernatur voluptas.
-                            example: Est exercitationem repudiandae autem libero.
+                                example: Iure consequatur libero molestiae vel.
+                            example: Unde laboriosam omnis voluptatem aut.
                 "403":
                     description: 'permission_denied: Forbidden response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Suscipit quod.
-                            example: Et rerum est quia optio quam.
+                                example: Et nobis aut omnis sit deleniti.
+                            example: Ipsa eos doloribus.
                 "409":
                     description: 'ticker_already_exists: Conflict response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Ut eos deserunt autem voluptas quo repellendus.
-                            example: Aut nam iste distinctio.
+                                example: Ea expedita vel dolores sit.
+                            example: Sunt modi et perferendis cupiditate modi tempore.
+                "429":
+                    description: 'too_many_requests: Too Many Requests response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Ea veritatis magni pariatur.
+                            example: Occaecati libero.
                 "500":
                     description: 'internal_error: Internal Server Error response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Vel assumenda expedita consectetur aut.
-                            example: Nobis qui qui fugiat.
+                                example: Qui minus et provident.
+                            example: Quibusdam et eius dignissimos.
                 "502":
                     description: 'upstream_error: Bad Gateway response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Debitis velit.
-                            example: Distinctio quas.
+                                example: Enim soluta minima impedit ratione ratione voluptate.
+                            example: Aperiam rerum molestiae totam.
                 "503":
                     description: 'database_unavailable: Service Unavailable response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Ratione distinctio corrupti.
-                            example: Ut neque molestiae.
+                                example: Nihil quia sed est consectetur dolorum a.
+                            example: Voluptas fuga non.
 components:
     schemas:
         OHLCV:
@@ -413,8 +437,36 @@ components:
                             exchange_mic: XNAS
                             name: Apple Inc
                             symbol: AAPL
+                        - ohlcv:
+                            change: 20
+                            change_percent: 13.33
+                            close: 170
+                            high: 200
+                            last_updated_at: 1768744190
+                            low: 50
+                            open: 150
+                            volume: 1000000
+                          ticker:
+                            currency: USD
+                            exchange_mic: XNAS
+                            name: Apple Inc
+                            symbol: AAPL
             example:
                 tickers:
+                    - ohlcv:
+                        change: 20
+                        change_percent: 13.33
+                        close: 170
+                        high: 200
+                        last_updated_at: 1768744190
+                        low: 50
+                        open: 150
+                        volume: 1000000
+                      ticker:
+                        currency: USD
+                        exchange_mic: XNAS
+                        name: Apple Inc
+                        symbol: AAPL
                     - ohlcv:
                         change: 20
                         change_percent: 13.33
