@@ -6,11 +6,11 @@ import (
 	"net/http"
 
 	"github.com/jirenius/go-res"
-	"github.com/reidlai/virtual-module-core/go/pkg/module"
-	genwatchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/goa_gen/gen/watchlist"
 	watchlistsvr "github.com/reidlai/ta-workspace/modules/watchlist/go/goa_gen/gen/http/watchlist/server"
-	goahttp "goa.design/goa/v3/http"
+	genwatchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/goa_gen/gen/watchlist"
+	"github.com/reidlai/virtual-module-core/go/pkg/module"
 	"goa.design/clue/debug"
+	goahttp "goa.design/goa/v3/http"
 )
 
 // WatchlistModule implements HTTP and RES registration for watchlist
@@ -52,7 +52,6 @@ func (m *WatchlistModule) RegisterHTTP(
 	}
 	return result
 }
-
 
 // RegisterRES implements Registrar interface
 func (m *WatchlistModule) RegisterRES(resSvc *res.Service) {
