@@ -34,7 +34,7 @@ importers:
         version: 1.0.7(svelte@5.46.1)
       virtual-module-core:
         specifier: github:reidlai/virtual-module-core
-        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/8505112b28d0edb4e6ba93814b1252b210b86f6f
+        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/ddcd48fb82ffde37804d095971d52f9a946eda02
       zod:
         specifier: ^3.24.1
         version: 3.25.76
@@ -1820,7 +1820,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Glob versions prior to v9 are no longer supported
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   globals@13.24.0:
     resolution: {integrity: sha512-AhO5QUcj8llrbG09iWhPU2B204J1xnPeL8kQmVorSsy+Sjj1sk8gIyh6cUocGmH4L0UuhAJy+hJMRA4mgA4mFQ==}
@@ -2765,9 +2765,9 @@ packages:
   v8-compile-cache@2.4.0:
     resolution: {integrity: sha512-ocyWc3bAHBB/guyqJQVI5o4BZkPhznPYUG2ea80Gond/BgNWpap8TOmLSeeQG7bnh2KMISxskdADG59j7zruhw==}
 
-  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/8505112b28d0edb4e6ba93814b1252b210b86f6f:
-    resolution: {tarball: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/8505112b28d0edb4e6ba93814b1252b210b86f6f}
-    version: 0.1.0
+  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/ddcd48fb82ffde37804d095971d52f9a946eda02:
+    resolution: {tarball: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/ddcd48fb82ffde37804d095971d52f9a946eda02}
+    version: 0.1.1
 
   vite-node@1.6.1:
     resolution: {integrity: sha512-YAXkfvGtuTzwWbDSACdJSg4A4DZiAqckWe90Zapc/sEX3XvHcw1NdurM/6od8J207tSDqNbSsgdCacBgvJKFuA==}
@@ -5534,7 +5534,7 @@ snapshots:
 
   v8-compile-cache@2.4.0: {}
 
-  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/8505112b28d0edb4e6ba93814b1252b210b86f6f: {}
+  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/ddcd48fb82ffde37804d095971d52f9a946eda02: {}
 
   vite-node@1.6.1(@types/node@20.19.27)(lightningcss@1.30.2):
     dependencies:

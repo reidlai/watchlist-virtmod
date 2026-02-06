@@ -2,13 +2,7 @@
     import WatchlistTickerTableWidget from "../lib/widgets/WatchlistTickerTableWidget.svelte";
     import { Toaster } from "../lib/components/ui/sonner";
 
-    import type { PageData } from "./$types";
-
-    interface Props {
-        data: PageData & { loading: boolean };
-    }
-
-    let { data }: Props = $props();
+    let { data } = $props();
 </script>
 
 <div class="container mx-auto py-8 space-y-8">
