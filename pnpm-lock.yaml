@@ -34,7 +34,7 @@ importers:
         version: 1.0.7(svelte@5.46.1)
       virtual-module-core:
         specifier: github:reidlai/virtual-module-core
-        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/8ac3d55e25a50da7fd4addba0981989987ab235e
+        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/0c1d0935d3ec5fa29486e31d4f6b856350b1fa3c
       zod:
         specifier: ^3.24.1
         version: 3.25.76
@@ -2765,9 +2765,9 @@ packages:
   v8-compile-cache@2.4.0:
     resolution: {integrity: sha512-ocyWc3bAHBB/guyqJQVI5o4BZkPhznPYUG2ea80Gond/BgNWpap8TOmLSeeQG7bnh2KMISxskdADG59j7zruhw==}
 
-  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/8ac3d55e25a50da7fd4addba0981989987ab235e:
-    resolution: {tarball: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/8ac3d55e25a50da7fd4addba0981989987ab235e}
-    version: 0.1.0
+  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/0c1d0935d3ec5fa29486e31d4f6b856350b1fa3c:
+    resolution: {tarball: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/0c1d0935d3ec5fa29486e31d4f6b856350b1fa3c}
+    version: 0.1.1
 
   vite-node@1.6.1:
     resolution: {integrity: sha512-YAXkfvGtuTzwWbDSACdJSg4A4DZiAqckWe90Zapc/sEX3XvHcw1NdurM/6od8J207tSDqNbSsgdCacBgvJKFuA==}
@@ -5534,7 +5534,7 @@ snapshots:
 
   v8-compile-cache@2.4.0: {}
 
-  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/8ac3d55e25a50da7fd4addba0981989987ab235e: {}
+  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/0c1d0935d3ec5fa29486e31d4f6b856350b1fa3c: {}
 
   vite-node@1.6.1(@types/node@20.19.27)(lightningcss@1.30.2):
     dependencies:
