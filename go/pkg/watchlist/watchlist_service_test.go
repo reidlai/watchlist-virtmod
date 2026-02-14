@@ -11,17 +11,17 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestNewWatchlist(t *testing.T) {
+func TestNewWatchlistService(t *testing.T) {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 
-	svc := NewWatchlist(logger, true)
+	svc := NewWatchlistService(logger, true)
 
 	require.NotNil(t, svc, "NewWatchlist should return a non-nil service")
 }
 
 func TestWatchlistService_GetWatchlist(t *testing.T) {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	svc := NewWatchlist(logger, true)
+	svc := NewWatchlistService(logger, true)
 	ctx := context.Background()
 
 	result, err := svc.GetWatchlist(ctx)
@@ -33,7 +33,7 @@ func TestWatchlistService_GetWatchlist(t *testing.T) {
 
 func TestWatchlistService_AddWatchlistTicker(t *testing.T) {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	svc := NewWatchlist(logger, true)
+	svc := NewWatchlistService(logger, true)
 	ctx := context.Background()
 
 	symbol := "AAPL"
@@ -55,7 +55,7 @@ func TestWatchlistService_AddWatchlistTicker_Idempotency(t *testing.T) {
 	// Note: The mock implementation currently returns a new object every time and doesn't explicitly handle state.
 	// This test ensures the API call succeeds, but state persistence is TODO in implementation.
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	svc := NewWatchlist(logger, true)
+	svc := NewWatchlistService(logger, true)
 	ctx := context.Background()
 
 	symbol := "AAPL"
@@ -78,7 +78,7 @@ func TestWatchlistService_AddWatchlistTicker_Idempotency(t *testing.T) {
 
 func TestWatchlistService_RemoveWatchlistTicker(t *testing.T) {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	svc := NewWatchlist(logger, true)
+	svc := NewWatchlistService(logger, true)
 	ctx := context.Background()
 
 	symbol := "AAPL"

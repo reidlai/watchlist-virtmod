@@ -21,7 +21,7 @@ type WatchlistModule struct {
 
 // NewModule creates a new watchlist module with initialized endpoints
 func NewModule(logger *slog.Logger) *WatchlistModule {
-	svc := NewWatchlist(logger, false)
+	svc := NewWatchlistService(logger, false)
 	endpoints := genwatchlist.NewEndpoints(svc)
 	endpoints.Use(debug.LogPayloads())
 

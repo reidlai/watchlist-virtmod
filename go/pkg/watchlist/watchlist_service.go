@@ -16,9 +16,9 @@ type watchlistsrvc struct {
 // Verify that watchlistsrvc implements watchlist.Service.
 var _ genwatchlist.Service = (*watchlistsrvc)(nil)
 
-// NewWatchlist returns the watchlist service implementation.
+// NewWatchlistService returns the watchlist service implementation.
 // If useMockData is true, it returns the mock service.
-func NewWatchlist(logger *slog.Logger, useMockData bool) genwatchlist.Service {
+func NewWatchlistService(logger *slog.Logger, useMockData bool) genwatchlist.Service {
 	if useMockData {
 		return mocks.NewWatchlistMock(logger)
 	}

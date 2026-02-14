@@ -173,6 +173,15 @@
         },
     });
 
+    function getColumnMeta(column: Column<ITicker, unknown>) {
+        return (
+            (column.columnDef.meta as {
+                headerClass?: string;
+                cellClass?: string;
+            }) || {}
+        );
+    }
+
     $effect(() => {
         watchlistState.setRxServiceConfig({ usingMockData });
     });
@@ -209,8 +218,8 @@
                         <Table.Row>
                             {#each headerGroup.headers as header (header.id)}
                                 <Table.Head
-                                    class={header.column.columnDef.meta
-                                        ?.headerClass}
+                                    class={getColumnMeta(header.column)
+                                        .headerClass}
                                 >
                                     {#if !header.isPlaceholder}
                                         <FlexRender
@@ -231,8 +240,7 @@
                         >
                             {#each row.getVisibleCells() as cell (cell.id)}
                                 <Table.Cell
-                                    class={cell.column.columnDef.meta
-                                        ?.cellClass}
+                                    class={getColumnMeta(cell.column).cellClass}
                                 >
                                     <FlexRender
                                         content={cell.column.columnDef.cell}
