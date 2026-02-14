@@ -44,8 +44,8 @@
   onclick={handleClick}
   onkeydown={handleKeydown}
 >
-  <Card.Root class="w-full">
-    <Card.Header class="pb-2">
+  <Card.Root class="w-full h-full">
+    <Card.Header>
       <Card.Description>Number of Tickers in Watchlist</Card.Description>
 
       {#if loading}
