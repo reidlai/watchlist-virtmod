@@ -1,6 +1,16 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/svelte";
 import Page from "./+page.svelte";
+import { WatchlistState } from "../lib/states/WatchlistState.svelte";
+
+// Mock SvelteKit modules
+vi.mock("$app/environment", () => ({
+  browser: true,
+}));
+
+vi.mock("$app/navigation", () => ({
+  goto: vi.fn(),
+}));
 
 // Mock matchMedia for Sonner (required for real Toaster)
 Object.defineProperty(window, "matchMedia", {
@@ -23,18 +33,39 @@ Object.defineProperty(window, "matchMedia", {
 describe("Watchlist Home Page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    const watchlistState = WatchlistState.getInstance();
+    watchlistState.watchlist = { tickers: [] };
+    watchlistState.loading = false;
+    watchlistState.error = null;
+    watchlistState.usingMockData = true; // Use mock mode by default in tests to avoid network
+
+    // Mock getWatchlist to avoid real network calls
+    watchlistState.getWatchlist = vi.fn().mockResolvedValue(watchlistState.watchlist);
   });
 
   it("should render populated table using passed data", () => {
-    const mockData = {
-      tickers: [{ symbol: "AAPL", last: 150.0, volume: 100 }],
-      loading: false,
-      error: null,
-      usingMockData: true,
+    const watchlistState = WatchlistState.getInstance();
+    watchlistState.watchlist = {
+      tickers: [
+        {
+          ticker: { symbol: "AAPL", name: "Apple Inc.", currency: "USD" },
+          ohlcv: {
+            open: 145,
+            high: 155,
+            low: 140,
+            close: 150,
+            change: 5,
+            change_percent: 3.4,
+            volume: 100,
+            last_updated_at: Date.now(),
+          },
+        },
+      ],
     };
+    watchlistState.loading = false;
+    watchlistState.error = null;
 
-    // Pass data via props option
-    render(Page, { props: { data: mockData } });
+    render(Page);
 
     // Assert that the real widget rendered the data
     expect(screen.getByText("AAPL")).toBeTruthy();
@@ -42,14 +73,11 @@ describe("Watchlist Home Page", () => {
   });
 
   it("should render loading state", () => {
-    const mockData = {
-      loading: true,
-      tickers: [],
-      error: null,
-      usingMockData: true,
-    };
+    const watchlistState = WatchlistState.getInstance();
+    watchlistState.loading = true;
+    watchlistState.error = null;
 
-    render(Page, { props: { data: mockData } });
+    render(Page);
 
     expect(screen.getByText("Loading...")).toBeTruthy();
   });

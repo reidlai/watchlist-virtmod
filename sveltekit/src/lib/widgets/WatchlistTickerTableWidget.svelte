@@ -11,7 +11,6 @@
         renderComponent,
     } from "../components/ui/data-table";
     import * as Table from "../components/ui/table";
-    import { watchlistState } from "../runes/WatchlistState.svelte";
     import type {
         IWatchlistTickerTableWidgetProps,
         ITicker,
@@ -24,12 +23,25 @@
         loading: loadingProp,
         error: errorProp,
         usingMockData: usingMockDataProp,
+        data,
     }: IWatchlistTickerTableWidgetProps = $props();
 
-    let tickers = $derived(tickersProp ?? []);
-    let loading = $derived(loadingProp ?? false);
-    let error = $derived(errorProp ?? null);
-    let usingMockData = $derived(usingMockDataProp ?? false);
+    let tickers = $derived<ITicker[]>(
+        tickersProp ?? (data?.tickers as ITicker[]) ?? [],
+    );
+
+    let loading = $derived(loadingProp ?? data?.loading ?? false);
+    let error = $derived(errorProp ?? data?.error ?? null);
+    let usingMockData = $derived(
+        usingMockDataProp ?? data?.usingMockData ?? false,
+    );
+
+    // Call getWatchlist if state object is provided and not in mock mode
+    $effect(() => {
+        if (!usingMockData && data?.getWatchlist) {
+            data.getWatchlist().catch(() => {});
+        }
+    });
 
     let sorting = $state<SortingState>([{ id: "symbol", desc: false }]);
 
@@ -153,7 +165,7 @@
     ];
 
     const table = createSvelteTable({
-        get data() {
+        get data(): ITicker[] {
             return tickers;
         },
         columns,
@@ -181,10 +193,6 @@
             }) || {}
         );
     }
-
-    $effect(() => {
-        watchlistState.setRxServiceConfig({ usingMockData });
-    });
 </script>
 
 <div class="relative w-full rounded-md border">

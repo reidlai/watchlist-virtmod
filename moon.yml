@@ -5,7 +5,6 @@ language: "unknown" # Mixed/Polyglot
 fileGroups:
   go: ["go/**/*"]
   sveltekit: ["sveltekit/**/*", "!sveltekit/node_modules/**", "!sveltekit/dist/**", "**/.*/**"]
-  ts: ["ts/**/*", "!ts/node_modules/**", "**/.*/**"]
 
 tasks:
   # Go Backend
@@ -32,28 +31,17 @@ tasks:
       mergeArgs: "replace"
       mergeInputs: "replace"
 
-  go-run:
-    command: "cd go && go run ."
-    inputs: ["go/**/*"]
-    platform: "system"
-    local: true
-
-  goa-gen:
-    command: "cd go && goa gen github.com/reidlai/ta-workspace/modules/watchlist/go/design"
-    inputs: ["go/design/**/*"]
-    platform: "system"
-
   # Svelte Frontend
-  svelte-dev:
+  sveltekit-dev:
     deps: ["watchlist-sveltekit:dev"]
     local: true
     platform: "node"
 
-  svelte-build:
+  sveltekit-build:
     deps: ["watchlist-sveltekit:build"]
     platform: "node"
 
-  svelte-sync:
+  sveltekit-sync:
     deps: ["watchlist-sveltekit:sync"]
     platform: "node"
     local: true
@@ -61,49 +49,22 @@ tasks:
       runInCI: true
       persistent: false
 
-  svelte-check:
+  sveltekit-check:
     deps: ["watchlist-sveltekit:check"]
     platform: "node"
 
-  svelte-test:
+  sveltekit-test:
     deps: ["watchlist-sveltekit:test"]
     platform: "node"
 
-  svelte-lint:
+  sveltekit-lint:
     deps: ["watchlist-sveltekit:lint"]
     platform: "system"
     options:
       mergeInputs: 'replace'
 
-  svelte-format:
+  sveltekit-format:
     deps: ["watchlist-sveltekit:format"]
-    platform: "system"
-    inputs: ["moon.yml"]
-    options:
-      mergeInputs: 'replace'
-
-  svelte-storybook:
-    deps: ["watchlist-sveltekit:storybook"]
-    platform: "node"
-    local: true
-
-  # TypeScript Shared Lib
-  ts-build:
-    deps: ["watchlist-ts:build"]
-    platform: "node"
-
-  ts-lint:
-    deps: ["watchlist-ts:lint"]
-    platform: "system"
-    options:
-      mergeInputs: 'replace'
-
-  ts-test:
-    deps: ["watchlist-ts:test"]
-    platform: "node"
-
-  ts-format:
-    deps: ["watchlist-ts:format"]
     platform: "system"
     inputs: ["moon.yml"]
     options:
@@ -112,7 +73,7 @@ tasks:
   # Composite Tasks
   build:
     command: 'echo "Building all components"'
-    deps: ["go-build", "svelte-build", "ts-build"]
+    deps: ["go-build", "sveltekit-build"]
     outputs: []
     platform: "system"
     options:
@@ -122,14 +83,14 @@ tasks:
 
   test:
     command: 'echo "Testing all components"'
-    deps: ["go-test", "svelte-test", "ts-test", "svelte-check"]
+    deps: ["go-test", "sveltekit-test", "sveltekit-check"]
     platform: "system"
     options:
       mergeArgs: 'replace'
 
   lint:
     command: 'echo "Linting all components"'
-    deps: ["go-lint", "ts-lint", "svelte-lint"]
+    deps: ["go-lint", "sveltekit-lint"]
     platform: "system"
     inputs: ["moon.yml"]
     options:
@@ -138,14 +99,10 @@ tasks:
 
   format:
     command: 'echo "Formatting all components"'
-    deps: ["go-format", "ts-format", "svelte-format"]
+    deps: ["go-format", "sveltekit-format"]
     platform: "system"
     inputs: ["moon.yml"]
     options:
       mergeArgs: 'replace'
       mergeInputs: 'replace'
 
-  storybook:
-    deps: ["svelte-storybook"]
-    local: true
-    platform: "system"

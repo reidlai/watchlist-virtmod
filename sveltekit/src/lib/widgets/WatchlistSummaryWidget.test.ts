@@ -4,25 +4,25 @@ import { render, fireEvent } from "@testing-library/svelte";
 import WatchlistSummaryWidget from "./WatchlistSummaryWidget.svelte";
 
 // Mock dependencies
-const { mockGoto } = vi.hoisted(() => ({
-  mockGoto: vi.fn(),
-}));
-vi.mock("$app/navigation", () => ({
-  goto: mockGoto,
-}));
+// $app modules are mocked in vitest.config.ts aliases
 
 // Mock Runes State
-// Mock Runes State - using exact alias match
-vi.mock("../runes/WatchlistState.svelte", () => ({
-  watchlistState: {
-    tickerCount: 0,
-    loading: false,
-    error: null,
-    tickers: [],
-    getWatchlist: vi.fn(),
-    setRxServiceConfig: vi.fn(),
+const mockWatchlistState = {
+  tickerCount: 0,
+  loading: false,
+  error: null,
+  tickers: [],
+  getWatchlist: vi.fn(),
+  setConfig: vi.fn(),
+};
+
+vi.mock("../states/WatchlistState.svelte", () => ({
+  WatchlistState: {
+    getInstance: () => mockWatchlistState,
   },
 }));
+
+import { goto } from "$app/navigation";
 
 describe("WatchlistSummaryWidget", () => {
   beforeEach(() => {
@@ -30,21 +30,25 @@ describe("WatchlistSummaryWidget", () => {
   });
 
   it("should render loading state", () => {
-    const { getByText } = render(WatchlistSummaryWidget, { loading: true });
+    const { getByText } = render(WatchlistSummaryWidget, {
+      props: { loading: true },
+    });
     expect(getByText("Loading...")).toBeTruthy();
   });
 
   it("should render error state", () => {
     const { getByText } = render(WatchlistSummaryWidget, {
-      error: "Failed to load",
+      props: { error: "Failed to load" },
     });
     expect(getByText("Failed to load")).toBeTruthy();
   });
 
   it("should render data state", () => {
     const { getByText } = render(WatchlistSummaryWidget, {
-      tickerCount: 5,
-      tickers: new Array(5).fill({}),
+      props: {
+        tickerCount: 5,
+        tickers: new Array(5).fill({}),
+      },
     });
     expect(getByText("5")).toBeTruthy();
   });
@@ -56,7 +60,7 @@ describe("WatchlistSummaryWidget", () => {
 
     if (widget) {
       await fireEvent.click(widget);
-      expect(mockGoto).toHaveBeenCalledWith("/watchlist");
+      expect(goto).toHaveBeenCalledWith("/watchlist");
     }
   });
 
@@ -67,7 +71,7 @@ describe("WatchlistSummaryWidget", () => {
 
     if (widget) {
       await fireEvent.keyDown(widget, { key: "Enter" });
-      expect(mockGoto).toHaveBeenCalledWith("/watchlist");
+      expect(goto).toHaveBeenCalledWith("/watchlist");
     }
   });
 });

@@ -1,25 +1,45 @@
 <script lang="ts">
   import * as Card from "../components/ui/card";
-  import { type IWatchlistSummaryWidgetStory } from "./WatchlistSummaryWidget.types";
 
   import { goto } from "$app/navigation";
-  import { watchlistState } from "../runes/WatchlistState.svelte";
+  import { browser } from "$app/environment";
+  import { WatchlistState } from "../states/WatchlistState.svelte";
+  import type { IWatchlistSummaryWidgetStory } from "./WatchlistSummaryWidget.types";
 
   let {
     tickers: tickersProp,
-    tickerCount: tickerCountProp,
+    data: dataProp,
     loading: loadingProp,
     error: errorProp,
     usingMockData: usingMockDataProp,
-    serverData,
+    tickerCount: tickerCountProp,
   }: IWatchlistSummaryWidgetStory = $props();
 
-  let tickers = $derived(tickersProp ?? serverData?.tickers ?? ["PLACEHOLDER"]);
-  let loading = $derived(loadingProp ?? serverData?.loading ?? false);
-  let error = $derived(errorProp ?? serverData?.error ?? null);
-  let usingMockData = $derived(usingMockDataProp ?? false);
+  let watchlistState = WatchlistState.getInstance();
 
-  let tickerCount = $derived(tickerCountProp ?? tickers.length);
+  /**
+   * Check if rendering in Storybook.
+   * STORYBOOK environment variable is often set by the storybook-vite builder.
+   */
+  const isStorybook =
+    browser &&
+    ((window as any).__STORYBOOK_CLIENT_API__ !== undefined ||
+      import.meta.env.STORYBOOK === "true");
+
+  let tickers = $derived(
+    tickersProp ?? dataProp?.tickers ?? watchlistState.tickers ?? [],
+  );
+  let loading = $derived(
+    loadingProp ?? dataProp?.loading ?? watchlistState.loading ?? false,
+  );
+  let error = $derived(
+    errorProp ?? dataProp?.error ?? watchlistState.error ?? null,
+  );
+  let usingMockData = $derived(
+    usingMockDataProp ?? watchlistState.usingMockData ?? isStorybook,
+  );
+
+  let tickerCount = $derived(tickerCountProp ?? tickers.length ?? 0);
 
   function handleClick() {
     goto("/watchlist");
@@ -32,9 +52,11 @@
     }
   }
 
-  $effect(() => {
-    watchlistState.setRxServiceConfig({ usingMockData });
-  });
+  if (isStorybook) {
+    $effect(() => {
+      watchlistState.usingMockData = usingMockData;
+    });
+  }
 </script>
 
 <div

@@ -1,4 +1,7 @@
-import type { WatchlistType } from "../WatchlistRxService";
+import { z } from "zod";
+import { schemas } from "../../api-client/index";
+
+type WatchlistType = z.infer<typeof schemas.Watchlist>;
 
 // Mock matching the Application State (Now snake_case to match API)
 export const mockGetWatchlistSuccessfulResponse: WatchlistType = {
