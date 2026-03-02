@@ -3,12 +3,12 @@
 
   import { goto } from "$app/navigation";
   import { browser } from "$app/environment";
+  import { onMount } from "svelte";
   import { WatchlistState } from "../states/WatchlistState.svelte";
   import type { IWatchlistSummaryWidgetStory } from "./WatchlistSummaryWidget.types";
 
   let {
     tickers: tickersProp,
-    data: dataProp,
     loading: loadingProp,
     error: errorProp,
     usingMockData: usingMockDataProp,
@@ -22,24 +22,22 @@
    * STORYBOOK environment variable is often set by the storybook-vite builder.
    */
   const isStorybook =
-    browser &&
-    ((window as any).__STORYBOOK_CLIENT_API__ !== undefined ||
-      import.meta.env.STORYBOOK === "true");
+    browser && (window as any).__STORYBOOK_CLIENT_API__ !== undefined;
 
-  let tickers = $derived(
-    tickersProp ?? dataProp?.tickers ?? watchlistState.tickers ?? [],
-  );
-  let loading = $derived(
-    loadingProp ?? dataProp?.loading ?? watchlistState.loading ?? false,
-  );
-  let error = $derived(
-    errorProp ?? dataProp?.error ?? watchlistState.error ?? null,
-  );
+  let tickers = $derived(tickersProp ?? watchlistState.tickers ?? []);
+  let loading = $derived(loadingProp ?? watchlistState.loading ?? false);
+  let error = $derived(errorProp ?? watchlistState.error ?? null);
   let usingMockData = $derived(
     usingMockDataProp ?? watchlistState.usingMockData ?? isStorybook,
   );
 
   let tickerCount = $derived(tickerCountProp ?? tickers.length ?? 0);
+
+  onMount(() => {
+    if (usingMockData || watchlistState.apiClient) {
+      watchlistState.getWatchlist().catch(() => {});
+    }
+  });
 
   function handleClick() {
     goto("/watchlist");

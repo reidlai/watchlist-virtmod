@@ -2,11 +2,10 @@
 projects:
   watchlist: "."
   watchlist-sveltekit: "sveltekit"
-  watchlist-ts: "ts"
   watchlist-go: "go"
 
 vcs:
-  manager: "git"
+  client: "git"
   provider: "github"
   defaultBranch: "main"
 

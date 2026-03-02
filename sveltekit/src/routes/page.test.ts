@@ -40,7 +40,9 @@ describe("Watchlist Home Page", () => {
     watchlistState.usingMockData = true; // Use mock mode by default in tests to avoid network
 
     // Mock getWatchlist to avoid real network calls
-    watchlistState.getWatchlist = vi.fn().mockResolvedValue(watchlistState.watchlist);
+    watchlistState.getWatchlist = vi
+      .fn()
+      .mockResolvedValue(watchlistState.watchlist);
   });
 
   it("should render populated table using passed data", () => {

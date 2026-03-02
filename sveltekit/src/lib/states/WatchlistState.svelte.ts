@@ -3,12 +3,12 @@ import {
   type IWatchlistSummaryWidgetStory,
 } from "../widgets/WatchlistSummaryWidget.types";
 import { z } from "zod";
-import { schemas, createApiClient, api } from "../../lib/api-client";
+import { schemas, createApiClient } from "../../lib/api-client/index";
 import { logger } from "../utils";
 import { mockGetWatchlistSuccessfulResponse } from "./mocks/watchlistMocks";
 
 export type WatchlistType = z.infer<typeof schemas.Watchlist>;
-type ApiClient = typeof api;
+type ApiClient = ReturnType<typeof createApiClient>;
 
 export interface WatchlistStateConfig {
   apiBaseUrl?: string;
@@ -23,7 +23,7 @@ export interface WatchlistStateConfig {
 export class WatchlistState implements IWatchlistSummaryWidgetStory {
   private static instance: WatchlistState;
 
-  private apiClient: ApiClient;
+  public apiClient!: ApiClient;
 
   watchlist = $state<WatchlistType>({ tickers: [] });
   loading = $state<boolean>(false);
@@ -46,17 +46,15 @@ export class WatchlistState implements IWatchlistSummaryWidgetStory {
     })),
   );
 
-  constructor() {
-    // Default to proxy-friendly relative path for browser
-    this.apiClient = createApiClient("/api");
-  }
-
-  public setConfig(config: WatchlistStateConfig) {
-    if (config.apiBaseUrl) {
-      this.apiClient = createApiClient(config.apiBaseUrl);
-    }
-    if (config.usingMockData !== undefined) {
+  private constructor(config?: {
+    usingMockData?: boolean;
+    apiClient?: ApiClient;
+  }) {
+    if (config?.usingMockData !== undefined) {
       this.usingMockData = config.usingMockData;
+    }
+    if (config?.apiClient) {
+      this.apiClient = config.apiClient;
     }
   }
 

@@ -6,7 +6,6 @@ export interface IWatchlistSummaryWidgetStory {
   error?: string | null;
   usingMockData?: boolean;
   getWatchlist?: () => Promise<any>;
-  data?: any;
 }
 
 export interface ITicker {

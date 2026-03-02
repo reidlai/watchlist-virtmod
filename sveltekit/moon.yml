@@ -1,6 +1,6 @@
 $schema: "https://moonrepo.dev/schemas/project.json"
 id: "watchlist-sveltekit"
-type: "library"
+layer: "library"
 stack: "frontend"
 
 tasks:
@@ -13,11 +13,11 @@ tasks:
 
   dev:
     command: "vite dev"
-    local: true
+    preset: "server"
 
   storybook:
     command: "pnpm run story:dev"
-    local: true
+    preset: "server"
   sync:
     command: "svelte-kit sync"
 
@@ -45,7 +45,7 @@ tasks:
 
   test:
     command: "vitest run"
-    platform: node
+    toolchain: node
     options:
       mergeArgs: "replace"
 
@@ -59,7 +59,7 @@ tasks:
         "!storybook-static/**",
         "**/.*/**",
       ]
-    platform: node
+    toolchain: node
     options:
       mergeArgs: "replace"
   zodios-gen:

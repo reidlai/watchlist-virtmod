@@ -1,28 +1,27 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { WatchlistState } from "./WatchlistState.svelte";
 
-// Mock the API client or schemas if needed
-const { mockApi } = vi.hoisted(() => ({
-  mockApi: {
+const { mockApiClient } = vi.hoisted(() => ({
+  mockApiClient: {
     get: vi.fn(),
   },
 }));
 
 vi.mock("../api-client", () => ({
-  api: mockApi,
   schemas: {
     Watchlist: {
       parse: vi.fn(),
     },
   },
-  createApiClient: vi.fn(() => mockApi),
+  createApiClient: vi.fn(() => mockApiClient),
 }));
 
-describe("Watchlist Runes", () => {
+describe("WatchlistState", () => {
   const watchlistState = WatchlistState.getInstance();
 
   beforeEach(() => {
     vi.clearAllMocks();
+    watchlistState.apiClient = mockApiClient as any;
     watchlistState.watchlist = { tickers: [] };
     watchlistState.error = null;
     watchlistState.loading = false;
@@ -45,11 +44,7 @@ describe("Watchlist Runes", () => {
   });
 
   it("should handle errors in getWatchlist", async () => {
-    // Import api from the mock to control it
-    const { api } = await import("../api-client");
-    (api.get as any).mockRejectedValue(new Error("Network Error"));
-
-    // Ensure we are NOT using mock data so it calls the real API mock
+    mockApiClient.get.mockRejectedValue(new Error("Network Error"));
     watchlistState.usingMockData = false;
 
     await expect(watchlistState.getWatchlist()).rejects.toThrow(
