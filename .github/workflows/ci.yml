@@ -64,11 +64,11 @@ jobs:
         run: cd go && go vet ./...
 
       - name: Quality - Moon Lint (TS/JS)
-        run: npx @moonrepo/cli run :lint
+        run: pnpm exec moon run :lint
 
       # Stage 4: Unit Tests
       - name: Test - Moon Unit Tests
-        run: npx @moonrepo/cli run :test
+        run: pnpm exec moon run :test
 
       # Stage 5: SAST
       - name: SAST - Gosec (Go)

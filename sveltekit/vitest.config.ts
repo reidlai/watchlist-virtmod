@@ -18,6 +18,10 @@ export default defineConfig({
         __dirname,
         "./src/__mocks__/navigation.ts",
       ),
+      "$app/environment": path.resolve(
+        __dirname,
+        "./src/__mocks__/environment.ts",
+      ),
     },
   },
   resolve: {

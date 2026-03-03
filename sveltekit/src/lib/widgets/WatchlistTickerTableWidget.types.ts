@@ -1,4 +1,7 @@
-import type { ITicker } from "./WatchlistSummaryWidget.types";
+import type {
+  ITicker,
+  IWatchlistSummaryWidgetStory,
+} from "./WatchlistSummaryWidget.types";
 
 export type { ITicker };
 
@@ -7,4 +10,5 @@ export interface IWatchlistTickerTableWidgetProps {
   loading?: boolean;
   error?: string | null;
   usingMockData?: boolean;
+  data?: IWatchlistSummaryWidgetStory;
 }

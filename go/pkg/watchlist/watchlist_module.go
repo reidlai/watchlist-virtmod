@@ -5,7 +5,6 @@ import (
 	"log/slog"
 	"net/http"
 
-	"github.com/jirenius/go-res"
 	watchlistsvr "github.com/reidlai/ta-workspace/modules/watchlist/go/goa_gen/gen/http/watchlist/server"
 	genwatchlist "github.com/reidlai/ta-workspace/modules/watchlist/go/goa_gen/gen/watchlist"
 	"github.com/reidlai/virtual-module-core/go/pkg/module"
@@ -54,7 +53,6 @@ func (m *WatchlistModule) RegisterHTTP(
 }
 
 // RegisterRES implements Registrar interface
-func (m *WatchlistModule) RegisterRES(resSvc *res.Service) {
-	// TODO: When module-level RES handlers are implemented, register them here
-	// Example: watchlistres.NewHandler(m.endpoints).Register(resSvc)
+func (m *WatchlistModule) RegisterRES(resSvc any) {
+	// RES support removed in favor of direct SvelteKit connection
 }

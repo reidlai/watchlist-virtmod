@@ -3,6 +3,8 @@ import WatchlistSummaryWidget from "./lib/widgets/WatchlistSummaryWidget.svelte"
 import WatchlistTickerTableWidget from "./lib/widgets/WatchlistTickerTableWidget.svelte";
 
 import WatchlistPage from "./routes/+page.svelte";
+import { WatchlistState } from "./lib/states/WatchlistState.svelte";
+import { createApiClient } from "./lib/api-client/index";
 
 /**
  * Watchlist Virtual Module Bundle
@@ -39,6 +41,21 @@ const bundle: IModuleBundle = {
   ],
 };
 
-export const init = async (_context: any): Promise<IModuleBundle> => {
+export const init = async (context: any): Promise<IModuleBundle> => {
+  const sharedAxios =
+    typeof context.getService === "function"
+      ? context.getService("apiClient")
+      : (context as any).resolve
+        ? (context as any).resolve("apiClient")
+        : undefined;
+
+  if (sharedAxios) {
+    // @ts-ignore
+    const baseURL = sharedAxios.defaults?.baseURL || "/";
+    const watchlistApi = createApiClient(baseURL, {
+      axiosInstance: sharedAxios,
+    });
+    WatchlistState.getInstance().apiClient = watchlistApi;
+  }
   return bundle;
 };

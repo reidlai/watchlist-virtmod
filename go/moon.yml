@@ -1,6 +1,6 @@
 $schema: 'https://moonrepo.dev/schemas/project.json'
 id: 'watchlist-go'
-type: 'library'
+layer: 'library'
 stack: 'backend'
 
 tasks:
@@ -25,7 +25,7 @@ tasks:
       - "go.mod"
       - "go.sum"
       - "!**/.*/**"
-    platform: "system"
+    toolchain: "system"
     options:
       mergeArgs: "replace"
       mergeInputs: "replace"
@@ -66,18 +66,3 @@ tasks:
       - "goa_gen/**"
     options:
       mergeArgs: "replace"
-
-  build-server:
-    command: "go build -o bin/watchlist-server ."
-    inputs:
-      - "**/*.go"
-      - "go.mod"
-      - "go.sum"
-    outputs:
-      - "bin/watchlist-server"
-
-  start:
-    command: "./bin/watchlist-server"
-    deps:
-      - "build-server"
-    local: true

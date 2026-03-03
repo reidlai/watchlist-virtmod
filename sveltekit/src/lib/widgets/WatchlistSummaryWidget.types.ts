@@ -5,7 +5,7 @@ export interface IWatchlistSummaryWidgetStory {
   loading?: boolean;
   error?: string | null;
   usingMockData?: boolean;
-  serverData?: any;
+  getWatchlist?: () => Promise<any>;
 }
 
 export interface ITicker {

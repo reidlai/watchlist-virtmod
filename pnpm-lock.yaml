@@ -10,31 +10,25 @@ importers:
     devDependencies:
       '@moonrepo/cli':
         specifier: latest
-        version: 1.41.7
+        version: 2.0.0
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
 
   sveltekit:
     dependencies:
-      '@modules/watchlist-ts':
-        specifier: workspace:*
-        version: link:../ts
       pino:
         specifier: ^10.2.0
         version: 10.2.0
       pino-pretty:
         specifier: ^13.1.3
         version: 13.1.3
-      rxjs:
-        specifier: ^7.8.1
-        version: 7.8.2
       svelte-sonner:
         specifier: ^1.0.7
         version: 1.0.7(svelte@5.46.1)
       virtual-module-core:
         specifier: github:reidlai/virtual-module-core
-        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/ddcd48fb82ffde37804d095971d52f9a946eda02
+        version: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/4da0112fe7c0998920454dae0f25fc461002c07b
       zod:
         specifier: ^3.24.1
         version: 3.25.76
@@ -81,6 +75,12 @@ importers:
       '@testing-library/svelte':
         specifier: ^5.3.1
         version: 5.3.1(svelte@5.46.1)(vite@6.4.1(@types/node@20.19.27)(jiti@2.6.1)(lightningcss@1.30.2))(vitest@4.0.17(@types/node@20.19.27)(jiti@2.6.1)(jsdom@25.0.1)(lightningcss@1.30.2))
+      '@zodios/core':
+        specifier: ^10.9.6
+        version: 10.9.6(axios@1.13.2)(zod@3.25.76)
+      '@zodios/plugins':
+        specifier: ^10.6.0
+        version: 10.6.0(@zodios/core@10.9.6(axios@1.13.2)(zod@3.25.76))(axios@1.13.2)
       autoprefixer:
         specifier: ^10.4.18
         version: 10.4.23(postcss@8.5.6)
@@ -105,6 +105,9 @@ importers:
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
+      resclient:
+        specifier: ^1.1.0
+        version: 1.1.0
       storybook:
         specifier: 8.6.15
         version: 8.6.15(prettier@3.7.4)
@@ -132,6 +135,9 @@ importers:
       vitest:
         specifier: ^4.0.16
         version: 4.0.17(@types/node@20.19.27)(jiti@2.6.1)(jsdom@25.0.1)(lightningcss@1.30.2)
+      zodios:
+        specifier: ^5.1.0
+        version: 5.1.0(axios@1.13.2)(zod@3.25.76)
 
   ts:
     dependencies:
@@ -607,42 +613,37 @@ packages:
       '@types/react': '>=16'
       react: '>=16'
 
-  '@moonrepo/cli@1.41.7':
-    resolution: {integrity: sha512-zZdE/2m/V/33B3DZOhsuNwRPme+WZiEpggcK6N2og6FCezD/4AxNjc9uZNPBAj2qaDFl3Q+bgtfrHBjdKy4ilg==}
+  '@moonrepo/cli@2.0.0':
+    resolution: {integrity: sha512-Yjjq1ANaFs9J2xEWhrGKH3bbj2batUhMUR8vZ/qvNXl6gO54sh/gn6A2yn/mPk/RhDTPOGQkAhhj08Nr0sWJ0g==}
     hasBin: true
 
-  '@moonrepo/core-linux-arm64-gnu@1.41.7':
-    resolution: {integrity: sha512-Opa+jmNLYsHMRlJcmIn78kKY+76CT/93BvynxuMICPfaQqJTAR/5WPGre1omehGlkg5rbiVshsNTiaa+2bHzpA==}
+  '@moonrepo/core-linux-arm64-gnu@2.0.0':
+    resolution: {integrity: sha512-vFDaCAVfY1SdCDOo6RxJYOfbAJkY7e89ehK2EMgiD6gIumHLlNmkffLKX6Qda9JBCvOnQJXX4ILP1tI9XYt4VQ==}
     cpu: [arm64]
     os: [linux]
 
-  '@moonrepo/core-linux-arm64-musl@1.41.7':
-    resolution: {integrity: sha512-0ipCRwg75iFWfsjxIYY9IAm/cMoUy9iUk/qs2+JhruFeDrY6tCdV9Nyo8F2h45WC+/2qwZ7IMEdfWNPJT0TSyA==}
+  '@moonrepo/core-linux-arm64-musl@2.0.0':
+    resolution: {integrity: sha512-nrM/qd66YmwoGt50K47AUxtGxCCeaMqZl85Xhg7XQAaPxocijX5xzlymXKqOGcUJnPZ6aSKybuJoT9oaaGTyYw==}
     cpu: [arm64]
     os: [linux]
 
-  '@moonrepo/core-linux-x64-gnu@1.41.7':
-    resolution: {integrity: sha512-iHLaZF0ryKhFTf5G/dFrQHPEFII9p88pXXUl17U9tjfeziFyksbdkQrZhNv6sfbE0bDJGPA3H5TEMR93ZwXo/A==}
+  '@moonrepo/core-linux-x64-gnu@2.0.0':
+    resolution: {integrity: sha512-8fPTqMsHv8Hzcx69d3Rww/HKtUbPHijCB86tbWPNbo6nQtJmFaFj+IWPhIwFig0C1n38qkD8VlNzzTvSoQSzyg==}
     cpu: [x64]
     os: [linux]
 
-  '@moonrepo/core-linux-x64-musl@1.41.7':
-    resolution: {integrity: sha512-0nZMjOBBSGHNUSIGcCBrfxgKVmeZQjmXpeMVfO3YG9e2irFR2neHbNIud6vLapC+StgV2UbrKoExR+HRtoyzuA==}
+  '@moonrepo/core-linux-x64-musl@2.0.0':
+    resolution: {integrity: sha512-tEPn0k/0BSVYoFoGeDCKQqGwH+tExGhpsQfIqq/0JRHwsJYjxHf1OcPWyBliw4y6hrHex1w86kbhd6YI+4ZxMQ==}
     cpu: [x64]
     os: [linux]
 
-  '@moonrepo/core-macos-arm64@1.41.7':
-    resolution: {integrity: sha512-Z6okifZS8MA6aXFQ1q/Ej45aAq6i2riDgqWB9CmBVqV7JIdJMLP4++ir+FqGu9S0G34SFgspV0g+mrfFgR+/Nw==}
+  '@moonrepo/core-macos-arm64@2.0.0':
+    resolution: {integrity: sha512-Hb/mwI0R8W4Np4QmFgFYHlDk9nVOizTSHUC2MCA2hW+lpeSc5as/PiWPvREAHKITSIfvVjzgeBye7vFKwzJb3g==}
     cpu: [arm64]
     os: [darwin]
 
-  '@moonrepo/core-macos-x64@1.41.7':
-    resolution: {integrity: sha512-mOHO4/Ag331oVAxg1QNfaWCNfrKdy6HsUJXNY11ERvpNsi0Fh+qnZ+if3ZiC9jwUdwjw2MvtCRxrlXgtI/shrQ==}
-    cpu: [x64]
-    os: [darwin]
-
-  '@moonrepo/core-windows-x64-msvc@1.41.7':
-    resolution: {integrity: sha512-p7CiKyWh4j1lhdF81vcacQmgPLV/di3nU5QXjg1lL2mF296HMx4H8sOlcxD/RieGfFW0Qfg5zIreugCHCNUCeA==}
+  '@moonrepo/core-windows-x64-msvc@2.0.0':
+    resolution: {integrity: sha512-8qxIBjEibFYup94prsFybM3E+0c8FkZDkX/qufX7okxUq15UU7WJ15IgjRqGDlOPeS/Pa9a0I5taj2RAM1v8Qg==}
     cpu: [x64]
     os: [win32]
 
@@ -1246,6 +1247,12 @@ packages:
     peerDependencies:
       axios: ^0.x || ^1.0.0
       zod: ^3.x
+
+  '@zodios/plugins@10.6.0':
+    resolution: {integrity: sha512-0cQZcFfc2AVyIqOQCUYB3k3c4RNMM0gZW1did83QarbfJsnNQAY0W/GtWyzmLIyF0/RI41E1xg1VZ7Xndc4KlA==}
+    peerDependencies:
+      '@zodios/core': ^10.x
+      axios: ^0.x || ^1.0.0
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -2160,6 +2167,18 @@ packages:
   mlly@1.8.0:
     resolution: {integrity: sha512-l8D9ODSRWLe2KHJSifWGwBqpTZXIXTeo8mlKjY+E2HAakaTeNpqAyBZ8GSqLzHgw4XmHmC8whvpjJNMbFZN7/g==}
 
+  modapp-eventbus@1.8.2:
+    resolution: {integrity: sha512-fl81pja5UYRrlirqJnFRSx1DGB9Q6C16z1izjMTpvg7TpTBHtRDGnOb8k8FSmUWpZNgC9My7CgaIJ8X6ItCShg==}
+
+  modapp-resource@1.8.4:
+    resolution: {integrity: sha512-JS0ihPxeMzggxYjj5A8G12nKNTq47smpNvRLTm/fiBBGJvqRMYXKFx1EoaoiHhQYvXZwFXkBaOdIVpYLMKrx6g==}
+
+  modapp-utils@1.8.0:
+    resolution: {integrity: sha512-tD8PjO6G/G4OUzIgae/gZ4bSVdwkIz7gnYmo/6IMbjWSnmvfsU28RNh0oG3y+2Op6pk3FC3n69h5dVV7L3hAaA==}
+
+  modapp@2.7.0:
+    resolution: {integrity: sha512-RgEo6dILgX5V4LJerBOfyLe74JeYHtGXWta3QMrVHycy7/pMg9saudVgGuDOrM/Y6JY+mm/A6OwVLfi3/dcd3g==}
+
   mode-watcher@1.1.0:
     resolution: {integrity: sha512-mUT9RRGPDYenk59qJauN1rhsIMKBmWA3xMF+uRwE8MW/tjhaDSCCARqkSuDTq8vr4/2KcAxIGVjACxTjdk5C3g==}
     peerDependencies:
@@ -2193,6 +2212,10 @@ packages:
 
   nwsapi@2.2.23:
     resolution: {integrity: sha512-7wfH4sLbt4M0gCDzGE6vzQBo0bfTKjU7Sfpqy/7gs1qBfYz2vEJH6vXcBKpO3+6Yu1telwd0t9HpyOoLEQQbIQ==}
+
+  object-inspect@1.13.4:
+    resolution: {integrity: sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==}
+    engines: {node: '>= 0.4'}
 
   obug@2.1.1:
     resolution: {integrity: sha512-uTqF9MuPraAQ+IsnPf366RG4cP9RtUi7MLO1N3KEc+wb0a6yKpeL0lmk2IB1jY5KHPAlTc6T/JRdC/YqxHNwkQ==}
@@ -2337,6 +2360,10 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
+  qs@6.15.0:
+    resolution: {integrity: sha512-mAZTtNCeetKMH+pSjrb76NAM8V9a05I9aBZOHztWy/UqcJdQYNsf59vrRKWnojAT9Y+GbIvoTBC++CPHqpDBhQ==}
+    engines: {node: '>=0.6'}
+
   quick-format-unescaped@4.0.4:
     resolution: {integrity: sha512-tYC1Q1hgyRuHgloV/YXs2w15unPVh8qfu/qCTfhTYamaw7fyhumKa2yGpdSo87vY32rIclj+4fWYQXUMs9EHvg==}
 
@@ -2374,6 +2401,9 @@ packages:
   regexpp@3.2.0:
     resolution: {integrity: sha512-pq2bWo9mVD43nbts2wGv17XLiNLya+GklZ8kaDLV2Z08gDCsGpnKn9BFMepvWuHCbyVvY7J5o5+BVvoQbmlJLg==}
     engines: {node: '>=8'}
+
+  resclient@1.1.0:
+    resolution: {integrity: sha512-WoC6JRsCaOqy1I3xnv5QUUNwOC0S19NSZ8+DV4VmPLIoZi4RsT89OFdfO4+yas9NUc0XShG2juWnag54EAaQGQ==}
 
   resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
@@ -2468,6 +2498,22 @@ packages:
   shebang-regex@3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
+
+  side-channel-list@1.0.0:
+    resolution: {integrity: sha512-FCLHtRD/gnpCiCHEiJLOwdmFP+wzCmDEkc9y7NsYxeF4u7Btsn1ZuwgwJGxImImHicJArLP4R0yX4c2KCrMrTA==}
+    engines: {node: '>= 0.4'}
+
+  side-channel-map@1.0.1:
+    resolution: {integrity: sha512-VCjCNfgMsby3tTdo02nbjtM/ewra6jPHmpThenkTYh8pG9ucZ/1P8So4u4FGBek/BjpOVsDCMoLA/iuBKIFXRA==}
+    engines: {node: '>= 0.4'}
+
+  side-channel-weakmap@1.0.2:
+    resolution: {integrity: sha512-WPS/HvHQTYnHisLo9McqBHOJk2FkHO/tlpvldyrnem4aeQp4hai3gythswg6p01oSoTl58rcpiFAjF2br2Ak2A==}
+    engines: {node: '>= 0.4'}
+
+  side-channel@1.1.0:
+    resolution: {integrity: sha512-ZX99e6tRweoUXqR+VBrslhda51Nh5MTQwou5tnUDgbtyM0dBgmhEDtWGP/xbKn6hqfPRHujUNwz5fy/wbbhnpw==}
+    engines: {node: '>= 0.4'}
 
   siginfo@2.0.0:
     resolution: {integrity: sha512-ybx0WO1/8bSBLEWXZvEd7gMW3Sn3JFlW3TvX1nREbDLRNQNaeNN8WK0meBwPdAaOI7TtRRRJn/Es1zhrrCHu7g==}
@@ -2765,8 +2811,8 @@ packages:
   v8-compile-cache@2.4.0:
     resolution: {integrity: sha512-ocyWc3bAHBB/guyqJQVI5o4BZkPhznPYUG2ea80Gond/BgNWpap8TOmLSeeQG7bnh2KMISxskdADG59j7zruhw==}
 
-  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/ddcd48fb82ffde37804d095971d52f9a946eda02:
-    resolution: {tarball: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/ddcd48fb82ffde37804d095971d52f9a946eda02}
+  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/4da0112fe7c0998920454dae0f25fc461002c07b:
+    resolution: {tarball: https://codeload.github.com/reidlai/virtual-module-core/tar.gz/4da0112fe7c0998920454dae0f25fc461002c07b}
     version: 0.1.1
 
   vite-node@1.6.1:
@@ -2992,6 +3038,13 @@ packages:
 
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
+  zodios@5.1.0:
+    resolution: {integrity: sha512-Am7tlwjVxtxSef7c3lGsGG3YCnafXxj0GYQ7iUmgvQ6xXhGZTPeEZK/MlC0ssBMk1H102GsgoOdWG1Ip0faGow==}
+    deprecated: zodios is deprecated, please use the new @zodios/core instead
+    peerDependencies:
+      axios: ^0.x
+      zod: ^3.x
 
 snapshots:
 
@@ -3294,37 +3347,33 @@ snapshots:
       '@types/react': 19.2.9
       react: 18.3.1
 
-  '@moonrepo/cli@1.41.7':
+  '@moonrepo/cli@2.0.0':
     dependencies:
       detect-libc: 2.1.2
     optionalDependencies:
-      '@moonrepo/core-linux-arm64-gnu': 1.41.7
-      '@moonrepo/core-linux-arm64-musl': 1.41.7
-      '@moonrepo/core-linux-x64-gnu': 1.41.7
-      '@moonrepo/core-linux-x64-musl': 1.41.7
-      '@moonrepo/core-macos-arm64': 1.41.7
-      '@moonrepo/core-macos-x64': 1.41.7
-      '@moonrepo/core-windows-x64-msvc': 1.41.7
+      '@moonrepo/core-linux-arm64-gnu': 2.0.0
+      '@moonrepo/core-linux-arm64-musl': 2.0.0
+      '@moonrepo/core-linux-x64-gnu': 2.0.0
+      '@moonrepo/core-linux-x64-musl': 2.0.0
+      '@moonrepo/core-macos-arm64': 2.0.0
+      '@moonrepo/core-windows-x64-msvc': 2.0.0
 
-  '@moonrepo/core-linux-arm64-gnu@1.41.7':
+  '@moonrepo/core-linux-arm64-gnu@2.0.0':
     optional: true
 
-  '@moonrepo/core-linux-arm64-musl@1.41.7':
+  '@moonrepo/core-linux-arm64-musl@2.0.0':
     optional: true
 
-  '@moonrepo/core-linux-x64-gnu@1.41.7':
+  '@moonrepo/core-linux-x64-gnu@2.0.0':
     optional: true
 
-  '@moonrepo/core-linux-x64-musl@1.41.7':
+  '@moonrepo/core-linux-x64-musl@2.0.0':
     optional: true
 
-  '@moonrepo/core-macos-arm64@1.41.7':
+  '@moonrepo/core-macos-arm64@2.0.0':
     optional: true
 
-  '@moonrepo/core-macos-x64@1.41.7':
-    optional: true
-
-  '@moonrepo/core-windows-x64-msvc@1.41.7':
+  '@moonrepo/core-windows-x64-msvc@2.0.0':
     optional: true
 
   '@pinojs/redact@0.4.0': {}
@@ -3997,6 +4046,12 @@ snapshots:
     dependencies:
       axios: 1.13.2
       zod: 3.25.76
+
+  '@zodios/plugins@10.6.0(@zodios/core@10.9.6(axios@1.13.2)(zod@3.25.76))(axios@1.13.2)':
+    dependencies:
+      '@zodios/core': 10.9.6(axios@1.13.2)(zod@3.25.76)
+      axios: 1.13.2
+      qs: 6.15.0
 
   acorn-jsx@5.3.2(acorn@8.15.0):
     dependencies:
@@ -4953,6 +5008,20 @@ snapshots:
       pkg-types: 1.3.1
       ufo: 1.6.2
 
+  modapp-eventbus@1.8.2: {}
+
+  modapp-resource@1.8.4:
+    dependencies:
+      modapp-eventbus: 1.8.2
+      modapp-utils: 1.8.0
+
+  modapp-utils@1.8.0: {}
+
+  modapp@2.7.0:
+    dependencies:
+      modapp-eventbus: 1.8.2
+      modapp-utils: 1.8.0
+
   mode-watcher@1.1.0(svelte@5.46.1):
     dependencies:
       runed: 0.25.0(svelte@5.46.1)
@@ -4976,6 +5045,8 @@ snapshots:
       path-key: 4.0.0
 
   nwsapi@2.2.23: {}
+
+  object-inspect@1.13.4: {}
 
   obug@2.1.1: {}
 
@@ -5129,6 +5200,10 @@ snapshots:
 
   punycode@2.3.1: {}
 
+  qs@6.15.0:
+    dependencies:
+      side-channel: 1.1.0
+
   quick-format-unescaped@4.0.4: {}
 
   react-dom@18.3.1(react@18.3.1):
@@ -5160,6 +5235,12 @@ snapshots:
       tslib: 2.8.1
 
   regexpp@3.2.0: {}
+
+  resclient@1.1.0:
+    dependencies:
+      modapp: 2.7.0
+      modapp-resource: 1.8.4
+      modapp-utils: 1.8.0
 
   resolve-from@4.0.0: {}
 
@@ -5276,6 +5357,34 @@ snapshots:
       shebang-regex: 3.0.0
 
   shebang-regex@3.0.0: {}
+
+  side-channel-list@1.0.0:
+    dependencies:
+      es-errors: 1.3.0
+      object-inspect: 1.13.4
+
+  side-channel-map@1.0.1:
+    dependencies:
+      call-bound: 1.0.4
+      es-errors: 1.3.0
+      get-intrinsic: 1.3.0
+      object-inspect: 1.13.4
+
+  side-channel-weakmap@1.0.2:
+    dependencies:
+      call-bound: 1.0.4
+      es-errors: 1.3.0
+      get-intrinsic: 1.3.0
+      object-inspect: 1.13.4
+      side-channel-map: 1.0.1
+
+  side-channel@1.1.0:
+    dependencies:
+      es-errors: 1.3.0
+      object-inspect: 1.13.4
+      side-channel-list: 1.0.0
+      side-channel-map: 1.0.1
+      side-channel-weakmap: 1.0.2
 
   siginfo@2.0.0: {}
 
@@ -5534,7 +5643,7 @@ snapshots:
 
   v8-compile-cache@2.4.0: {}
 
-  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/ddcd48fb82ffde37804d095971d52f9a946eda02: {}
+  virtual-module-core@https://codeload.github.com/reidlai/virtual-module-core/tar.gz/4da0112fe7c0998920454dae0f25fc461002c07b: {}
 
   vite-node@1.6.1(@types/node@20.19.27)(lightningcss@1.30.2):
     dependencies:
@@ -5712,3 +5821,8 @@ snapshots:
   zimmerframe@1.1.4: {}
 
   zod@3.25.76: {}
+
+  zodios@5.1.0(axios@1.13.2)(zod@3.25.76):
+    dependencies:
+      axios: 1.13.2
+      zod: 3.25.76
